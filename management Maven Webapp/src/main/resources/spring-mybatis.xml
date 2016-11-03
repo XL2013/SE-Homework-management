@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"  
+       xmlns:context="http://www.springframework.org/schema/context"  
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  
+       http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd  
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+      
+    <!-- 该包下的类支持注解，表示会被当作{@code mybatis mapper}处理 配置了之后表示可以自动引入mapper类-->  
+    <mybatis:scan base-package="com.se.dao"/>  
+    <!--引入属性文件 -->  
+    <context:property-placeholder location="classpath:configuration.properties"/>  
+      
+    <!--数据库连接--> 
+      <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  
+        destroy-method="close">  
+        <property name="driverClassName" value="${driver}" />  
+        <property name="url" value="${url}" />  
+        <property name="username" value="${username}" />  
+        <property name="password" value="${password}" />  
+    </bean>
+  
+
+    
+   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+        <property name="dataSource" ref="dataSource" />  
+   </bean>
+   
+</beans>

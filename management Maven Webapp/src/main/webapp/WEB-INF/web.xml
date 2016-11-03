@@ -2,23 +2,37 @@
 <web-app 
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
-     http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+     http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_1478175338823">
 
- <listener>
+  <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   
-  <servlet>
-    <servlet-name>springMVC</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <load-on-startup>1</load-on-startup> 
-  </servlet>
-  <!-- load-on-startup表示容器启动时初始化该servlet -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:spring-mybatis.xml</param-value>
+  </context-param>
   
-  <servlet-mapping>
-    <servlet-name>springMVC</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
+   <!-- Spring MVC servlet -->  
+     <!-- load-on-startup表示容器启动时初始化该servlet -->
+    <servlet>  
+        <servlet-name>springmvc</servlet-name>  
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+        <init-param>  
+            <param-name>contextConfigLocation</param-name>  
+            <param-value>classpath:spring-mvc.xml</param-value>  
+        </init-param>
+        <load-on-startup>1</load-on-startup>  
+        <async-supported>true</async-supported>  
+    </servlet>  
+    <servlet-mapping>  
+        <servlet-name>springmvc</servlet-name>  
+        <!-- 此处可以可以配置成*.do，对应struts的后缀习惯 -->  
+        <url-pattern>/</url-pattern>  
+    </servlet-mapping> 
+
+  
+  
   
   <servlet-mapping>
 	     <servlet-name>default</servlet-name>
