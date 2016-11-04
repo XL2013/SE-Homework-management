@@ -8,6 +8,6 @@ import com.se.pojo.User;
 
 @Repository("userDao")
 public interface UserDao {
-	@Select("select * from User where username=#{username} and password= #{password}")
-	User getUser(@Param("username") String username,@Param("password") String password);
+	@Select("select * from user_table where user_name=#{username} and user_pwd= #{password}")
+	User getUser(@Param("username")  String username,@Param("password") String password);
 }

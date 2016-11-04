@@ -6,19 +6,20 @@ package com.se.pojo;
  *
  */
 public class User {
-	private String username;
-	private String password;
-	public String getUsername() {
-		return username;
+	private String user_name;
+	private String user_pwd;
+	public String getUser_name() {
+		return user_name;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
-	public String getPassword() {
-		return password;
+	public String getUser_pwd() {
+		return user_pwd;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUser_pwd(String user_pwd) {
+		this.user_pwd = user_pwd;
 	}
+	
 	
 }

@@ -18,7 +18,7 @@ public class LoginController {
 	public ModelAndView login(@RequestParam String username,@RequestParam String password){
 		String message;
 		System.out.println("调用login方法");
-		if(loginService.checkUser("chushan", "123"))
+		if(loginService.checkUser(username, password))
 			message="用户验证成功";
 		else
 			message="用户验证失败";
