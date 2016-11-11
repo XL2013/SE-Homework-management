@@ -6,8 +6,8 @@
   <body>
   <form action="login">
   	<p>
-  	<label> username</label>
-    <input type="text"  id="username" name="username" >
+  	<label> user_id</label>
+    <input type="text"  id="user_id" name="user_id" >
     </p>
     <p>
     <label>password</label>

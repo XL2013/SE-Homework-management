@@ -34,29 +34,15 @@
   
   
   
-  <servlet-mapping>
-	     <servlet-name>default</servlet-name>
-	     <url-pattern>*.css</url-pattern>
-  </servlet-mapping>
-	
-  <servlet-mapping>
-	    <servlet-name>default</servlet-name>
-	    <url-pattern>*.gif</url-pattern>
-  </servlet-mapping>
-	   
-  <servlet-mapping>
-	     <servlet-name>default</servlet-name>
-	     <url-pattern>*.jpg</url-pattern>
-  </servlet-mapping>
-   <servlet-mapping>
-	     <servlet-name>default</servlet-name>
-	     <url-pattern>*.png</url-pattern>
-  </servlet-mapping>
-	 
-  <servlet-mapping>
-	     <servlet-name>default</servlet-name>
-	     <url-pattern>*.js</url-pattern>
-  </servlet-mapping>
+  <servlet-mapping>  
+        <servlet-name>default</servlet-name>         
+        <url-pattern>*.jpg</url-pattern>  
+        <url-pattern>*.gif</url-pattern>  
+        <url-pattern>*.png</url-pattern>  
+        <url-pattern>*.js</url-pattern>  
+        <url-pattern>*.css</url-pattern>  
+     </servlet-mapping> 
+  
 
   
   <!--处理从页面传递中文到后台而出现的中文乱码问题-->  

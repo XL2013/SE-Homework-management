@@ -2,6 +2,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String user_id=(String)request.getSession().getAttribute("user_id");
 %>
 
 <html>
@@ -14,6 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <p>ceshi</p>
     ${message}
   <body>
+  <p>${user_id}</p>
  
   </body>
 </html>

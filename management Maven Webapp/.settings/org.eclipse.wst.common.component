@@ -5,6 +5,8 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/webapp/js"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/webapp/css"/>
         <property name="context-root" value="management"/>
         <property name="java-output-path" value="/management Maven Webapp/target/classes"/>
     </wb-module>
