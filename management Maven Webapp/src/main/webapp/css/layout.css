@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+.layout-nav {
+    position: fixed;
+    top: 50px;
+    width: 100%;
+    z-index: 11;
+    background: #fafafa;
+    border-bottom: 1px solid #e5e5e5;
+    transition: padding 0.15s;
+    text-align: center;
+}
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
