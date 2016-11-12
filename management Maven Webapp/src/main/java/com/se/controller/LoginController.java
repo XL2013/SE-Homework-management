@@ -37,7 +37,7 @@ public class LoginController {
 				mv=new ModelAndView("/manager");
 			}
 			else if(user.getRole()==1){
-				mv=new ModelAndView("/teacher/teacher_index");
+				mv=new ModelAndView("/teacher/teacher_index","teacher",user_id);
 			}
 			else if(user.getRole()==2){
 				mv=new ModelAndView("/assistant");
