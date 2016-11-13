@@ -32,7 +32,7 @@ public class StudentServiceImpl implements StudentService {
 	private HttpServletRequest request;
 	/**
 	 * excel表定义:
-	 * student_id | student_name | class_id
+	 * student_id  | class_id | student_name
 	 * @focus:必须如此，否则会出现写入错误的数据的情况
 	 * @todo:增加表格验证,可能后续还要增加事物操作，因为是一次性写入数据。
 	 */
@@ -47,8 +47,8 @@ public class StudentServiceImpl implements StudentService {
 					if(row!=null){
 						Student student=new Student();
 						student.setStudent_id(getValue(row.getCell(0)));
-						student.setStudent_name(getValue(row.getCell(1)));
-						student.setClass_id(getValue(row.getCell(2)));
+						student.setClass_id(getValue(row.getCell(1)));
+						student.setStudent_name(getValue(row.getCell(2)));
 						studentDao.addStudent(student);
 						//add constrain
 						studentDao.addStudentCourse(getValue(row.getCell(0)), course_id);

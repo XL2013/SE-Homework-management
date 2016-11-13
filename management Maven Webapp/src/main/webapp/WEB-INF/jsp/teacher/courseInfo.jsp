@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			</script>
   			<nav class="row">
   				<ul class="center hide-on-med-and-down ">
-	  					<li><a href="/teacher/courseInfo" >课程信息</a></li>
+	  					<li><a href="#" >课程信息</a></li>
 	  					<li><a href="#">活动</a></li>
 	  					<li><a href="#">作业</a></li>
 	  					<li><a href="/teacher/studentList">学生名单</a></li>
@@ -46,9 +46,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  					<li><a href="#">课程配置</a></li>
   				</ul>
   			</nav>
+  			
+  			
   			<div class="container">
-  				<p>请选择一个课程</p>
+  				<p>这里是课程信息</p>
+  				<p>{$course.course_name}</p>
   			</div>
+  			
+  			
+  			
+  			
   			
   			
   			<!-- 模态框部分 -->
@@ -168,17 +175,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							}
 						});	
 			  	});	
-					$("#course-dropdown").on("click",".courseLi",function(){
-							var course_id=$(this).children("a").attr("id");
-							$.ajax({
-								type :"post",
-								url : "teacher/courseInfo",
-								data :{
-									"course_id":course_id
-								},
-								dataType : "json",		
-							});
-							});
+			
+
 		  	 </script>
   			
 	 

@@ -10,4 +10,5 @@ public interface CourseService {
 		List<Course> getTeacherCourse(String teacher_id);
 		void deleteCourse(String course_id);
 		String addCourse(String course_name,String teacher_id,String description);
+		Course getCourse(String course_id);
 }
