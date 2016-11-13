@@ -31,9 +31,12 @@ public class CourseServiceImpl implements CourseService{
 	public void deleteCourse(String course_id) {
 		courseDao.deleteCourse(course_id);		
 	}
-
-	//course_id 这里设定为根据老师的id生成，先暂定不能删除课程
-	public void addCourse(String course_name, String teacher_id, String description) {		
+	
+	/**
+	 * course_id 这里设定为根据老师的id生成，先暂定不能删除课程
+	 * @return 返回课程id
+	 */
+	public String addCourse(String course_name, String teacher_id, String description) {		
 		Course course=new Course();
 		String course_id=getCourse_id(teacher_id); 
 		course.setCourse_id(course_id);
@@ -41,6 +44,7 @@ public class CourseServiceImpl implements CourseService{
 		course.setDescription(description);
 		course.setTeacher_id(teacher_id);
 		courseDao.addCourse(course);
+		return course_id;
 	}
 	
 	/**
@@ -48,7 +52,7 @@ public class CourseServiceImpl implements CourseService{
 	 * @param teacher_id
 	 * @return 根据一定规则生成的课程id
 	 */
-	public String getCourse_id(String teacher_id){
+	private String getCourse_id(String teacher_id){
 		return teacher_id+String.valueOf(courseDao.getCourseNum(teacher_id));
 	}
 

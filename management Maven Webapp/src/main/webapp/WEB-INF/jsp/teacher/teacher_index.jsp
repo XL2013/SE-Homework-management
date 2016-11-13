@@ -67,7 +67,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					</div>
   				</div>
   				<div class="modal-footer">
-  					<a href="#modal2" class="modal-action modal-close waves-green btn-flat">下一步</a>
+  					<a href="#!" class="modal-action modal-close waves-green btn-flat">取消</a>
+  					<a href="#modal2" class="modal-action modal-close waves-green btn-flat" onclick="addCourseInfo(${teacher_id})">下一步</a>
   				</div>
   			</div>
   			<div id="modal2" class="modal modal-fixed-footer">
@@ -84,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					     <input class="file-path validate" type="text" placeholder="上传一个或多个文件">
   					   </div> 					   
   					 </div>
-  					  <input type="text" name="course_id" value="1"  hidden >
+  					  <input type="text" name="course_id" id="course_id"value=""  hidden >
   					 <button type="submit" class="btn">提交</button>
   					</form>
   				</div>
@@ -120,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					</div>
   				</div>
   				<div class="modal-footer">
-  					<a href="#!" class="modal-action modal-close waves-green btn-flat">完成</a>
+  					<a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="addTeamConfig()">完成</a>
   				</div>
   			</div>
   			
@@ -128,6 +129,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			
   			
 			<script> 
+			
+			function addCourseInfo(teacher_id){
+				var course_name=$("#course_name").val();
+				var description=$("#description").val();
+				$.ajax({
+					type : "post",
+					url :　"teacher/addCourse",
+					data :{
+						"teacher_id" : teacher_id,
+						"course_name" : course_name,
+						"description" : description
+					},
+					dataType :"json",
+					success : function(data){
+						$("#course_id").val(data);
+					}
+				});
+			
+			}
+			function addTeamConfig(){
+				alert("click")
+				var course_id=$("#course_id").val();
+				var team_max=$("#t_max").val();
+				var team_min=$("#t_min").val();
+				var year=$("#t_year").val();
+				var class_id=$("#t_class").val();
+				$.ajax({
+					type : "post",
+					url :　"teacher/addTeamConfig",
+					data :{
+						"course_id" : course_id,
+						"team_max" : team_max,
+						"team_min" : team_min,
+						"year" : year,
+						"class_id" : class_id
+					},
+					dataType :"json",
+					success : function(data){
+						alert(data);
+					}
+				});
+				
+			}
 			$(document).ready(function(){
 			    // 实现弹出模态框
 			   	 $('.modal').modal({
@@ -138,6 +182,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   	 		starting_top :'4%',
 			   	 		ending_top : '10%'	 		
 			   	 });
+			   	 //实现下拉框
+			   	 $(".dropdown-button").dropdown({
+  			 		hover : true,
+  			 		belowOrigin : true
+  				 });
 			  	}); 
 			  	
 			  	//实现异步表单提交
@@ -147,6 +196,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  		}
 			  	};
 			  	$("#fileForm1").ajaxForm(options);
+			  				  	
 		  	 </script>
   			
 	 

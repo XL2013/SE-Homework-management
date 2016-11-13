@@ -31,13 +31,12 @@ public class LoginController {
 		ModelAndView mv=null;
 		if(user!=null){
 			message="用户验证成功";
-			System.out.print(user.getRole()+user.getUser_id());
 			httpSession.setAttribute("user_id", user_id);
 			if(user.getRole()==0){
 				mv=new ModelAndView("/manager");
 			}
 			else if(user.getRole()==1){
-				mv=new ModelAndView("/teacher/teacher_index","teacher",user_id);
+				mv=new ModelAndView("/teacher/teacher_index","teacher_id",user_id);
 			}
 			else if(user.getRole()==2){
 				mv=new ModelAndView("/assistant");

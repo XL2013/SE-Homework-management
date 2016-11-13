@@ -8,6 +8,6 @@ import com.se.pojo.Student;
 
 public interface StudentService {
 		
-	void addStudentList(Workbook wb);
+	void addStudentList(Workbook wb,String course_id);
 	List<Student> getCourseStudent(String course_id);
 }

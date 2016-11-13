@@ -10,7 +10,7 @@ import com.se.pojo.TeamConfig;
 @Repository("teamConfigDao")
 public interface TeamConfigDao {
 		
-	@Insert("insert into team_config(course_id,config_id,team_min,team_max) values(#{course_id},#{config_id},#{team_min},#{team_max})")
+	@Insert("insert into team_config(course_id,config_id,team_min,team_max,prefix) values(#{course_id},#{config_id},#{team_min},#{team_max},#{prefix})")
 	void addTeamConfig(TeamConfig teamConfig);
 	
 	@Delete("delete from team_config where config_id=#{config_id}")

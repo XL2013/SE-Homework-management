@@ -14,7 +14,7 @@ import com.se.pojo.Course;
 public interface CourseDao {
 	
 	@Insert("insert into course_table(course_id,course_name,teacher_id,description) values(#{course_id},#{course_name},#{teacher_id},#{description})")
-	Course addCourse(Course course);
+	void addCourse(Course course);
 	
 	@Update("update course_table set description=#{description} where course_id = #{course_id}")
 	void updateCourse(Course course);
