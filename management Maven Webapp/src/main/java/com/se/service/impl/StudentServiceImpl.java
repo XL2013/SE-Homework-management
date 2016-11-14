@@ -16,6 +16,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.se.dao.StudentDao;
@@ -28,8 +30,6 @@ public class StudentServiceImpl implements StudentService {
 
 	@Resource
 	private StudentDao studentDao;
-	@Resource
-	private HttpServletRequest request;
 	/**
 	 * excel±Ì∂®“Â:
 	 * student_id  | class_id | student_name
@@ -58,6 +58,7 @@ public class StudentServiceImpl implements StudentService {
 		
 	}
 	public void readStudentInfo(MultipartFile[] files,String course_id){
+		HttpServletRequest request =  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		String path= request.getSession().getServletContext().getRealPath("/upload/studentList/");
 		File dirPath=new File(path);
 		if(!dirPath.exists())

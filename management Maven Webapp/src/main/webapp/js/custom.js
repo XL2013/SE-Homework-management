@@ -47,7 +47,29 @@ function addTeamConfig(){
 	});	
 }
 
-
+/*
+ * 老师界面： 实现界面主体内容的加载刷新
+ * @param url :请求的页面的地址
+ */
+function courseTab(url){
+	var course_id=$(".course_id").val();
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	$.ajax({
+		type :"get",
+		url :url,
+		data :{
+			"course_id" : course_id
+		},
+		dataType :"html",
+		success : function(data){
+			$(".main").empty();
+			$(".main").html(data);
+		}			
+	});
+}
 
 
 

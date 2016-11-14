@@ -26,7 +26,7 @@ public class TestControllers extends BaseJunitTest{
 	}
 	@Test
 	public void testLogin() throws Exception{
-		MvcResult result=mocMvc.perform(MockMvcRequestBuilders.get("/teacher/courseInfo")
+		MvcResult result=mocMvc.perform(MockMvcRequestBuilders.post("/teacher/courseInfo")
 				.param("course_id", "201310")			
 				).
 			andDo(MockMvcResultHandlers.print()).andReturn();

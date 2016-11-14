@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.se.dao.TeamConfigDao;
+import com.se.pojo.Course;
 import com.se.pojo.Student;
 import com.se.service.impl.CourseServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
@@ -75,7 +76,7 @@ public class TeacherController {
 		}
 		
 		
-		@RequestMapping(value="/courseInfo")
+		@PostMapping(value="/courseInfo")
 		public ModelAndView courseInfo(String course_id){
 			return new ModelAndView("/teacher/courseInfo","course",courseService.getCourse(course_id));
 		}
