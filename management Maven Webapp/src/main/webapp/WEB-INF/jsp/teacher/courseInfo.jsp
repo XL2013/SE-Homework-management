@@ -3,10 +3,17 @@
 
 
 	
-<div class="container">
-	<p>这里是课程信息</p>
-	<p>${course.course_id}</p>
-	<p>${course.course_name}</p>
+<div class="container ">
+	<div class="row">
+	  <div class="col offset-l2 l6">
+	  	<div class="card">
+	  	  <div class="card-content">
+	  	  	<span class="card-title">${course.course_name}</span>
+	  	  	<p>${course.description}</p>
+	  	  </div>
+	  	</div>
+	  </div>
+	</div>
 </div>
 
 

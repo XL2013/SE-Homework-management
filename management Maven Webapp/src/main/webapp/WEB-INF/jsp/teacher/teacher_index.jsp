@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		  			
   		</div>
   		<div class="main">
-  			<div class="contain">
+  			<div class="container center-align">
   				<h5>请选择一门课程</h5>
   			</div>
   		</div>		
@@ -214,19 +214,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	});	
 					$("#course-dropdown").on("click",".courseLi",function(){
 							var course_id=$(this).children("a").attr("id");
-							$.ajax({
-								type :"post",
-								url : "teacher/courseInfo",
-								data :{
-									"course_id":course_id
-								},
-								dataType : "html",	
-								success : function(data){
-									$(".main").empty();
-									$(".course_id").val(course_id);
-									$(".main").html(data);
-								}	
-							});
+							$(".course_id").val(course_id);
+							courseTab('teacher/courseInfo')
 							});
 		  	 </script>
   			

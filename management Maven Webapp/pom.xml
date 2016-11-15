@@ -149,7 +149,13 @@
 	    <version>2.7</version>
 	</dependency>
 	
-		
+	<!-- jstl包 -->
+	<dependency>
+         <groupId>jstl</groupId>
+         <artifactId>jstl</artifactId>
+         <version>1.2</version>
+     </dependency>
+	
      
   </dependencies>
   <build>

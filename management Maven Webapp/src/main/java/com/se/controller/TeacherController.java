@@ -76,7 +76,7 @@ public class TeacherController {
 		}
 		
 		
-		@PostMapping(value="/courseInfo")
+		@GetMapping(value="/courseInfo")
 		public ModelAndView courseInfo(String course_id){
 			return new ModelAndView("/teacher/courseInfo","course",courseService.getCourse(course_id));
 		}
