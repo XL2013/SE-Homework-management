@@ -4,6 +4,7 @@ package com.se.pojo;
 /**
  * @author zzs
  *	对应User_table表 ，属性与名字一一对应
+ * 用户权限:0->管理员，1->老师，2->助教，3->学生。
  */
 public class User {
 	private String user_id;

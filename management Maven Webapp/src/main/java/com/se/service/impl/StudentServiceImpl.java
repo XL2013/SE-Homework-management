@@ -21,7 +21,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.se.dao.StudentDao;
+import com.se.dao.UserDao;
 import com.se.pojo.Student;
+import com.se.pojo.User;
 import com.se.service.StudentService;
 import com.se.util.ExcelHelper;
 
@@ -30,6 +32,8 @@ public class StudentServiceImpl implements StudentService {
 
 	@Resource
 	private StudentDao studentDao;
+	@Resource
+	private UserDao userDao;
 	/**
 	 * excel±Ì∂®“Â:
 	 * student_id  | class_id | student_name
@@ -45,13 +49,25 @@ public class StudentServiceImpl implements StudentService {
 				for(int rowNum=1;rowNum<sheet.getPhysicalNumberOfRows();rowNum++){
 					Row row=sheet.getRow(rowNum);
 					if(row!=null){
+						String student_id=getValue(row.getCell(0));
+						String class_id=getValue(row.getCell(1));
+						String student_name=getValue(row.getCell(2));
 						Student student=new Student();
-						student.setStudent_id(getValue(row.getCell(0)));
-						student.setClass_id(getValue(row.getCell(1)));
-						student.setStudent_name(getValue(row.getCell(2)));
+						student.setStudent_id(student_id);
+						student.setClass_id(class_id);
+						student.setStudent_name(student_name);
 						studentDao.addStudent(student);
 						//add constrain
 						studentDao.addStudentCourse(getValue(row.getCell(0)), course_id);
+						
+						//add user
+						User user=new User();
+						user.setUser_id(student_id);
+						user.setUser_name(student_name);
+						user.setUser_pwd(student_id);
+						user.setRole(3);
+						userDao.addUser(user);
+						
 					}
 				}
 			}
@@ -71,6 +87,7 @@ public class StudentServiceImpl implements StudentService {
 					file.transferTo(tempFile);	
 					InputStream is=new FileInputStream(tempFile);
 					addStudentList(ExcelHelper.getExCelWorkbook(is,tempFile.getPath()),course_id);
+					is.close();
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();
 				}				
