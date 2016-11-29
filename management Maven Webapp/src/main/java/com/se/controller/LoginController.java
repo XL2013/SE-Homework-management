@@ -42,7 +42,7 @@ public class LoginController {
 				mv=new ModelAndView("/assistant/assistant_index");
 			}
 			else if(user.getRole()==3){
-				mv=new ModelAndView("/student/student_index");
+				mv=new ModelAndView("/student/student_index","user",user);
 			}
 		}
 		else{

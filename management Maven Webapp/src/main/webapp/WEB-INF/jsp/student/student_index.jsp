@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
 	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-  	<link type="text/css" rel="stylesheet" href="css/layout.css" >
+  	<link type="text/css" rel="stylesheet" href="css/student.css" >
  	 <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>
@@ -24,19 +24,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       <img src="img/bupt_1.jpg">
 			     </div>
 		      <a href="#!user"><img class="circle" src="img/bupt-logo.png"></a>
-		      <a href="#!name"><span class="white-text name">学生姓名</span></a>
-		      <a href="#!email"><span class="white-text email">学生id</span></a>
+		      <a href="#!name"><span class="white-text name" >${user.user_name}</span></a>
+		      <a href="#!"><span class="white-text " id="student_id">${user.user_id}</span></a>
 		   	   </div>
 		    </li>
-		    <li><a href="#!">作业 </a></li>
-		    <li><a href="#!">成绩</a></li>
-		    <li><a href="#!">小组</a></li>
+		    <li><a href="#!" onclick="studentTab('student/homework')">作业 </a></li>
+		    <li><a href="#!" onclick="studentTab('student/grade')">成绩</a></li>
+		    <li><a href="#!" onclick="studentTab('student/team')">小组</a></li>
 			<li class="no-padding">
 	       	   <ul class="collapsible collapsible-accordion">
 	             <li>
 	              <a class="collapsible-header">已选课程</a>
 	              <div class="collapsible-body">
-	                <ul>
+	                <ul id="courseList">
 	                  <li><a href="#!">First</a></li>
 	                  <li><a href="#!">Second</a></li>
 	                  <li><a href="#!">Third</a></li>
@@ -49,8 +49,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		</ul>
   		<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
   	</div>
+  	<div class="main">
+  	</div>
   	<script>
   	 $(".button-collapse").sideNav();
+  	 studentTab("student/team");
   	</script>
   </body>
   
