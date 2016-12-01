@@ -71,36 +71,7 @@ function courseTab(url){
 	});
 }
 
-function studentTab(url){
-	var student_id=$("#student_id").text();
-	$.ajax({
-		type :"get",
-		url :url,
-		data :{
-			"student_id" : student_id
-		},
-		dataType :"html",
-		success : function(data){
-				$(".main").html(data);
-		}
-	});
-}
-function sc(url){
-	var student_id=$("#student_id").text();
-	var course_id=$(".course_id").val();
-	$.ajax({
-		type :"get",
-		url :url,
-		data :{
-			"student_id" : student_id,
-			"course_id":course_id
-		},
-		dataType :"html",
-		success : function(data){
-				$(".main").html(data);
-		}
-	});
-}
+
 
 
 

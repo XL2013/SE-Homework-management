@@ -8,7 +8,7 @@
  	  <div class="col offset-l2 l10">
  	  	<h4 class="center-align">学生名单</h4>
  	  	<div class="divider"></div>
- 	  	<table class="centered ">
+ 	    <table class="centered ">
  	  	  <thead>
  	  	  	<tr>
  	  	  	  <th data-field="id">学生ID</th>
@@ -26,6 +26,7 @@
  	  	  	</c:forEach>
  	  	  </tbody>
  	  	</table>
+ 	  	
  	  </div>
  	</div>
  </div>

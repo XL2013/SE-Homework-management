@@ -70,11 +70,12 @@ public class TeacherController {
 		}
 		
 		@GetMapping(value="/studentList")
-		public ModelAndView studentList(String course_id){
+		public ModelAndView studentList(String course_id){		
 			List<Student> studentList=studentService.getCourseStudent(course_id);
 			return new ModelAndView("/teacher/studentList","studentList",studentList);
 		}
 		
+	
 		
 		@GetMapping(value="/courseInfo")
 		public ModelAndView courseInfo(String course_id){

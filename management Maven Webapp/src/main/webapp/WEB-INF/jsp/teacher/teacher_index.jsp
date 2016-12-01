@@ -7,12 +7,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-  	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+  	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
   	<link type="text/css" rel="stylesheet" href="css/layout.css" >
+  
  	 <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>
-    <script type="text/javascript" src="js/materialize.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
     <script type="text/javascript" src="js/custom.js"></script>
 
   </head>
