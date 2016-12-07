@@ -30,4 +30,7 @@ public interface CourseDao {
 	
 	@Select("select count(*) from course_table where teacher_id=#{teacher_id}")
 	int getCourseNum(String teacher_id);
+	
+	@Select("select course_id from stu_course where student_id=#{student_id}")
+	List<String> getStudentCourses(String student_id);
 }

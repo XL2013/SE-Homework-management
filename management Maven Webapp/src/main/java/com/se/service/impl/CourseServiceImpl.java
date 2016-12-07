@@ -62,4 +62,10 @@ public class CourseServiceImpl implements CourseService{
 		return courseDao.getCourse(course_id);
 	}
 
+	@Override
+	public List<String> getStudentCourses(String student_id) {
+		// TODO Auto-generated method stub
+		return courseDao.getStudentCourses(student_id);
+	}
+
 }

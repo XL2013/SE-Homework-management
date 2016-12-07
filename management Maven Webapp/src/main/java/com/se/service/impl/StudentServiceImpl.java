@@ -9,7 +9,6 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.poi.ss.format.CellTextFormatter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -56,17 +55,21 @@ public class StudentServiceImpl implements StudentService {
 						student.setStudent_id(student_id);
 						student.setClass_id(class_id);
 						student.setStudent_name(student_name);
-						studentDao.addStudent(student);
+											
+						if(studentDao.getStudent(student_id)==null){
+							//add student
+							studentDao.addStudent(student);
+							
+							//add user
+							User user=new User();
+							user.setUser_id(student_id);
+							user.setUser_name(student_name);
+							user.setUser_pwd(student_id);
+							user.setRole(3);
+							userDao.addUser(user);
+						}
 						//add constrain
-						studentDao.addStudentCourse(getValue(row.getCell(0)), course_id);
-						
-						//add user
-						User user=new User();
-						user.setUser_id(student_id);
-						user.setUser_name(student_name);
-						user.setUser_pwd(student_id);
-						user.setRole(3);
-						userDao.addUser(user);
+						studentDao.addStudentCourse(getValue(row.getCell(0)), course_id);	
 						
 					}
 				}
@@ -104,6 +107,11 @@ public class StudentServiceImpl implements StudentService {
 	private String getValue(Cell cell){
 		cell.setCellType(CellType.STRING);
 		return cell.getStringCellValue();
+	}
+	@Override
+	public Student getStudentById(String student_id) {
+		// TODO Auto-generated method stub
+		return studentDao.getStudent(student_id);
 	}
 
 }

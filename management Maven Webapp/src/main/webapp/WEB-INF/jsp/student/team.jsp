@@ -2,17 +2,55 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="container">
 	<p>未分配小组的课程</p>
-	<div class="collection">
-    <a href="#!" class="collection-item"><span class="badge">创建小组</span>java</a>
-    <a href="#!" class="collection-item"><span class="badge">创建小组</span>c++</a>
+	<div class="collection">	
+		<c:forEach var="courseInfo" items="${data.courseSetting}">
+			 <a href="#!" class="collection-item" hasTeam="${courseInfo.hasTeam}" id="${courseInfo.course.course_id}"><span class="badge">创建/设置小组</span>${ courseInfo.course.course_name}</a>
+	    </c:forEach>   
+      <!--  
+      <a href="#!" class="collection-item"><span class="badge">创建小组</span>java</a>
+      <a href="#!" class="collection-item"><span class="badge">创建小组</span>c++</a> 
+      -->
   	</div>
+  	
 	<div class="divider"></div>	
 	
 	<div class="row" id="team_cards">
+	  <c:forEach var="teamInfo" items="${data.teamInfos}" >
+		<div class="col l6">
+		  <div class="card" >
+		  	<div class="card-content">
+		  	<a class="card-title"><span class="badge">201321101</span>${teamInfo.course_name}</a>
+		  	<table>
+		  	   <thead>
+			    <tr>
+			      <th>成员学号</th>
+			      <th>成员姓名</th>
+			      <th>成员班级</th>
+			    </tr>
+			  </thead>
+			   <tbody>
+			   <c:forEach var="student" items="${teamInfo.members}">
+			    <tr>
+			      	<td>${student.student_id}</td>
+ 	  	  	  		<td>${student.student_name }</td>
+ 	  	  	  		<td>${student.class_id }</td>
+			    </tr>
+			    </c:forEach>
+				</tbody>
+		  	</table>
+		  	</div>
+		  	<div class="card-action">
+		  	  <a href="#" id="email">${teamInfo.setting.email }</a>		  	  
+		  	</div>
+		  </div>
+		</div>
+	  </c:forEach>
+	  
+		 
 		<div class="col l6">
 		  <div class="card" id="card1">
 		  	<div class="card-content">
-		  	<span class="card-title">Java</span>
+		  	<a class="card-title"><span class="badge">201321101</span>Java</a>
 		  	<table>
 		  	   <thead>
 			    <tr>
@@ -31,18 +69,19 @@
 		  	</table>
 		  	</div>
 		  	<div class="card-action">
-		  	  <a href="#" id="email">973945379@qq.com</a>
-		  	  
+		  	  <a href="#" id="email">973945379@qq.com</a>		  	  
 		  	</div>
 		  </div>
 		</div>
+		 
+		
 	</div>
 	
 	
 	
 	<div id="modal1" class="modal modal-fixed-footer">
 		<div class="modal-content">
-			<h4 id="m-course_id">JAVA</h4>
+			<h4 id="m-course_name">JAVA</h4>
 			
 			<div class="divider"></div>
 			
@@ -145,7 +184,8 @@
 	    }
  		);
 	$(".collection-item").click(function(){
-		initTeamInfo();
+		var course_id=$(this).attr("id");
+		initTeamInfo(course_id);
 		$("#modal1").modal('open');
 	});
 </script>

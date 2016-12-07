@@ -31,4 +31,8 @@ public interface StudentDao {
 		
 		@Delete("delete from stu_course where student_id=#{student_id} and course_id=#{course_id}")
 		void deleteStudentCourse(@Param("student_id")String student_id,@Param("course_id") String course_id);
+		
+		
+		@Select("select student_id from student_table where student_id like #{info} or ")
+		List<String> searchStudent(String info);
 }
