@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"  pageEncoding="UTF-8"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="container">
-	<p>未分配小组的课程</p>
+	<p>已选课程小组配置</p>
 	<div class="collection">	
 		<c:forEach var="courseInfo" items="${data.courseSetting}">
 			 <a href="#!" class="collection-item" hasTeam="${courseInfo.hasTeam}" id="${courseInfo.course.course_id}"><span class="badge">创建/设置小组</span>${ courseInfo.course.course_name}</a>
@@ -40,6 +40,7 @@
 			  	</table>
 		  	</div><!-- end of card-content -->
 		  	<div class="card-action">
+		  	  <label>小组联系方式</label>
 		  	  <a href="#" id="email">${teamInfo.setting.email }</a>		  	  
 		  	</div>
 		  </div><!-- end of card -->
@@ -71,7 +72,7 @@
 			  </p>
 			   <p>
 			  	<label>组长id:		</label>
-			  	<a id="m-monitor_id">2013211000</a>
+			  	<a id="m-monitor_id"></a>
 			  </p>
 			  </div>
 			  <div class="col l4">
@@ -83,7 +84,7 @@
 			  </p>
 			   <p>
 			  	<label>联系方式:   </label>
-			  	<a id="m-email"></a>
+			  	<input type="email" id="m-email">
 			  </p>
 			  </div>
 			</div>
@@ -105,7 +106,7 @@
 			</div>
 			
 			<div class="divider"></div>
-			
+
 			<div id="search>">
 			  <div class="row">
 			    <div class="col l10 input-field">
@@ -117,6 +118,7 @@
 			  	</div>			  
 			 </div>			  	
 			</div>
+			<h5 >搜索结果：</h5>
 			<div class="container">
 		  	  <table id="result">
 		  	  	<thead>
@@ -134,8 +136,7 @@
 			
 		</div>
 		<div class="modal-footer">
-			<a href="#!" class="waves-green btn-flat" onclick="checkTeamMember()">完成</a>
-			<a href="#!" class="modal-action modal-close waves-green btn-flat">取消</a>
+			<a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="emailSubmit()">完成</a>
 		
 		</div>
 	</div>

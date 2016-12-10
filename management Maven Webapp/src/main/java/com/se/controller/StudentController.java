@@ -56,7 +56,7 @@ public class StudentController {
 		List<String> courses=courseService.getStudentCourses(student_id);
 		List<Map<String,Object>> cs=new ArrayList<Map<String,Object>>();
 		List<Map<String,Object>> teamInfos=new ArrayList<Map<String,Object>>();
-		System.out.println(student_id);
+
 		for(String course: courses){
 			//如果已经在小组里面
 			Team curTeam=teamService.getStudentTeam(course, student_id);
@@ -157,4 +157,9 @@ public class StudentController {
 		return data;
 	}
 	
+	@PostMapping(value="emailChange")
+	@ResponseBody
+	public void emailChange(String team_id,String email){
+		teamService.setTeamEmail(team_id, email);
+	}
 }

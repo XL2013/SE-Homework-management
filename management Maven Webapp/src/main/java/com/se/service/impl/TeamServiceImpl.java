@@ -123,6 +123,9 @@ public class TeamServiceImpl implements TeamService {
 		teamDao.addTeamMember(team_id, student_id);
 	}
 	
+	public void setTeamEmail(String team_id,String email){
+		teamDao.setEmail(team_id, email);
+	}
 	
 
 }

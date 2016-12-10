@@ -21,6 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.se.dao.StudentDao;
+import com.se.dao.TeamDao;
 import com.se.dao.UserDao;
 import com.se.pojo.Student;
 import com.se.pojo.User;
@@ -34,6 +35,9 @@ public class StudentServiceImpl implements StudentService {
 	private StudentDao studentDao;
 	@Resource
 	private UserDao userDao;
+	
+	@Resource
+	private TeamDao teamDao;
 	/**
 	 * excel±Ì∂®“Â:
 	 * student_id  | class_id | student_name
@@ -119,6 +123,7 @@ public class StudentServiceImpl implements StudentService {
 		// TODO Auto-generated method stub
 		List<Student> students=new ArrayList<Student>();
 		for(String id : studentDao.searchStudent(info, course_id)){
+			if(teamDao.searchTeamBySC(id, course_id)==null)
 			students.add(studentDao.getStudent(id));
 		}
 		return students;

@@ -54,6 +54,8 @@ function searchMember(){
 	});
 }
 function addMember(student_id,obj){
+	if(!checkTeamMember())
+		return;
 	var team_id=$("#m-team_id").text();
 	$.ajax({
 		type :"post",
@@ -64,7 +66,7 @@ function addMember(student_id,obj){
 		},
 		dataType:"json",
 		success : function(data){
-			$(obj).parent().parent().remove(); //增加后删除
+			$(obj).parent().parent().parent().remove(); //增加后删除
 			//这里在成员栏增加相应tr
 			var member=data.student;
 			var tr="<tr> <th>"+member.student_id+"</th>"+"<th>"+member.student_name+"</th>"+"<th>"+member.class_id
@@ -79,11 +81,12 @@ function checkTeamMember(){
 	var count=$("#member-body tr").length;
 	var min=$("#m-min").text();
 	var max=$("#m-max").text();
-	if(min>count||max<count) {
-		alert("学生数不匹配");
-		return;
+	if(max<=count) {
+		alert("成员已达上限");
+		return false;
 	}
-	$("#modal1").modal('close');
+	return true;
+
 }
 function initTeamInfo(course_id){
 	var student_id=$("#student_id").text();
@@ -96,14 +99,13 @@ function initTeamInfo(course_id){
 		},
 		dataType:"json",
 		success: function(data){
-			console.log(course_id);
 			$("#m-course_id").text(course_id);
 			$("#m-course_name").text(data.course_name);
 			$("#m-team_id").text(data.team.team_id);
-			$("#m-monitor_id").text(data.team.monitor_id);
+			$("#m-monitor_id").text(data.team.leader_id);
 			$("#m-max").text(data.teamConfig.team_max);
 			$("#m-min").text(data.teamConfig.team_min);
-			$("#m-email").text(data.team.email);
+			$("#m-email").val(data.team.email);
 			//todo :add Members
 		    var members=data.members;
 		    $("#member-body").empty();
@@ -115,47 +117,17 @@ function initTeamInfo(course_id){
 		}
 	});
 }
-
-function createTeamInfoCard(){
-		var card_id=$(".card").length+1;
-		var card="<div class=\"col l6\">"+
-		  "<div class=\"card\" id=\""+card_id+"\">"+
-		  	"<div class=\"card-content\">"+
-		  	"<a class=\"card-title\" ><span class=\"badge\"></span></a> "+
-		  	"<table><thead><tr><th>成员学号</th> <th>成员姓名</th><th>成员班级</th></tr></thead>"+
-			 " <tbody></tbody></table></div>"+			 		  	
-		  	"<div class=\"card-action\">"+
-		  	  "<a href=\"#\" id=\"c-email\"></a></div></div></div>";
-		$("#team_cards").append(card);
-		return card_id;
-}
-
-function showTeamInfo(){
+function  emailSubmit(){
 	var team_id=$("#m-team_id").text();
+	var email=$("#m-email").val();
 	$.ajax({
-		type:"get",
-		url:"student/getTeamInfo",
+		type:"post",
+		url:"student/emailChange",
 		data:{
-			"team_id":team_id
+			"team_id":team_id,
+			"email":email
 		},
-		dataType:"json",
-		success : function(data){
-			var card_id=createTeamInfoCard();
-			var cardContent=$("#"+card_id).children(".card-content");
-			var cardAction=$("#"+card_id).children(".card-actoin");
-			
-			//add members
-			var members=data.memebers;
-			var tbody=cardContent.find("tbody");
-		    for(var member in members){
-				var tr="<tr> <th>"+member.student_id+"</th>"+"<th>"+member.student_name+"</th>"+"<th>"+member.class_id
-						+"</th> </tr>";
-				tbody.append(tr);
-		    }
-		    cardContent.find(".card-titile").text(data.course_name);
-		    cardContent.find(".badge").text(data.team.team_id);
-		    cardAction.find("c-email").text(data.team.email);		    
-			
-		}
+		dataType:"json"
 	});
+	studentTab('student/team');
 }

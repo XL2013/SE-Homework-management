@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.se.pojo.Team;
@@ -34,4 +35,6 @@ public interface TeamDao {
     @Insert("insert into stu_team(team_id,student_id) values(#{team_id},#{student_id})")
     void addTeamMember(@Param("team_id")String team_id,@Param("student_id")String student_id);
    
+    @Update("update team_table set email=#{email} where team_id=#{team_id} ")
+    void setEmail(@Param("team_id")String team_id,@Param("email")String email);
 }

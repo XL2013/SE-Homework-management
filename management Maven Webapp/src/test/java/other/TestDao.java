@@ -31,8 +31,7 @@ public class TestDao  extends BaseJunitTest{
 	@Test
 	public void test(){
 		
-		for(Student student :studentService.searchStudent("2013211001", "201310"))
-			System.out.println(student.getStudent_name());
+		teamDao.setEmail("20130400", "111");
 		
 	}
 }
