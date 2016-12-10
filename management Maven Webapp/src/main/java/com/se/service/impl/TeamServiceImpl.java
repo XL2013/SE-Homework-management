@@ -95,7 +95,7 @@ public class TeamServiceImpl implements TeamService {
 	public Team addTeam(String course_id, String student_id) {
 		Team team=new Team();
 		team.setCourse_id(course_id);
-		team.setMonitor(student_id);
+		team.setLeader_id(student_id);
 		String prefix=teamConfigDao.getTeamConfig(course_id).getPrefix();
 		int teamCount=teamDao.getCourseTeams(course_id).size();
 		if(teamCount<10)
@@ -103,8 +103,9 @@ public class TeamServiceImpl implements TeamService {
 		else
 			prefix=prefix+String.valueOf(teamCount);
 		team.setTeam_id(prefix);
-		
+		team.setEmail("");
 		teamDao.addTeam(team);
+		teamDao.addTeamMember(team.getTeam_id(), student_id);
 		return team;
 	}
 

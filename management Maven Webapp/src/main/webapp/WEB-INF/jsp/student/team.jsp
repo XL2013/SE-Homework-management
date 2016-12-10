@@ -19,60 +19,34 @@
 		<div class="col l6">
 		  <div class="card" >
 		  	<div class="card-content">
-		  	<a class="card-title"><span class="badge">201321101</span>${teamInfo.course_name}</a>
-		  	<table>
-		  	   <thead>
-			    <tr>
-			      <th>成员学号</th>
-			      <th>成员姓名</th>
-			      <th>成员班级</th>
-			    </tr>
-			  </thead>
-			   <tbody>
-			   <c:forEach var="student" items="${teamInfo.members}">
-			    <tr>
-			      	<td>${student.student_id}</td>
- 	  	  	  		<td>${student.student_name }</td>
- 	  	  	  		<td>${student.class_id }</td>
-			    </tr>
-			    </c:forEach>
-				</tbody>
-		  	</table>
-		  	</div>
+			  	<a class="card-title"><span class="badge">小组信息</span>${teamInfo.course_name}</a>
+			  	<table>
+			  	   <thead>
+				    <tr>
+				      <th>成员学号</th>
+				      <th>成员姓名</th>
+				      <th>成员班级</th>
+				    </tr>
+				  </thead>
+				   <tbody>
+				   <c:forEach var="student" items="${teamInfo.members}">
+				    <tr>
+				      	<td>${student.student_id}</td>
+	 	  	  	  		<td>${student.student_name }</td>
+	 	  	  	  		<td>${student.class_id }</td>
+				    </tr>
+				    </c:forEach>
+					</tbody>
+			  	</table>
+		  	</div><!-- end of card-content -->
 		  	<div class="card-action">
 		  	  <a href="#" id="email">${teamInfo.setting.email }</a>		  	  
 		  	</div>
-		  </div>
-		</div>
+		  </div><!-- end of card -->
+		</div><!-- end of col l6 -->
 	  </c:forEach>
 	  
-		 
-		<div class="col l6">
-		  <div class="card" id="card1">
-		  	<div class="card-content">
-		  	<a class="card-title"><span class="badge">201321101</span>Java</a>
-		  	<table>
-		  	   <thead>
-			    <tr>
-			      <th>成员学号</th>
-			      <th>成员姓名</th>
-			      <th>成员班级</th>
-			    </tr>
-			  </thead>
-			   <tbody>
-			    <tr>
-			      <th>2013211001</th>
-			      <th>徐志雷</th>
-			      <th>2013211304</th>
-			    </tr>
-				</tbody>
-		  	</table>
-		  	</div>
-		  	<div class="card-action">
-		  	  <a href="#" id="email">973945379@qq.com</a>		  	  
-		  	</div>
-		  </div>
-		</div>
+	
 		 
 		
 	</div>
@@ -82,7 +56,7 @@
 	<div id="modal1" class="modal modal-fixed-footer">
 		<div class="modal-content">
 			<h4 id="m-course_name">JAVA</h4>
-			
+			<label id="m-course_id" hidden="hidden"></label>
 			<div class="divider"></div>
 			
 			<div class="row">
@@ -109,7 +83,7 @@
 			  </p>
 			   <p>
 			  	<label>联系方式:   </label>
-			  	<a id="m-email">973945379@qq.com</a>
+			  	<a id="m-email"></a>
 			  </p>
 			  </div>
 			</div>
@@ -126,11 +100,6 @@
 				    </tr>
 				  </thead>
 				  <tbody id="member-body">
-				    <tr>
-				      <th>2013211001</th>
-				      <th>徐志雷</th>
-				      <th>2013211304</th>
-				    </tr>
 				  </tbody>
 				</table>
 			</div>
@@ -144,7 +113,7 @@
 			  	</div>
 			  	<div class="col l1">
 			  		<p></p>
-			  		<a class="btn-floating red" onclick="">  <i class="material-icons" >search</i></a>
+			  		<a class="btn-floating red" onclick="searchMember()">  <i class="material-icons" >search</i></a>
 			  	</div>			  
 			 </div>			  	
 			</div>
@@ -158,11 +127,7 @@
 		  	  	  </tr>
 		  	  	</thead>
 		  	  	<tbody id="result-body">
-		  	  	  <tr>
-		  	  	  	<th>2013211001</th>
-		  	  	  	<th>周中山</th>
-		  	  	  	<th><a class="btn-floating red"><i class="material-icons" onclick="">add</i></a></th>
-		  	  	  </tr>
+		  	  
 		  	  	</tbody>
 		  	  </table>
 		  	</div>
@@ -170,6 +135,8 @@
 		</div>
 		<div class="modal-footer">
 			<a href="#!" class="waves-green btn-flat" onclick="checkTeamMember()">完成</a>
+			<a href="#!" class="modal-action modal-close waves-green btn-flat">取消</a>
+		
 		</div>
 	</div>
 </div>

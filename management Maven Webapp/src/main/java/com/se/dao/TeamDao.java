@@ -25,7 +25,7 @@ public interface TeamDao {
     @Select("select student_id from stu_team where team_id=#{team_id}")
     List<String> getStudentsByTID(String team_id);
     
-    @Insert("insert into team_table(team_id,course_id,monitor,email) values(#{team_id},#{course_id},#{monitor},#{email})")
+    @Insert("insert into team_table(team_id,course_id,leader_id,email) values(#{team_id},#{course_id},#{leader_id},#{email})")
     void addTeam(Team team);
     
     @Select("select * from team_table where course_id=#{course_id}")

@@ -17,8 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.se.pojo.Student;
 import com.se.pojo.Team;
 import com.se.pojo.TeamConfig;
-import com.se.service.StudentService;
 import com.se.service.impl.CourseServiceImpl;
+import com.se.service.impl.StudentServiceImpl;
 import com.se.service.impl.TeamServiceImpl;
 
 @Controller
@@ -32,7 +32,7 @@ public class StudentController {
 	private CourseServiceImpl courseService;
 	
 	@Resource
-	private StudentService student_service;
+	private StudentServiceImpl student_service;
 	/**
 	 * 向team.jsp传递json数据：
 	 * data:{
@@ -103,6 +103,7 @@ public class StudentController {
 		Team team=null;
 		if(teamService.getStudentTeam(course_id, student_id)==null){
 			team=teamService.addTeam(course_id, student_id);
+			
 		}
 		else
 			team=teamService.getStudentTeam(course_id, student_id);
@@ -147,11 +148,12 @@ public class StudentController {
 		return data;
 	}
 	
-	@GetMapping(value="searchResult")
+	@PostMapping(value="searchResult")
 	@ResponseBody
 	public Map<String,Object> searchResult(String info,String course_id){
+		System.out.println(info);
 		Map<String,Object> data=new HashMap<String, Object>();
-		
+		data.put("members",student_service.searchStudent(info, course_id));
 		return data;
 	}
 	

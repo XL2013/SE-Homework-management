@@ -29,12 +29,13 @@ public class User {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
-	public int getRole() {
+	public int getUser_role() {
 		return user_role;
 	}
-	public void setRole(int role) {
-		this.user_role = role;
+	public void setUser_role(int user_role) {
+		this.user_role = user_role;
 	}
+
 	
 	
 }

@@ -4,7 +4,7 @@ public class Team {
 	
 	private String team_id;
 	private String course_id;
-	private String monitor;
+	private String leader_id;
 	private String email;
 	public String getTeam_id() {
 		return team_id;
@@ -18,18 +18,21 @@ public class Team {
 	public void setCourse_id(String course_id) {
 		this.course_id = course_id;
 	}
-	public String getMonitor() {
-		return monitor;
-	}
-	public void setMonitor(String monitor) {
-		this.monitor = monitor;
-	}
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getLeader_id() {
+		return leader_id;
+	}
+	public void setLeader_id(String leader_id) {
+		this.leader_id = leader_id;
+	}
+
+	
+
 	
 		
 }

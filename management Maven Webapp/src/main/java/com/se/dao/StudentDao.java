@@ -32,7 +32,8 @@ public interface StudentDao {
 		@Delete("delete from stu_course where student_id=#{student_id} and course_id=#{course_id}")
 		void deleteStudentCourse(@Param("student_id")String student_id,@Param("course_id") String course_id);
 		
-		
-		@Select("select student_id from student_table where student_id like #{info} or ")
-		List<String> searchStudent(String info);
+		//todo:这里的sql语句可能需要进行优化，写的不好
+		@Select("select distinct(student_table.student_id) from student_table,stu_course where student_table.student_id =#{info} or student_name like concat(concat('%',#{info}),'%') "
+				+ " and student_table.student_id=stu_course.student_id and course_id =#{course_id} ")
+		List<String> searchStudent(@Param("info")String info,@Param("course_id")String course_id);
 }

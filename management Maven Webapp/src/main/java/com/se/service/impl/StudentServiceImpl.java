@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -65,7 +66,7 @@ public class StudentServiceImpl implements StudentService {
 							user.setUser_id(student_id);
 							user.setUser_name(student_name);
 							user.setUser_pwd(student_id);
-							user.setRole(3);
+							user.setUser_role(3);
 							userDao.addUser(user);
 						}
 						//add constrain
@@ -112,6 +113,15 @@ public class StudentServiceImpl implements StudentService {
 	public Student getStudentById(String student_id) {
 		// TODO Auto-generated method stub
 		return studentDao.getStudent(student_id);
+	}
+	@Override
+	public List<Student> searchStudent(String info, String course_id) {
+		// TODO Auto-generated method stub
+		List<Student> students=new ArrayList<Student>();
+		for(String id : studentDao.searchStudent(info, course_id)){
+			students.add(studentDao.getStudent(id));
+		}
+		return students;
 	}
 
 }

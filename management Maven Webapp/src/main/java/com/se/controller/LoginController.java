@@ -32,16 +32,16 @@ public class LoginController {
 		if(user!=null){
 			message="用户验证成功";
 			httpSession.setAttribute("user_id", user_id);
-			if(user.getRole()==0){
+			if(user.getUser_role()==0){
 				mv=new ModelAndView("/manager");
 			}
-			else if(user.getRole()==1){
+			else if(user.getUser_role()==1){
 				mv=new ModelAndView("/teacher/teacher_index","teacher_id",user_id);
 			}
-			else if(user.getRole()==2){
+			else if(user.getUser_role()==2){
 				mv=new ModelAndView("/assistant/assistant_index");
 			}
-			else if(user.getRole()==3){
+			else if(user.getUser_role()==3){
 				mv=new ModelAndView("/student/student_index","user",user);
 			}
 		}

@@ -12,4 +12,5 @@ public interface StudentService {
 	List<Student> getCourseStudent(String course_id);
 	
 	Student getStudentById(String student_id);
+	List<Student> searchStudent(String info ,String course_id);
 }

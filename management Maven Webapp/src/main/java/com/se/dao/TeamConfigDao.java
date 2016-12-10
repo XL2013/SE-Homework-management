@@ -16,6 +16,6 @@ public interface TeamConfigDao {
 	@Delete("delete from team_config where config_id=#{config_id}")
 	void deleteTeamConfig(String config_id);
 	
-	@Select("select * from team_cofig where course_id=#{course_id}")
+	@Select("select * from team_config where course_id=#{course_id}")
 	TeamConfig getTeamConfig(String course_id);
 }

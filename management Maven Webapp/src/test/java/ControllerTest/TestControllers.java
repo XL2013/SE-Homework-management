@@ -2,6 +2,7 @@ package ControllerTest;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections4.map.MultiValueMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -26,8 +27,9 @@ public class TestControllers extends BaseJunitTest{
 	}
 	@Test
 	public void testLogin() throws Exception{
+		
 		MvcResult result=mocMvc.perform(MockMvcRequestBuilders.get("/student/team")
-				.param("student_id", "2013211001")
+			
 				).
 			andDo(MockMvcResultHandlers.print()).andReturn();
 		
