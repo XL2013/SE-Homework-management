@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  					<li><a href="#">活动</a></li>
 			  					<li><a href="#">作业</a></li>
 			  					<li><a href="#" onclick="courseTab('teacher/studentList')">学生名单</a></li>
-			  					<li><a href="#">设置助教</a></li>
+			  					<li><a href="#" onclick="courseTab('teacher/teamSetting')">设置助教</a></li>
 			  					<li><a href="#" onclick="courseTab('teacher/teamConfig')">课程配置</a></li>
 		  				</ul>
 		  			</nav>

@@ -1,5 +1,6 @@
 package com.se.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.se.dao.TeamConfigDao;
+import com.se.pojo.Assistant;
 import com.se.pojo.Course;
 import com.se.pojo.Student;
+import com.se.pojo.Team;
+import com.se.service.impl.AssistantServiceImpl;
 import com.se.service.impl.CourseServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
 import com.se.service.impl.TeamServiceImpl;
@@ -33,7 +37,10 @@ public class TeacherController {
 		@Resource
 		private CourseServiceImpl courseService;
 		@Resource
-		private TeamServiceImpl teamConfigService;
+		private TeamServiceImpl teamService;
+		@Resource
+		private AssistantServiceImpl assistantService;
+
 		
 		@RequestMapping(value="/uploadStudentFile",method=RequestMethod.POST)
 		@ResponseBody
@@ -56,7 +63,7 @@ public class TeacherController {
 		@PostMapping(value="/addTeamConfig")
 		@ResponseBody
 		public String addTeamConfig(String course_id,String team_max,String team_min,String year,String class_id){
-			teamConfigService.addTeamConfig(course_id, year, class_id, team_max, team_min);
+			teamService.addTeamConfig(course_id, year, class_id, team_max, team_min);
 			return "success";
 		}
 		
@@ -75,10 +82,41 @@ public class TeacherController {
 			return new ModelAndView("/teacher/studentList","studentList",studentList);
 		}
 		
+		@GetMapping(value="teamSetting")
+		public ModelAndView teamSetting(String course_id){
+			Map<String,Object> data=new HashMap<String, Object>();
+			List<Team> teams=teamService.getCourseTeam(course_id);
+			
+			List<Map<String,Object>> teamInfos=new ArrayList<Map<String,Object>>();
+			for(Team team : teams){
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("team", team);
+				String name="";
+				if(assistantService.getTeamAssistant(team.getTeam_id())==null)
+					name="请设置一名助教";
+				else
+					name=assistantService.getTeamAssistant(team.getTeam_id()).getAssistant_name();
+				map.put("name",name);
+				teamInfos.add(map);
+				
+			}
+			String teacher_id=courseService.getCourse(course_id).getTeacher_id();
+			List<Assistant> assistants=assistantService.getTeacherAssistants(teacher_id);
+			
+			data.put("teamInfos", teamInfos);
+			data.put("assistants", assistants);
+			return new ModelAndView("/teacher/teamSetting","data",data);
+		}
 	
 		
 		@GetMapping(value="/courseInfo")
 		public ModelAndView courseInfo(String course_id){
 			return new ModelAndView("/teacher/courseInfo","course",courseService.getCourse(course_id));
+		}
+		
+		@PostMapping(value="setTeamAssistant")
+		@ResponseBody
+		public void setTeamAssistant(String team_id,String assistant_id){
+			assistantService.setTeamAssistant(team_id, assistant_id);
 		}
 }

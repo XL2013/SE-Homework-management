@@ -126,6 +126,12 @@ public class TeamServiceImpl implements TeamService {
 	public void setTeamEmail(String team_id,String email){
 		teamDao.setEmail(team_id, email);
 	}
+
+
+	@Override
+	public List<Team> getCourseTeam(String course_id) {
+		return teamDao.getCourseTeams(course_id);
+	}
 	
 
 }

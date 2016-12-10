@@ -71,7 +71,20 @@ function courseTab(url){
 	});
 }
 
-
+//改变助教
+function changeAssistant(team_id,obj){
+	var assistant_id=$(obj).find("option:selected").val();
+	$.ajax({
+		type:'post',
+		url:'teacher/setTeamAssistant',
+		data:{
+			"team_id":team_id,
+			"assistant_id":assistant_id
+		},
+		dataType:"json"
+	});
+	
+}
 
 
 

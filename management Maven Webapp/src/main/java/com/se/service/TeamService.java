@@ -18,5 +18,7 @@ public interface TeamService {
 	Team getTeamById(String team_id);
 	
 	void addTeamMember(String team_id,String student_id);
+	
+	List<Team> getCourseTeam(String course_id);
 
 }

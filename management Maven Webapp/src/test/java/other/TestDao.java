@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 
+import com.se.dao.AssistantDao;
 import com.se.dao.CourseDao;
 import com.se.dao.StudentDao;
 import com.se.dao.TeamDao;
@@ -28,10 +29,13 @@ public class TestDao  extends BaseJunitTest{
 	
 	@Resource
 	StudentServiceImpl studentService;
+	
+	@Resource
+	AssistantDao assistantDao;
 	@Test
 	public void test(){
 		
-		teamDao.setEmail("20130400", "111");
+		System.out.println(assistantDao.getAssistant(assistantDao.getTeamAssistant("20130400")).getAssistant_name());
 		
 	}
 }
