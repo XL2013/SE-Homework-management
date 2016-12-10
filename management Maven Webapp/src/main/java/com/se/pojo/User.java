@@ -32,10 +32,9 @@ public class User {
 	public int getUser_role() {
 		return user_role;
 	}
-	public void setUser_role(int user_role) {
-		this.user_role = user_role;
+	public void setUser_role(int role) {
+		this.user_role = role;
 	}
-
 	
 	
 }
