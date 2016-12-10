@@ -27,13 +27,13 @@ public class LoginController {
 	public ModelAndView login(@RequestParam String user_id,@RequestParam String password,HttpSession httpSession){
 		String message;
 		User user=userService.checkUser(user_id, password);
-
+		System.out.println(user.getUser_role());
 		ModelAndView mv=null;
 		if(user!=null){
 			message="用户验证成功";
 			httpSession.setAttribute("user_id", user_id);
 			if(user.getUser_role()==0){
-				mv=new ModelAndView("/manager");
+				mv=new ModelAndView("/manager/manager_index","user",user);
 			}
 			else if(user.getUser_role()==1){
 				mv=new ModelAndView("/teacher/teacher_index","teacher_id",user_id);
