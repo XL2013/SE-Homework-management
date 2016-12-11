@@ -22,20 +22,12 @@
 	      <li>
 	         <h4 class="header center hide-on-med-and-down" >已布置的作业</h2>
 	      </li>
-		  <li>
-		    <div class="collapsible-header"><span class="new badge">4</span>First</div>
-		    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-		  </li>
-		  <li>
-		    <div class="collapsible-header"><span class="badge">1</span>Second</div>
-		    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-		  </li>
 		</ul>
 	  </div>
 	
 	  <div class="col s9">
 	    <!-- Teal page content  -->
-	     <div class="row" id="tab_contents" name=0>
+	     <div class="row">
 		    <div class="card blue-grey darken-1">
 		      <div class="card-content white-text">
 		        <span class="card-title" id="title">布置作业</span>
@@ -45,12 +37,16 @@
 		        <a class="btn-floating btn-large waves-effect waves-light blue" onclick="homeWorksUpdateTab()"><i class="material-icons">done</i></a>
 		        <a class="btn-floating btn-large waves-effect waves-light blue" onclick="homeWorkArrangeTab()"><i class="material-icons">add</i></a>
 		      </div>
-		  </div>
+		    </div>
+		    <div id="tab_contents">
+		    	
+		    </div>
+		  <!-- 这里添加课程信息 -->
 		</div>
 		      
 	  </div>
 	
 	</div>
 <<script type="text/javascript">
-
+	getHomeworksInfoByCourseID()
 </script>

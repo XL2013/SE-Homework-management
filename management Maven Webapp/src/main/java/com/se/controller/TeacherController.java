@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,10 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.se.dao.TeamConfigDao;
 import com.se.pojo.Assistant;
 import com.se.pojo.Course;
+import com.se.pojo.Homework;
 import com.se.pojo.Student;
 import com.se.pojo.Team;
+import com.se.service.HomeworkService;
 import com.se.service.impl.AssistantServiceImpl;
 import com.se.service.impl.CourseServiceImpl;
+import com.se.service.impl.HomeworkServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
 import com.se.service.impl.TeamServiceImpl;
 
@@ -40,7 +44,8 @@ public class TeacherController {
 		private TeamServiceImpl teamService;
 		@Resource
 		private AssistantServiceImpl assistantService;
-
+		@Resource
+		private HomeworkServiceImpl homeworkService;
 		
 		@RequestMapping(value="/uploadStudentFile",method=RequestMethod.POST)
 		@ResponseBody
@@ -82,16 +87,39 @@ public class TeacherController {
 			return new ModelAndView("/teacher/studentList","studentList",studentList);
 		}
 		
-		@GetMapping(value="/homeWorkReview")
-		public ModelAndView homeWorkReview(String course_id){		
-			List<Student> studentList=studentService.getCourseStudent(course_id);
-			return new ModelAndView("/teacher/homeWorkReview");
+		@GetMapping(value="/homeWorkArrange")
+		public ModelAndView homeWorkArrange(String course_id){
+			return new ModelAndView("/teacher/homeWorkArrange");
 		}
 		
-		@GetMapping(value="/homeWorkArrange")
-		public ModelAndView homeWorkArrange(String course_id){		
-			List<Student> studentList=studentService.getCourseStudent(course_id);
-			return new ModelAndView("/teacher/homeWorkArrange");
+		@PostMapping(value="/homeWorksUpdateTab")
+		@ResponseBody
+		public Map<String,Object> homeWorksUpdateTab(@RequestBody List<Homework> homeworks){
+			for(Homework homework:homeworks){
+				System.out.println(homework.getUpload_time());
+			}
+			homeworkService.addHomeworkInfos(homeworks);
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("message","success"); 
+			return map;
+		}
+		
+		@GetMapping(value="/modifyHomeworkRatio")
+		@ResponseBody
+		public Map<String,Object> modifyHomeworkRatio(String homework_id, double ratio){	
+			homeworkService.modifyHomeworkRatio(homework_id, ratio);
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("message","success"); 
+			return map;
+		}
+		
+		@GetMapping(value="/getHomeworksInfoByCourseID")
+		@ResponseBody
+		public Map<String,Object> getHomeworksInfoByCourseID(String course_id){	
+			List<Homework> homework_list= homeworkService.getHomeworksInfoByCourseID(course_id);
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("homworkList",homework_list); 
+			return map;
 		}
 		
 		@GetMapping(value="teamSetting")

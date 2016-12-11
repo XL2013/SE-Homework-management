@@ -10,13 +10,25 @@ import com.se.dao.TeamHomeworkDao;
 import com.se.pojo.Homework;
 import com.se.pojo.HomeworkFile;
 import com.se.pojo.TeamHomework;
+import com.se.dao.HomeworkDao;
 import com.se.service.HomeworkService;
 
 @Service("homeworkService")
 public class HomeworkServiceImpl implements HomeworkService{
-
+	
+	@Resource
+	private HomeworkDao homeworkDao;
+	
 	@Resource
 	private TeamHomeworkDao teamHomeworkDao;
+	@Override
+	public void addHomeworkInfos(List<Homework> homeworks) {
+		// TODO Auto-generated method stub
+		for(Homework homework :homeworks)
+			homeworkDao.addHomework(homework);
+	}
+
+
 	@Override
 	public List<TeamHomework> getTeamHomeworks(String team_id) {
 		
@@ -51,6 +63,16 @@ public class HomeworkServiceImpl implements HomeworkService{
 	public List<HomeworkFile> getTeamHomewokFiles(String homework_id, String team_id) {
 		// TODO Auto-generated method stub
 		return teamHomeworkDao.getTeamHomeworkFiles(homework_id, team_id);
+	}
+
+	@Override
+	public void modifyHomeworkRatio(String homework_id, double ratio) {
+		// TODO Auto-generated method stub
+		homeworkDao.updateHomeworkRatio(homework_id, ratio);
+	}
+	
+	public List<Homework> getHomeworksInfoByCourseID(String courseID){
+		return homeworkDao.getHomeworksInfoByCourseID(courseID);
 	}
 
 }

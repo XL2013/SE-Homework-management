@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/se/service/HomeworkService.java=UTF-8
+encoding//src/main/java/com/se/service/impl/HomeworkServiceImpl.java=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/assistant/assistant_index.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/teacher/courseInfo.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/teacher/teacher_index.jsp=UTF-8
+encoding//src/test/java/other/TestDao.java=UTF-8

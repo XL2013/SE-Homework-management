@@ -72,12 +72,10 @@ function courseTab(url){
 }
 
 function homeWorkArrangeTab(){
-	 var num=parseInt($("#tab_contents").attr("name"))+1;
-	 $("#tab_contents").attr("name",num)
+	 var num = $("#home_work_show").children("li").length+$("#tab_contents").children("#test").length
 	 num=num.toString();
-	 
-	 var form ="<div class=\"row\" id=\"test\""+num+">"+"<div class=\"card-panel teal\">"+
-	   "<form class=\"col s12\">"+"<span class=\"white-text\">"+"作业"+num+"内容"+"</span>"+
+	 var form ="<div class=\"row\" id=\"test\">"+"<div class=\"card-panel teal\" id=\"form_content\" name="+num+">"+
+	   "<form class=\"col s12\">"+"<span class=\"white-text\">"+"第"+num+"次作业"+"</span>"+
 	 "<div class=\"row\">"+
 	    "<div class=\"input-field col s6\">"+
 		   	"<input id=\"homework_name\" type=\"text\" class=\"validate\">"+
@@ -108,38 +106,90 @@ function homeWorksUpdateTab(){
 		return;
 	}
 	var info_list = []
-	$(".card-panel teal").each(function(index,obj){
-		var home_work_name=$(this).children("#homework_name").val()
-		var ratio = parseInt($(this).children("#ratio").val())
-		var descript = $(this).children("#email").val()
-		var fin_date = $(this).children(".datepicker").val()
+	$("#form_content").each(function(i,obj){
+		var home_work_name = $(this).find("#homework_name").val()
+		var ratio = parseInt($(this).find("#ratio").val())/100.0
+		var homework_num  = parseInt($(this).attr("name"))
+		alert(homework_num)
+		var descript = $(this).find("#email").val()
+		var upload_time = $(this).find(".datepicker").val()
 		var json_item={
-			
+			"homework_name":home_work_name,
+			"ratio":ratio,
+			"description":descript,
+			"upload_time":upload_time,
+			"course_id":course_id,
+			"homework_id":course_id+parseInt(homework_num)
 		}
 		info_list.push(json_item)
 	})
 	$.ajax({
-		type :"get",
+		type :"post",
 		url :"teacher/homeWorksUpdateTab",
-		data :{
-			"course_id" : course_id,
-			"info_list":JSON.stringify(info_list)
-		},
-		dataType :"html",
+		//contentType: "application/json",
+		contentType: "application/json; charset=utf-8",
+		data :JSON.stringify(info_list),
+		dataType :"json",
 		success : function(data){
 			homeWorksListUpdate(json_item)
 		}			
 	});
+	homeWorksListUpdate(info_list)
 }
-function homeWorksListUpdate(json_item){
-	for(var item in json_item){
+
+function homeWorksListUpdate(info_list){
+	for(var item in info_list){
+		alert(info_list[item].homework_name)
 		var form  = 
 			"<li>"+
-			    "<div class=\"collapsible-header\"><span class=\"badge\">1</span>"+item+"</div>"+
-			    "<div class=\"collapsible-body\"><p>"+item+"</p></div>"+
-		    "</li>"+
+			    "<div class=\"collapsible-header\"><span class=\"new badge\" data-badge-caption=\"-百分比\" onclick=\"modifyHomeworkRatio()\">"+info_list[item].ratio+"</span>"+info_list[item].homework_name+"</div>"+
+			    "<div class=\"collapsible-body\"><p>"+info_list[item].description+"</p></div>"+
+		    "</li>"
 		$("#home_work_show").append(form)
 	}
+	$("#tab_contents").empty()
+}
+
+function getHomeworksInfoByCourseID(){
+	var course_id=$(".course_id").val();
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	$.ajax({
+		type :"get",
+		url :"teacher/getHomeworksInfoByCourseID",
+		data :{
+			"course_id" : course_id
+		},
+		dataType :"json",
+		success : function(data){
+			var info_list = data.homworkList;
+			homeWorksListUpdate(info_list);
+		}			
+	});
+}
+
+function modifyHomeworkRatio(){
+	alert("hehe")
+	var course_id=$(".course_id").val();
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	$.ajax({
+		type :"get",
+		url :"teacher/modifyHomeworkRatio",
+		data :{
+			"course_id" : course_id,
+			"ratio":$(this).text()
+		},
+		dataType :"json",
+		success : function(data){
+			var info_list = data.homeworkList;
+			homeWorksListUpdate(info_list);
+		}			
+	});
 }
 
 //改变助教
