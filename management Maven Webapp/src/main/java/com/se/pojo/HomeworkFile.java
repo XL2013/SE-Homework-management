@@ -5,6 +5,7 @@ public class HomeworkFile {
 		private String file_name;
 		private String file_path;
 		private String homework_id;
+		private String team_id;
 
 		public String getFile_name() {
 			return file_name;
@@ -23,6 +24,12 @@ public class HomeworkFile {
 		}
 		public void setHomework_id(String homework_id) {
 			this.homework_id = homework_id;
+		}
+		public String getTeam_id() {
+			return team_id;
+		}
+		public void setTeam_id(String team_id) {
+			this.team_id = team_id;
 		}
 		
 		

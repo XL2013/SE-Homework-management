@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.se.pojo.HomeworkFile;
 import com.se.pojo.Student;
 import com.se.pojo.Team;
 import com.se.pojo.TeamConfig;
+import com.se.pojo.TeamHomework;
+import com.se.service.HomeworkService;
 import com.se.service.impl.CourseServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
 import com.se.service.impl.TeamServiceImpl;
@@ -33,6 +36,9 @@ public class StudentController {
 	
 	@Resource
 	private StudentServiceImpl student_service;
+	
+	@Resource
+	private HomeworkService homeworkService;
 	/**
 	 * 向team.jsp传递json数据：
 	 * data:{
@@ -168,4 +174,47 @@ public class StudentController {
 	public void emailChange(String team_id,String email){
 		teamService.setTeamEmail(team_id, email);
 	}
+	
+	@GetMapping(value="getTeamHomeworks")
+	@ResponseBody
+	public Map<String,Object> getTeamHomeworks(String team_id){
+		Map<String,Object> data=new HashMap<String, Object>();
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		List<TeamHomework> teamHomeworks=homeworkService.getTeamHomeworks(team_id);
+		for(TeamHomework homework: teamHomeworks){
+			Map<String,Object> map=new HashMap<String, Object>();
+			String homework_id=homework.getHomework_id();
+			String status="";
+			if(homework.getStatus()==0)
+				status="未提交";
+			else  if(homework.getStatus()==1)
+				status="已提交";
+			else
+				status="已批改";
+			String homework_name="";//这里得到homeworkname
+			map.put("homework_id", homework_id);
+			map.put("status", status);
+			map.put("homework_name", homework_name);
+			map.put("grade", homework.getGrade());
+			list.add(map);
+		}
+		data.put("homeworks", list);		
+		return data;
+	}
+	
+	/**
+	 * 这里返回小组作业的具体信息，以便前台显示，所以需要作业的基本信息和小组作业的信息
+	 */
+	@GetMapping(value="getTeamHomework")
+	@ResponseBody
+	public Map<String,Object> getTeamHomework(String team_id,String homework_id){
+		Map<String,Object> data=new HashMap<String, Object>();
+		TeamHomework team_homework=homeworkService.getTeamHomework(homework_id, team_id);
+		
+		List<HomeworkFile> files=homeworkService.getTeamHomewokFiles(homework_id, team_id);
+		data.put("team_homework", team_homework);
+		data.put("files", files);
+		return data;
+	}
+	
 }

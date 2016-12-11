@@ -11,6 +11,7 @@ import com.se.dao.StudentDao;
 import com.se.dao.TeamDao;
 import com.se.dao.TeamHomeworkDao;
 import com.se.dao.UserDao;
+import com.se.pojo.HomeworkFile;
 import com.se.pojo.TeamHomework;
 import com.se.service.impl.StudentServiceImpl;
 
@@ -38,15 +39,12 @@ public class TestDao  extends BaseJunitTest{
 	TeamHomeworkDao teamHomeworkDao;
 	@Test
 	public void test(){
-		TeamHomework homework=new TeamHomework();
-		homework.setHomework_id("2013102");
-		homework.setTeam_id("20130400");
-		homework.setStatus(1);
-		homework.setSubmit_time("");
-		homework.setSubmitter("");
-		homework.setCorrectInfo("");
-		homework.setStudent_comment("");
-		teamHomeworkDao.updateHomework(homework);
+		HomeworkFile file=new HomeworkFile();
+		file.setFile_name("tttt");
+		file.setFile_path("sss");
+		file.setHomework_id("111");
+		file.setTeam_id("111");
+		teamHomeworkDao.addHomeworkFile(file);
 			
 	}
 }

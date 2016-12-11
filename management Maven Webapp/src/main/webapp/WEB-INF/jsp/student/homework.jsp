@@ -5,9 +5,9 @@
 	<h5>小组列表</h5>
 	<div class="collection">	
 		<c:forEach var="team" items="${teamList}">
-			 <a href="#!" class="collection-item" id="homework-item"><span class="badge">${team.course_name}</span>${team.team_id}</a>
+			 <a href="#!" class="collection-item" id="homework-item" team_id="${team.team_id}"><span class="badge">${team.course_name}</span>${team.team_id}</a>
 	    </c:forEach>   
-       
+       <input id="team_id" type="text" hidden>
        
   	</div>
 	 
@@ -26,7 +26,7 @@
 		      <th>评论</th>
 		    </tr>
 		  </thead>
-		   <tbody>
+		   <tbody id="t-homeworkBody">
 			<tr>
 		      <th>java第一次作业</th>
 		      <th>2013211001</th>
@@ -54,15 +54,15 @@
       		<div class="row">
       		  <div class="col s6">
 	      		<label>发布时间:</label>
-	      		<a>2013/06/19</a>
+	      		<a id="m-releaseTime">2013/06/19</a>
 	      	  </div>
 	      	 <div class="col s6">
 	      		<label>提交时间:</label>
-	      		<a>2013/06/19</a>
+	      		<a id="m-submitTime">2013/06/19</a>
 	      	  </div>
 	      	  <div class="col s12">
 	      	  	   <h5>作业文件：</h5>
-	      	       <ul>
+	      	       <ul id="m-files">
 	      	       	  <li><a href="#!">test.java</a></li>
 	      	       	  <li><a href="#!">test.java</a></li>
 	      	       	  <li><a href="#!">test.java</a></li>
@@ -71,11 +71,11 @@
 	      	  <div class="divider"></div>
 	      	  <div class="col s12">
 	      	  	   <h5>批改说明</h5>
-	      	  	   <a>这次作业写得不错</a>
+	      	  	   <a id="m-correctInfo"> 这次作业写得不错</a>
 	      	  </div>
 	      	  <div class="col s12">
 	      	  	   <h5>学生意见</h5>
-	      	  	   <a>作业太多</a>
+	      	  	   <a id="m-comment">作业太多</a>
 	      	  </div>
       		</div>
       	</div>
@@ -84,9 +84,9 @@
 	      	<a>本次成绩：</a>
 	      	<a id="m-homework_grade">90</a>
 	      	<a>总成绩：</a>
-	      	<a id="#m-homework_total">10</a>
-	      	<a id="#m-homework_submitter">提交者：</a>
-	      	<a>周志善</a>
+	      	<a id="m-homework_total">10</a>
+	      	<a>提交者：</a>
+	      	<a  id="m-homework_submitter">周志善</a>
       	<a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="">完成</a>
       </div>
     </div><!-- end of homeworkInfo_modal -->
@@ -159,16 +159,10 @@
 	    }
   );
   
-  $("#showHomework").click(function(){
-  			$('#homeworkInfo-modal').modal('open');
-  });
-   $("#submitHomework").click(function(){
-  			$('#homeworkSubmit-modal').modal('open');
-  });
-  $("#commentHomeWork").click(function(){
-  			$('#comment-modal').modal('open');
-  });
+
   $(".collection-item").click(function(){
-  		console.log("test");
+  		var team_id=$(this).attr('team_id');
+  		$("#team_id").val(team_id);
+  		getHomeworks();
   });
 </script>

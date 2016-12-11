@@ -17,10 +17,10 @@ public interface TeamHomeworkDao {
 	
 	//小组作业部分
 	@Select("select * from team_homework where team_id=#{team_id}")
-	List<Homework> getTeamHomeWorks(String team_id);
+	List<TeamHomework> getTeamHomeWorks(String team_id);
 	
-	@Select("select * from team_homework where homework_id=#{homework_id}")
-	TeamHomework getHomeworkByID(String homework_id);
+	@Select("select * from team_homework where homework_id=#{homework_id} and team_id=#{team_id}")
+	TeamHomework getHomeworkByID(@Param("homework_id")String homework_id,@Param("team_id")String team_id);
 	
 	@Update("update team_homework set submit_time=#{submit_time},submitter=#{submitter}"
 			+ ",status=#{status},grade=#{grade},correctInfo=#{correctInfo},student_comment=#{student_comment} "
@@ -28,15 +28,15 @@ public interface TeamHomeworkDao {
 	void updateHomework(TeamHomework teamHomework);
 	
 	@Insert("insert into team_homework(team_id,homework_id,submit_time,submitter,status,grade,correctInfo,student_comment) "
-			+ " values(#{team_id},#{homework_id},#{submit_time},#{submitter},#{status},#{grade},#{correctInfo},#{student_comment})")
+			+ " values(#{team_id},#{homework_id},to_date(#{submit_time},'yyyy-mm-dd'),#{submitter},#{status},#{grade},#{correctInfo},#{student_comment})")
 	void addHomework(TeamHomework teamHomework);
 	
 	//作业文件部分数据库代码
-	@Insert("insert into homework_file(file_name,file_path,homework_id) values(#{file_name},#{file_path},#{homework_id})")
+	@Insert("insert into homework_file(file_name,file_path,homework_id,team_id) values(#{file_name},#{file_path},#{homework_id},#{team_id})")
 	void addHomeworkFile(HomeworkFile file );
 	
-	@Select("select * from homework_file where homework_id=#{homework_id}")
-	List<HomeworkFile> getHomeworkFiles(String homework_id);
+	@Select("select * from homework_file where homework_id=#{homework_id} and TEAM_ID=#{team_id}")
+	List<HomeworkFile> getTeamHomeworkFiles(@Param("homework_id")String homework_id,@Param("team_id")String team_id);
 	
 	@Select("select count(*) from homework_file where file_name=#{file_name} and file_path=#{file_path}")
 	int isFileExist(@Param("file_name")String file_name,@Param("file_path")String file_path);

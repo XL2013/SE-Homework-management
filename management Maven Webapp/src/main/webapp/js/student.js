@@ -135,3 +135,92 @@ function  emailSubmit(){
 	
 	studentTab('student/team');
 }
+
+
+
+function getHomeworks(){
+	var team_id=$("#team_id").val();
+	$.ajax({
+		type:"get",
+		url:"student/getTeamHomeworks",
+		data:{
+			"team_id":team_id
+		},
+		dataType:"json",
+		success: function(data){
+			var homeworks=data.homeworks;
+			$("#t-homeworkBody").empty();
+			for(var i in homeworks){
+				var tr="<tr><td>"+homeworks[i].homework_name+"</td><td>"+homeworks[i].homework_id+"</td><td>"+homeworks[i].status+"</td><td>"+homeworks[i].grade+
+					"</td><td><a id=\"showHomework\" class=\"btn-floating red\" onclick=\"showHomeworkInfo(this)\">  <i class=\"material-icons\" >visibility</i></a></td>"
+				  +"<td>"+
+				   "<a id=\"submitHomework\" class=\"btn-floating red\" onclick=\"submitHomeworkInfo(this)\">  <i class=\"material-icons\" >present_to_all</i></a>"+
+				   "</td>"+
+				   "<td>"+
+				   "<a id=\"commentHomeWork\" class=\"btn-floating red\" onclick=\"commentHomework(this)\">  <i class=\"material-icons\" >comment</i></a>"+
+				    "  </td></tr>";
+				$("#t-homeworkBody").append(tr);
+			}
+		}
+	});
+}
+
+function showHomeworkInfo(obj){
+	var team_id=$("#team_id").val();
+	var homework_id=$(obj).parent().parent().children("td:eq(1)").text();
+	$.ajax({
+		type:"get",
+		url:"student/getTeamHomework",
+		data:{
+			"team_id":team_id,
+			"homework_id":homework_id
+		},
+		dataType:"json",
+		success: function(data){
+			//这里是作业本身信息
+			var homework=data.homework;
+			var ratio=homework.ratio;
+			$("#m-releaseTime").text(homework.release_time);
+			$("#m-m-submitTime").text(homework.submit_time);
+			$("#m-homework_name").text(homework.homework_name);
+			
+			//这里是小组作业信息
+			var team_homework=data.team_homework;
+			$("#m-homework_id").text(team_homework.homework_id);
+			$("#m-correctInfo").text(team_homework.correct_info);
+			$("#m-comment").text(team_homework.comment);
+		    var grade=team_homework.homework_grade;
+		    var total=grade*ratio;
+			$("#m-homework_grade").text(grade);
+			$("#m-homework_total").text(total);
+			$("#m-homework_submitter").text(team_homework.submitter);
+			//这里是作业已提交的文件信息
+			//todo :设置文件下载链接
+			var files=data.files;
+			$("#m-files").empty();
+			for(var i in files){
+				var li="<li><a href=\"#!\">"+files[i].file_name+"</a></li>";
+				$("#m-files").append(li);
+			}
+			
+			
+		}
+		
+	});
+	$('#homeworkInfo-modal').modal('open');
+	
+}
+function submitHomeworkInfo(obj){
+	var team_id=$("#team_id").val();
+	var homework_id=$(obj).parent().parent().children("td:eq(1)").text();
+	$('#homeworkSubmit-modal').modal('open');
+}
+function commentHomework(obj){
+	var team_id=$("#team_id").val();
+	var homework_id=$(obj).parent().parent().children("td:eq(1)").text();
+	$('#comment-modal').modal('open');
+}
+
+
+
+

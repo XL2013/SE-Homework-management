@@ -1,7 +1,5 @@
 package com.se.pojo;
 
-import java.sql.Date;
-
 public class TeamHomework {
 		private String team_id;
 		private String homework_id;
