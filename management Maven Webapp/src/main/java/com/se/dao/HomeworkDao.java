@@ -1,5 +1,5 @@
 package com.se.dao;
 
-public class HomeworkDao {
+public interface HomeworkDao {
 
 }

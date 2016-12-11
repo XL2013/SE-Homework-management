@@ -1,5 +1,8 @@
 package com.se.dao;
 
-public class TeamHomeworkDao {
+import org.springframework.stereotype.Repository;
+
+@Repository("teamHomeworkDao")
+public interface TeamHomeworkDao {
 
 }
