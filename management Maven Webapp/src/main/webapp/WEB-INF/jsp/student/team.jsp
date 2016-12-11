@@ -4,7 +4,7 @@
 	<p>已选课程小组配置</p>
 	<div class="collection">	
 		<c:forEach var="courseInfo" items="${data.courseSetting}">
-			 <a href="#!" class="collection-item" hasTeam="${courseInfo.hasTeam}" id="${courseInfo.course.course_id}"><span class="badge">创建/设置小组</span>${ courseInfo.course.course_name}</a>
+			 <a href="#!" class="collection-item"  hasTeam="${courseInfo.hasTeam}" id="${courseInfo.course.course_id}"><span class="badge">创建/设置小组</span>${ courseInfo.course.course_name}</a>
 	    </c:forEach>   
       <!--  
       <a href="#!" class="collection-item"><span class="badge">创建小组</span>java</a>

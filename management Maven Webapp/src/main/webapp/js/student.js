@@ -24,6 +24,7 @@ function sc(url){
 		},
 		dataType :"html",
 		success : function(data){
+				$(".main").empty();
 				$(".main").html(data);
 		}
 	});
@@ -118,6 +119,7 @@ function initTeamInfo(course_id){
 	});
 }
 function  emailSubmit(){
+
 	var team_id=$("#m-team_id").text();
 	var email=$("#m-email").val();
 	$.ajax({
@@ -129,5 +131,6 @@ function  emailSubmit(){
 		},
 		dataType:"json"
 	});
+	
 	studentTab('student/team');
 }
