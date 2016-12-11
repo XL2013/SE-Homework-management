@@ -85,8 +85,14 @@ public class StudentController {
 	}
 	@GetMapping(value="/homework")
 	public ModelAndView showHomework(String student_id){
-		
-		return new ModelAndView("student/homework");
+		List<Map<String,Object>> teamList=new ArrayList<Map<String,Object>>();
+		for(String course_id : courseService.getStudentCourses(student_id)){
+			Map<String,Object> data=new HashMap<String, Object>();
+			data.put("course_name", courseService.getCourse(course_id).getCourse_name());
+			data.put("team_id", teamService.getStudentTeam(course_id, student_id).getTeam_id());
+			teamList.add(data);
+		}
+		return new ModelAndView("student/homework","teamList",teamList);
 	}
 	@GetMapping(value="/grade")
 	public ModelAndView showGrade(String student_id){

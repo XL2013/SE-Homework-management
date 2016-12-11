@@ -4,12 +4,11 @@
 <div class="container">
 	<h5>小组列表</h5>
 	<div class="collection">	
-		<c:forEach var="team" items="${data.team}">
+		<c:forEach var="team" items="${teamList}">
 			 <a href="#!" class="collection-item" id="homework-item"><span class="badge">${team.course_name}</span>${team.team_id}</a>
 	    </c:forEach>   
        
-      <a href="#!" class="collection-item"><span class="badge">java</span>20130101</a>
-      <a href="#!" class="collection-item"><span class="badge">c++</span>20130400</a>      
+       
   	</div>
 	 
     <h5>作业列表</h5>
