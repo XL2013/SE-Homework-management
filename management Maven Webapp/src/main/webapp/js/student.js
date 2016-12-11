@@ -28,6 +28,7 @@ function sc(url){
 				$(".main").html(data);
 		}
 	});
+
 }
 
 function searchMember(){

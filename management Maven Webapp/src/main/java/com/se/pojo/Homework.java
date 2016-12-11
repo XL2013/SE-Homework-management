@@ -1,14 +1,12 @@
 package com.se.pojo;
 
-import java.util.Date;
-
 public class Homework {
 		private String  course_id;
 		private String  homework_id;
 		private String  homework_name;
 		private String  description;
-		private Date upload_time;
-		private Date release_time;
+		private String upload_time;
+		private String release_time;
 		private double ratio;
 		public String getCourse_id() {
 			return course_id;
@@ -34,23 +32,24 @@ public class Homework {
 		public void setDescription(String description) {
 			this.description = description;
 		}
-		public Date getUpload_time() {
-			return upload_time;
-		}
-		public void setUpload_time(Date upload_time) {
-			this.upload_time = upload_time;
-		}
-		public Date getRelease_time() {
-			return release_time;
-		}
-		public void setRelease_time(Date release_time) {
-			this.release_time = release_time;
-		}
+
 		public double getRatio() {
 			return ratio;
 		}
 		public void setRatio(double ratio) {
 			this.ratio = ratio;
+		}
+		public String getUpload_time() {
+			return upload_time;
+		}
+		public void setUpload_time(String upload_time) {
+			this.upload_time = upload_time;
+		}
+		public String getRelease_time() {
+			return release_time;
+		}
+		public void setRelease_time(String release_time) {
+			this.release_time = release_time;
 		}
 		
 		
