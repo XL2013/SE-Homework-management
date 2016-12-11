@@ -114,7 +114,7 @@ function homeWorksUpdateTab(){
 		var descript = $(this).children("#email").val()
 		var fin_date = $(this).children(".datepicker").val()
 		var json_item={
-			""
+			
 		}
 		info_list.push(json_item)
 	})
@@ -135,8 +135,8 @@ function homeWorksListUpdate(json_item){
 	for(var item in json_item){
 		var form  = 
 			"<li>"+
-			    "<div class=\"collapsible-header\"><span class=\"badge\">1</span>"+item.+"</div>"+
-			    "<div class=\"collapsible-body\"><p>"+item.+"</p></div>"+
+			    "<div class=\"collapsible-header\"><span class=\"badge\">1</span>"+item+"</div>"+
+			    "<div class=\"collapsible-body\"><p>"+item+"</p></div>"+
 		    "</li>"+
 		$("#home_work_show").append(form)
 	}
