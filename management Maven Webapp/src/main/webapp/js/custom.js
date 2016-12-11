@@ -71,6 +71,77 @@ function courseTab(url){
 	});
 }
 
+function homeWorkArrangeTab(){
+	 var num=parseInt($("#tab_contents").attr("name"))+1;
+	 $("#tab_contents").attr("name",num)
+	 num=num.toString();
+	 
+	 var form ="<div class=\"row\" id=\"test\""+num+">"+"<div class=\"card-panel teal\">"+
+	   "<form class=\"col s12\">"+"<span class=\"white-text\">"+"作业"+num+"内容"+"</span>"+
+	 "<div class=\"row\">"+
+	    "<div class=\"input-field col s6\">"+
+		   	"<input id=\"homework_name\" type=\"text\" class=\"validate\">"+
+		 	"<label for=\"homework_name\">作业名称</label>" +
+	 	"</div>" +
+	    "<div class=\"col s6\">"+
+	    	"<h6 class=\"white-text\">请选择作业成绩比例</h5>"+
+		    "<form action=\"#\">"+
+		    	"<p class=\"range-field\">"+
+		    		"<input type=\"range\" id=\"ratio\" min=\"0\" max=\"100\" />"+
+		    	"</p>"+
+		    "</form>"+
+	 	"</div>" +
+	 "</div>"+
+	 "<div class=\"row\">"+
+	   "<div class=\"input-field col s12\">"+
+	 "<input id=\"email\" type=\"email\" class=\"validate\">"+
+	 "<h5 class=\"white-text\">请选择作业提交日期</h5>"+
+	 "<input type=\"date\" class=\"datepicker\">"+
+	 "<label for=\"email\">基本描述或要求</label></div></div></form></div></div>"
+	 $("#tab_contents").append(form)
+}
+
+function homeWorksUpdateTab(){
+	var course_id=$(".course_id").val();
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	var info_list = []
+	$(".card-panel teal").each(function(index,obj){
+		var home_work_name=$(this).children("#homework_name").val()
+		var ratio = parseInt($(this).children("#ratio").val())
+		var descript = $(this).children("#email").val()
+		var fin_date = $(this).children(".datepicker").val()
+		var json_item={
+			
+		}
+		info_list.push(json_item)
+	})
+	$.ajax({
+		type :"get",
+		url :"teacher/homeWorksUpdateTab",
+		data :{
+			"course_id" : course_id,
+			"info_list":JSON.stringify(info_list)
+		},
+		dataType :"html",
+		success : function(data){
+			homeWorksListUpdate(json_item)
+		}			
+	});
+}
+function homeWorksListUpdate(json_item){
+	for(var item in json_item){
+		var form  = 
+			"<li>"+
+			    "<div class=\"collapsible-header\"><span class=\"badge\">1</span>"+item+"</div>"+
+			    "<div class=\"collapsible-body\"><p>"+item+"</p></div>"+
+		    "</li>"+
+		$("#home_work_show").append(form)
+	}
+}
+
 //改变助教
 function changeAssistant(team_id,obj){
 	var assistant_id=$(obj).find("option:selected").val();

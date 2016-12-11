@@ -82,6 +82,18 @@ public class TeacherController {
 			return new ModelAndView("/teacher/studentList","studentList",studentList);
 		}
 		
+		@GetMapping(value="/homeWorkReview")
+		public ModelAndView homeWorkReview(String course_id){		
+			List<Student> studentList=studentService.getCourseStudent(course_id);
+			return new ModelAndView("/teacher/homeWorkReview");
+		}
+		
+		@GetMapping(value="/homeWorkArrange")
+		public ModelAndView homeWorkArrange(String course_id){		
+			List<Student> studentList=studentService.getCourseStudent(course_id);
+			return new ModelAndView("/teacher/homeWorkArrange");
+		}
+		
 		@GetMapping(value="teamSetting")
 		public ModelAndView teamSetting(String course_id){
 			Map<String,Object> data=new HashMap<String, Object>();
