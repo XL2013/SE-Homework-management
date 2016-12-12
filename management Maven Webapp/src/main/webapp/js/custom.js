@@ -172,8 +172,47 @@ function openModifyRatio(obj){
 	$('#modal1').attr("name",$(obj).parent().parent().attr("id"));
 }
 
+function changeRollCallTime(i){
+	$("#rollCallTimeIdentifier").attr("name",i)
+	$("#studentListTitle").text("第"+i+"次点名学生名单")
+}
+
 function modifyStudentRollCallStat(){
+	updateStudentRollCallStat()
+	var rollCallTime=$("#rollCallTimeIdentifier").attr("name")
+	var course_id=$(".course_id").val();
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	var student_ids = []
+	$("[name=\"checkbox\"]").each(function(i,obj){
+		if(typeof($(this).attr("checked"))=="undefined")
+			student_ids.push($(this).attr("id"));
+	})
 	
+	$.ajax({
+		type :"get",
+		url :"teacher/modifyStudentRollCallStat",
+		data :{
+			"course_id" : course_id,
+			"roll_call_id": rollCallTime,
+			"student_ids": student_ids
+		},
+		dataType :"json",
+		success : function(data){
+			alert("点名成功")
+		}			
+	});
+}
+
+function updateStudentRollCallStat(student_ids){
+	$("[name=\"checkbox\"]").each(function(i,obj){
+		console.log(student_ids)
+		console.log($(this).attr("id"))
+		if($.inArray($(this).attr("id"),student_ids)!=-1)
+			$(this).attr("checked","checked")
+	})
 }
 
 function modifyHomeworkRatio(obj){
@@ -183,6 +222,7 @@ function modifyHomeworkRatio(obj){
 		alert("请选择一门课程");
 		return;
 	}
+
 	$.ajax({
 		type :"get",
 		url :"teacher/modifyHomeworkRatio",
