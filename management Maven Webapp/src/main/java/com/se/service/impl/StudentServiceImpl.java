@@ -96,6 +96,7 @@ public class StudentServiceImpl implements StudentService {
 					InputStream is=new FileInputStream(tempFile);
 					addStudentList(ExcelHelper.getExCelWorkbook(is,tempFile.getPath()),course_id);
 					is.close();
+					tempFile.delete();
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();
 				}				

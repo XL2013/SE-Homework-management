@@ -2,6 +2,8 @@ package com.se.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.se.pojo.Homework;
 
 import com.se.pojo.HomeworkFile;
@@ -19,5 +21,8 @@ public interface HomeworkService {
 		public List<Homework> getHomeworksInfoByCourseID(String courseID);
 		
 		Homework getHomework(String homework_id);
+		void saveHomeworkFile(String team_id,String homework_id,MultipartFile[] files);
+		boolean checkHomeworkFile(String file_name,String homework_id,String team_id);
+		void  submitTeamHomework(String team_id,String homework_id);
 
 }
