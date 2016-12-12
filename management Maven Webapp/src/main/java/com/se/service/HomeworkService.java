@@ -17,5 +17,7 @@ public interface HomeworkService {
 		void addHomeworkInfos(List<Homework> homeworks);
 		void modifyHomeworkRatio(String courseID, double ratio);
 		public List<Homework> getHomeworksInfoByCourseID(String courseID);
+		
+		Homework getHomework(String homework_id);
 
 }

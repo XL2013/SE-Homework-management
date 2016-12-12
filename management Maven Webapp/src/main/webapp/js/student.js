@@ -180,16 +180,16 @@ function showHomeworkInfo(obj){
 			//这里是作业本身信息
 			var homework=data.homework;
 			var ratio=homework.ratio;
-			$("#m-releaseTime").text(homework.release_time);
-			$("#m-m-submitTime").text(homework.submit_time);
+			$("#m-releaseTime").text(homework.release_time.substr(0,10));
+			$("#m-submitTime").text(homework.upload_time.substr(0,10));
 			$("#m-homework_name").text(homework.homework_name);
 			
 			//这里是小组作业信息
 			var team_homework=data.team_homework;
 			$("#m-homework_id").text(team_homework.homework_id);
-			$("#m-correctInfo").text(team_homework.correct_info);
-			$("#m-comment").text(team_homework.comment);
-		    var grade=team_homework.homework_grade;
+			$("#m-correctInfo").text(team_homework.correctInfo);
+			$("#m-comment").text(team_homework.student_comment);
+		    var grade=team_homework.grade;
 		    var total=grade*ratio;
 			$("#m-homework_grade").text(grade);
 			$("#m-homework_total").text(total);
@@ -213,12 +213,58 @@ function showHomeworkInfo(obj){
 function submitHomeworkInfo(obj){
 	var team_id=$("#team_id").val();
 	var homework_id=$(obj).parent().parent().children("td:eq(1)").text();
+	$.ajax({
+		type:"get",
+		url:"student/getTeamHomework",
+		data:{
+			"team_id":team_id,
+			"homework_id":homework_id
+		},
+		dataType:"json",
+		success: function(data){
+			//这里是作业本身信息
+			var homework=data.homework;
+			var ratio=homework.ratio;
+			$("#s-releaseTime").text(homework.release_time.substr(0,10));
+			$("#s-submitTime").text(homework.upload_time.substr(0,10));
+			$("#s-homework_name").text(homework.homework_name);
+			console.log(homework);
+			//这里是小组作业信息
+			var team_homework=data.team_homework;
+			$("#s-homework_id").text(team_homework.homework_id);
+			//这里是作业已提交的文件信息
+			//todo :设置文件下载链接
+			var files=data.files;
+			$("#m-submit_file").empty();
+			for(var i in files){
+				var li="<li><a href=\"#!\">"+files[i].file_name+"</a></li>";
+				$("#m-submit_file").append(li);
+			}						
+		}
+		
+	});
 	$('#homeworkSubmit-modal').modal('open');
 }
 function commentHomework(obj){
-	var team_id=$("#team_id").val();
+
 	var homework_id=$(obj).parent().parent().children("td:eq(1)").text();
-	$('#comment-modal').modal('open');
+	$("#comment-homework_id").val(homework_id);
+	$("#comment-modal").modal('open');
+}
+function submitComment(){
+	var team_id=$("#team_id").val();
+	var homework_id=$("#comment-homework_id").val();
+	var comment=$("#comment-text").val();
+	$.ajax({
+		type:"post",
+		url:"student/setTeamHomeworkComment",
+		data:{
+			"comment":comment,
+			"team_id":team_id,
+			"homework_id":homework_id
+		},
+		dataType:"json",	
+	});
 }
 
 
