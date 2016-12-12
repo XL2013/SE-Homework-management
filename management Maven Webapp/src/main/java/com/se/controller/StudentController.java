@@ -1,17 +1,25 @@
 package com.se.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.se.pojo.Homework;
@@ -24,6 +32,7 @@ import com.se.service.HomeworkService;
 import com.se.service.impl.CourseServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
 import com.se.service.impl.TeamServiceImpl;
+import com.se.util.FileHelper;
 
 import oracle.jdbc.proxy.annotation.Post;
 
@@ -97,6 +106,8 @@ public class StudentController {
 		List<Map<String,Object>> teamList=new ArrayList<Map<String,Object>>();
 		for(String course_id : courseService.getStudentCourses(student_id)){
 			Map<String,Object> data=new HashMap<String, Object>();
+			//没有小组的课程不予显示
+			if(teamService.getStudentTeam(course_id, student_id)==null) continue;
 			data.put("course_name", courseService.getCourse(course_id).getCourse_name());
 			data.put("team_id", teamService.getStudentTeam(course_id, student_id).getTeam_id());
 			teamList.add(data);
@@ -229,4 +240,45 @@ public class StudentController {
 		homeworkService.setComment(comment, homework_id, team_id);		
 	}
 	
+	/**
+	 * 接受学生上传的作业文件并返回对应得小组和作业，以便前台更新作业列表
+	 */
+	@PostMapping(value="uploadHomeWorkFile")
+	@ResponseBody
+	public Map<String,Object> uploadHomeworkFiles(@RequestParam("homework_id")String homework_id,@RequestParam("team_id")String team_id,@RequestParam("files")MultipartFile[] files){
+		Map<String,Object> data=new HashMap<String, Object>();
+		homeworkService.saveHomeworkFile(team_id, homework_id, files);
+		data.put("team_id", team_id);
+		data.put("homework_id",homework_id);
+		
+		return data;
+
+	}
+	
+	@PostMapping(value="checkHomeworkFile")
+	@ResponseBody
+	public Map<String,Object> checkHomeworkFile(String file_names,String homework_id,String team_id){
+		Map<String ,Object> data=new HashMap<String, Object>();
+		String []files=StringUtils.split(file_names, ',');
+		boolean isExist=false;
+		for(String file_name : files){
+			file_name=file_name.trim();
+			if(homeworkService.checkHomeworkFile(file_name, homework_id, team_id))//如果存在该文件
+				isExist=true;
+		}
+		data.put("isExist", isExist);
+		return data;
+	}
+	
+	/**
+	 * 当作业提交界面点击确定时，将作业的状态改为已提交
+	 * @param team_id
+	 * @param homework_id
+	 */
+	@PostMapping(value="updateTeamHomework_status")
+	@ResponseBody
+	public void updateTeamHomework_status(String team_id,String homework_id){
+		homeworkService.submitTeamHomework(team_id, homework_id);
+	}
+
 }

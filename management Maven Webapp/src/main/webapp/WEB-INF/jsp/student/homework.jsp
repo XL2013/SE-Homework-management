@@ -87,16 +87,18 @@
      		<a id="s-submitTime"></a>
      	  </div>
      	  <div class="col s12">
-	     	  	<form id="homeworkFileForm" action="student/uploadHomeWorkFile">
+	     	  	<form id="homeworkFileForm" action="student/uploadHomeWorkFile" method="post" enctype="multipart/form-data">
 				    <div class="file-field input-field">
 				      <div class="btn">
 				        <span>File</span>
-				        <input type="file" multiple>
+				        <input type="file" name="files" multiple>
 				      </div>
 				      <div class="file-path-wrapper">
 				        <input class="file-path validate" type="text" placeholder="Upload one or more files">
 				      </div>  
 	      			</div>
+	      			<input type="text" hidden id="f-team_id" name="team_id">
+	      			<input type="text" hidden id="f-homework_id" name="homework_id">
 	      			<button type="submit" class="btn">提交</button>
 	      		</form>
     		   <h5>作业文件：</h5>
@@ -135,7 +137,15 @@
 	      ending_top: '10%', // Ending top style attribute
 	    }
   );
-  
+  	//实现异步表单提交
+			  	var options={
+			  		beforeSubmit:checkForm,
+			  		success : function(data){
+			  			alert("上传成功");
+			  			showSubmitFile(data.team_id,data.homework_id);			  			
+			  		}
+			  	};
+			  	$("#homeworkFileForm").ajaxForm(options);
 
   $(".collection-item").click(function(){
   		var team_id=$(this).attr('team_id');

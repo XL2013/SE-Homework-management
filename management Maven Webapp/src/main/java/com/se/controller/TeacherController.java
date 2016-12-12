@@ -56,7 +56,7 @@ public class TeacherController {
 			String message=null;
 			if(files.length==0) message="请选择提交的文件!!";
 			else{
-				studentService.readStudentInfo( files,course_id);
+				studentService.readStudentInfo(files,course_id);
 				message="提交成功";
 			}
 			return message;
@@ -78,7 +78,7 @@ public class TeacherController {
 		
 		@GetMapping(value="/courseList")
 		@ResponseBody
-		public Map<String,Object> ShowstudentList(String teacher_id){
+		public Map<String,Object> ShowCourseList(String teacher_id){
 			Map<String,Object> map=new HashMap<String, Object>();
 			map.put("courseList",courseService.getTeacherCourse(teacher_id));
 			return map;

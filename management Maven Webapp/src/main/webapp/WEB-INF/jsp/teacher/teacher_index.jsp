@@ -188,7 +188,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	//实现异步表单提交
 			  	var options={
 			  		success : function(data){
-			  			alert(data);
+			  			alert("上传成功");
 			  		}
 			  	};
 			  	$("#fileForm1").ajaxForm(options);

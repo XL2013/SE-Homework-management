@@ -1,5 +1,14 @@
 package com.se.pojo;
 
+/**
+ * status:{
+ * 		0:未提交,
+ * 		1：已提交,
+ * 		2：已批改
+ * }
+ * @author zzs
+ *
+ */
 public class TeamHomework {
 		private String team_id;
 		private String homework_id;

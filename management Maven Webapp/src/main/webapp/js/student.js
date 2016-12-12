@@ -199,7 +199,7 @@ function showHomeworkInfo(obj){
 			var files=data.files;
 			$("#m-files").empty();
 			for(var i in files){
-				var li="<li><a href=\"#!\">"+files[i].file_name+"</a></li>";
+				var li="<li><a href=\"#!\" onclick=\"fileDownload(this,'"+team_id+"','"+team_homework.homework_id+"')\">"+files[i].file_name+"</a></li>";
 				$("#m-files").append(li);
 			}
 			
@@ -236,8 +236,10 @@ function submitHomeworkInfo(obj){
 			//todo :设置文件下载链接
 			var files=data.files;
 			$("#m-submit_file").empty();
+			$("#f-team_id").val(team_id);
+			$("#f-homework_id").val(team_homework.homework_id);
 			for(var i in files){
-				var li="<li><a href=\"#!\">"+files[i].file_name+"</a></li>";
+				var li="<li><a href=\"#!\" onclick=\"fileDownload(this,'"+team_id+"','"+team_homework.homework_id+"')\">"+files[i].file_name+"</a></li>";
 				$("#m-submit_file").append(li);
 			}						
 		}
@@ -267,6 +269,53 @@ function submitComment(){
 	});
 }
 
+//表单方面
 
-
-
+function checkForm(){
+	var file_names=$(".file-path").val();
+	var team_id=$("#f-team_id").val();
+	var homework_id=$("#f-homework_id").val();
+	var isExist=false;
+	if(file_names==""){
+		alert("请选择一个文件");
+		return false;
+	}
+	else{//测试文件是否存在
+		$.ajax({
+			type:"post",
+			async:false,
+			url:"student/checkHomeworkFile",
+			data:{
+				"team_id":team_id,
+				"homework_id":homework_id,
+				"file_names":file_names
+			},
+			dataType:"json",
+			success: function(data){
+				isExist=data.isExist;
+			}
+		});
+		if(isExist)
+			return confirm("文件已存在，是否覆盖？");
+	}
+}
+function showSubmitFile(team_id,homework_id){
+	console.log("这里更新了 文件列表");
+}
+function submitTeamHomework(){
+	var team_id=$("#f-team_id").val();
+	var homework_id=$("#f-homework_id").val();
+	$.ajax({
+		type:"post",
+		url:"student/updateTeamHomework_status",
+		data:{
+			"team_id":team_id,
+			"homework_id":homework_id
+		}
+	});
+}
+function fileDownload(obj,team_id,homework_id){
+	var file_name=$(obj).text();
+	var url="file/download/team_id="+team_id+"&homework_id="+homework_id+"&file_name="+file_name;
+	window.location.href=url;
+}

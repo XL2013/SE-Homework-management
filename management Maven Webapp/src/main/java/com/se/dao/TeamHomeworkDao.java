@@ -56,8 +56,14 @@ public interface TeamHomeworkDao {
 			+ " values(#{team_id},#{homework_id},to_date(#{submit_time},'yyyy-mm-dd'),#{submitter},#{status},#{grade},#{correctInfo},#{student_comment})")
 	void addHomework(TeamHomework teamHomework);
 	
+	//以下都是部分更新，不知道以后能否替换掉
 	@Update("update team_homework set student_comment=#{comment} where homework_id=#{homework_id} and team_id=#{team_id}")
 	void setTeamHomeworkComment(@Param("homework_id")String homework_id,@Param("team_id")String team_id,@Param("comment")String comment);
+	
+	@Update("update team_homework set status=#{status} where team_id=#{team_id} and homework_id=#{homework_id}")
+	void setTeamHomeworkStatus(@Param("homework_id")String homework_id,@Param("team_id")String team_id,@Param("status")int status);
+	@Update("update team_homework set submit_time=to_date(#{submit_time},'yyyy-mm-dd' where ")
+	void setTeamHomeworkTime(@Param("homework_id")String homework_id,@Param("team_id")String team_id,@Param("submit_time")String submit_time);
 	
 	//作业文件部分数据库代码
 	@Insert("insert into homework_file(file_name,file_path,homework_id,team_id) values(#{file_name},#{file_path},#{homework_id},#{team_id})")
@@ -66,7 +72,9 @@ public interface TeamHomeworkDao {
 	@Select("select * from homework_file where homework_id=#{homework_id} and TEAM_ID=#{team_id}")
 	List<HomeworkFile> getTeamHomeworkFiles(@Param("homework_id")String homework_id,@Param("team_id")String team_id);
 	
-	@Select("select count(*) from homework_file where file_name=#{file_name} and file_path=#{file_path}")
-	int isFileExist(@Param("file_name")String file_name,@Param("file_path")String file_path);
+	@Select("select count(*) from homework_file where file_name=#{file_name} and team_id=#{team_id} and homework_id=#{homework_id}")
+	int isFileExist(@Param("file_name")String file_name,@Param("team_id")String team_id,@Param("homework_id")String homework_id);
+	
+
 	
 }
