@@ -40,17 +40,18 @@ public class TestDao  extends BaseJunitTest{
 	HomeworkDao homeworkDao ;
 	@Test
 	public void test(){
-			
-		Homework homework = new Homework();
-		homework.setHomework_id("2013101");
-		homework.setCourse_id("201310");
-		homework.setRelease_time("2013-04-06");
-		homework.setDescription("sdfadsf");
-		homework.setRatio(0.5);
-		homework.setUpload_time("2013-04-05");
-		homework.setHomework_name("diyici");
 		
-		homeworkDao.addHomework(homework);
+//		Homework homework = new Homework();
+//		homework.setHomework_id("2013101");
+//		homework.setCourse_id("201310");
+//		homework.setRelease_time("2013-04-06");
+//		homework.setDescription("sdfadsf");
+//		homework.setRatio(0.5);
+//		homework.setUpload_time("2013-04-05");
+//		homework.setHomework_name("diyici");
+//		
+//		homeworkDao.addHomework(homework);
+		homeworkDao.updateHomeworkRatio("2013102", 0.3);
 		//System.out.println(assistantDao.getAssistant(assistantDao.getTeamAssistant("20130400")).getAssistant_name());
 		
 	}

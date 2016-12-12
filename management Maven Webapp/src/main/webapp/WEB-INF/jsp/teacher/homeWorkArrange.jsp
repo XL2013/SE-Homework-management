@@ -45,8 +45,33 @@
 		</div>
 		      
 	  </div>
-	
+	 	<div id="modal1" class="modal">
+			<div class="modal-content">
+				<div class="row">
+				    <div>
+				    	<h5 class="green-text">请选择作业成绩比例</h5>
+					    <form action="#">
+					    	<p class="range-field">
+					    		<input type="range" name="leftratio" min="0\" max="100" />
+					    	</p>
+					    </form>
+				 	</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="green waves-green btn-flat" onclick="modifyHomeworkRatio(this)">完成</a>
+			</div>
+		</div>
 	</div>
 <<script type="text/javascript">
 	getHomeworksInfoByCourseID()
+	$('#modal1').modal({
+		dismissible: false, // Modal can be dismissed by clicking outside of the modal
+		opacity: .5, // Opacity of modal background
+		in_duration: 300, // Transition in duration
+		out_duration: 200, // Transition out duration
+		starting_top: '4%', // Starting top style attribute
+		ending_top: '10%', // Ending top style attribute
+	});
+	
 </script>

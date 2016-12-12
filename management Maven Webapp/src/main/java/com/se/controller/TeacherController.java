@@ -30,6 +30,8 @@ import com.se.service.impl.HomeworkServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
 import com.se.service.impl.TeamServiceImpl;
 
+import oracle.sql.DATE;
+
 @Controller
 @RequestMapping(value="/teacher")
 public class TeacherController {
@@ -92,11 +94,21 @@ public class TeacherController {
 			return new ModelAndView("/teacher/homeWorkArrange");
 		}
 		
+		@GetMapping(value="/homeWorkReview")
+		public ModelAndView homeWorkReview(String course_id){
+			return new ModelAndView("/teacher/homeWorkReview");
+		}
+		
 		@PostMapping(value="/homeWorksUpdateTab")
 		@ResponseBody
 		public Map<String,Object> homeWorksUpdateTab(@RequestBody List<Homework> homeworks){
 			for(Homework homework:homeworks){
 				System.out.println(homework.getUpload_time());
+				System.out.println(homework.getDescription());
+				System.out.println(homework.getHomework_id());
+				System.out.println(homework.getHomework_name());
+				System.out.println(homework.getRelease_time());
+				System.out.println(homework.getRatio());
 			}
 			homeworkService.addHomeworkInfos(homeworks);
 			Map<String,Object> map=new HashMap<String, Object>();
@@ -106,7 +118,8 @@ public class TeacherController {
 		
 		@GetMapping(value="/modifyHomeworkRatio")
 		@ResponseBody
-		public Map<String,Object> modifyHomeworkRatio(String homework_id, double ratio){	
+		public Map<String,Object> modifyHomeworkRatio(String homework_id, double ratio){
+			System.out.println("ratio:"+ratio);
 			homeworkService.modifyHomeworkRatio(homework_id, ratio);
 			Map<String,Object> map=new HashMap<String, Object>();
 			map.put("message","success"); 

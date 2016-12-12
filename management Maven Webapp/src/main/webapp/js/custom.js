@@ -82,7 +82,7 @@ function homeWorkArrangeTab(){
 		 	"<label for=\"homework_name\">作业名称</label>" +
 	 	"</div>" +
 	    "<div class=\"col s6\">"+
-	    	"<h6 class=\"white-text\">请选择作业成绩比例</h5>"+
+	    	"<h5 class=\"white-text\">请选择作业成绩比例</h5>"+
 		    "<form action=\"#\">"+
 		    	"<p class=\"range-field\">"+
 		    		"<input type=\"range\" id=\"ratio\" min=\"0\" max=\"100\" />"+
@@ -131,18 +131,17 @@ function homeWorksUpdateTab(){
 		data :JSON.stringify(info_list),
 		dataType :"json",
 		success : function(data){
-			homeWorksListUpdate(json_item)
+			homeWorksListUpdate(info_list)
 		}			
 	});
-	homeWorksListUpdate(info_list)
 }
 
 function homeWorksListUpdate(info_list){
 	for(var item in info_list){
-		alert(info_list[item].homework_name)
+		alert(info_list[item].homework_id)
 		var form  = 
-			"<li>"+
-			    "<div class=\"collapsible-header\"><span class=\"new badge\" data-badge-caption=\"-百分比\" onclick=\"modifyHomeworkRatio()\">"+info_list[item].ratio+"</span>"+info_list[item].homework_name+"</div>"+
+			"<li id=\""+info_list[item].homework_id+"\">"+
+			    "<div class=\"collapsible-header\"><span class=\"new badge\" data-badge-caption=\"-百分比\" onclick=\"openModifyRatio(this)\">"+info_list[item].ratio+"</span>"+info_list[item].homework_name+"</div>"+
 			    "<div class=\"collapsible-body\"><p>"+info_list[item].description+"</p></div>"+
 		    "</li>"
 		$("#home_work_show").append(form)
@@ -170,9 +169,16 @@ function getHomeworksInfoByCourseID(){
 	});
 }
 
-function modifyHomeworkRatio(){
-	alert("hehe")
-	var course_id=$(".course_id").val();
+function openModifyRatio(obj){
+	$("#modal1").modal("open");
+	$('#modal1').attr("name",$(obj).parent().parent().attr("id"));
+}
+
+function modifyHomeworkRatio(obj){
+	var ratio = parseInt($("#modal1").find("[name='leftratio']").val())/100.0
+	var homework_id = $('#modal1').attr("name")
+	
+	alert(ratio)
 	if(course_id==""){
 		alert("请选择一门课程");
 		return;
@@ -181,13 +187,14 @@ function modifyHomeworkRatio(){
 		type :"get",
 		url :"teacher/modifyHomeworkRatio",
 		data :{
-			"course_id" : course_id,
-			"ratio":$(this).text()
+			"homework_id" : homework_id,
+			"ratio":ratio
 		},
 		dataType :"json",
 		success : function(data){
 			var info_list = data.homeworkList;
 			homeWorksListUpdate(info_list);
+			$("#modal1").modal("close");
 		}			
 	});
 }
@@ -205,6 +212,51 @@ function changeAssistant(team_id,obj){
 		dataType:"json"
 	});
 	
+}
+
+function showHomeworkList(items){
+    $("#table-body").empty();
+    for(var item in items){
+    	var tr="<tr><td>"+items[item].team_id+"</td>"+
+    	"<td><a class='waves-effect waves-light btn' name='modify'>"+items[item].homework_name+"</a></td>"+
+    	"<td>"+items[item].submitter+"</td>"+
+    	"<td>"+items[item].grade+"</td>"+
+    	"<td>"+items[item].correctinfo+"</td>"+
+    	"<td>"+items[item].student_comment+"</td></tr>"
+		$("#table-body").append(tr);
+    }
+}
+
+function conditionSearch(items){
+	var time=$("#search_time").val()
+	var homework_name=$("#hoemwork_name").val()
+	var team_number=$("#team_number").val()
+	$.ajax({
+		type:"get",
+		url:"teacher/conditionSearch",
+		dataType:"json",
+		data:{
+			"search_time":search_time,
+			"homework_name":homework_name,
+			"team_number":team_number
+		},
+		success: function(data){
+		    var items=data.items;
+		    showHomeworkList(items);
+		}
+	});
+}
+
+function allSearch(){
+	$.ajax({
+		type:"get",
+		url:"teacher/allSearch",
+		dataType:"json",
+		success: function(data){
+		    var items=data.items;
+		    showHomeworkList(items);
+		}
+	});
 }
 
 
