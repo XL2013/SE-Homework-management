@@ -27,21 +27,6 @@
 		    </tr>
 		  </thead>
 		   <tbody id="t-homeworkBody">
-			<tr>
-		      <th>java第一次作业</th>
-		      <th>2013211001</th>
-		      <th>已提交</th>
-		      <th>90</th>
-		      <th>
-		      	<a id="showHomework" class="btn-floating red" onclick="">  <i class="material-icons" >visibility</i></a>
-		      </th>
-		      <th>
-		        <a id="submitHomework" class="btn-floating red" onclick="">  <i class="material-icons" >present_to_all</i></a>
-		      </th>
-		      <th>
-		        <a id="commentHomeWork" class="btn-floating red" onclick="">  <i class="material-icons" >comment</i></a>
-		      </th>
-		    </tr>
 			</tbody>
 		</table>
     </div> <!-- end of homeworkList -->
@@ -49,62 +34,57 @@
     <div class="modal modal-fixed-footer" id="homeworkInfo-modal">
       <div class="modal-content">
       	<div id="modal-title">
-      		<h5 id="m-homework_name">java第一次作业<span class="badge" id="m-homework_id">201301</span></h5>
+      		<h5 id="m-homework_name"><span class="badge" id="m-homework_id"></span></h5>
       		<div class="divider"></div>
       		<div class="row">
       		  <div class="col s6">
 	      		<label>发布时间:</label>
-	      		<a id="m-releaseTime">2013/06/19</a>
+	      		<a id="m-releaseTime"></a>
 	      	  </div>
 	      	 <div class="col s6">
-	      		<label>提交时间:</label>
-	      		<a id="m-submitTime">2013/06/19</a>
+	      		<label>截止时间:</label>
+	      		<a id="m-submitTime"></a>
 	      	  </div>
 	      	  <div class="col s12">
 	      	  	   <h5>作业文件：</h5>
 	      	       <ul id="m-files">
-	      	       	  <li><a href="#!">test.java</a></li>
-	      	       	  <li><a href="#!">test.java</a></li>
-	      	       	  <li><a href="#!">test.java</a></li>
    				   </ul>
 	      	  </div>
 	      	  <div class="divider"></div>
 	      	  <div class="col s12">
 	      	  	   <h5>批改说明</h5>
-	      	  	   <a id="m-correctInfo"> 这次作业写得不错</a>
+	      	  	   <a id="m-correctInfo"></a>
 	      	  </div>
 	      	  <div class="col s12">
 	      	  	   <h5>学生意见</h5>
-	      	  	   <a id="m-comment">作业太多</a>
+	      	  	   <a id="m-comment"></a>
 	      	  </div>
       		</div>
       	</div>
       </div>
       <div class="modal-footer ">
 	      	<a>本次成绩：</a>
-	      	<a id="m-homework_grade">90</a>
+	      	<a id="m-homework_grade"></a>
 	      	<a>总成绩：</a>
-	      	<a id="m-homework_total">10</a>
+	      	<a id="m-homework_total"></a>
 	      	<a>提交者：</a>
-	      	<a  id="m-homework_submitter">周志善</a>
+	      	<a  id="m-homework_submitter"></a>
       	<a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="">完成</a>
       </div>
     </div><!-- end of homeworkInfo_modal -->
     
      <div class="modal modal-fixed-footer" id="homeworkSubmit-modal">
       <div class="modal-content">
-     	<div id="modal-title">
-     		<h5 id="m-homework_name">java第一次作业<span class="badge" id="m-homework_id">201301</span></h5>
-     	</div>
+     	<h5 id="s-homework_name"><span class="badge" id="s-homework_id"></span></h5>
    		<div class="divider"></div>
    		<div class="row">
    		  <div class="col s6">
     		<label>发布时间:</label>
-    		<a>2013/06/19</a>
+    		<a id="s-releaseTime"></a>
      	  </div>
      	  <div class="col s6">
-     		<label>提交时间:</label>
-     		<a>2013/06/19</a>
+     		<label>截止时间:</label>
+     		<a id="s-submitTime"></a>
      	  </div>
      	  <div class="col s12">
 	     	  	<form id="homeworkFileForm" action="student/uploadHomeWorkFile">
@@ -120,11 +100,7 @@
 	      			<button type="submit" class="btn">提交</button>
 	      		</form>
     		   <h5>作业文件：</h5>
-    	       <ul>
-    	       	  <li><a href="#!">test.java</a></li>
-    	       	  <li><a href="#!">test.java</a></li>
-    	       	  <li><a href="#!">test.java</a></li>
-			   </ul>   
+    	       <ul id="m-submit_file"></ul>   
     	 </div>  <!-- end of col --> 		 
   		</div><!-- end of row -->
   	  </div><!-- end of content -->
@@ -139,11 +115,12 @@
      		 <div class="input-field col s12">
        		 <textarea id="comment-text" class="materialize-textarea"></textarea>
        		 <label for="comment-text">请填写你的意见</label>
+       		 <input type="text"  id="comment-homework_id"hidden>
        	   </div>
     	  </div>	 		
 	 	</div>
 	 	<div class="modal-footer">
-	 	   <a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="">完成</a>
+	 	   <a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="submitComment()">完成</a>
 	   </div>
 	 </div><!-- end of comment modal -->
     

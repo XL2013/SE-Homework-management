@@ -51,13 +51,11 @@ public class HomeworkServiceImpl implements HomeworkService{
 		teamHomeworkDao.addHomework(homework);
 	}
 	public void setComment(String comment,String homework_id,String team_id){
-		TeamHomework teamHomework=teamHomeworkDao.getHomeworkByID(homework_id, team_id);
-		teamHomework.setStudent_comment(comment);
-		teamHomeworkDao.updateHomework(teamHomework);
+		teamHomeworkDao.setTeamHomeworkComment(homework_id, team_id, comment);
 	}
 	@Override
 	public void updateTeamHomework(TeamHomework teamHomework) {
-		teamHomeworkDao.updateHomework(teamHomework);		
+		teamHomeworkDao.updateTeamHomework(teamHomework);		
 	}
 	@Override
 	public List<HomeworkFile> getTeamHomewokFiles(String homework_id, String team_id) {
@@ -73,6 +71,13 @@ public class HomeworkServiceImpl implements HomeworkService{
 	
 	public List<Homework> getHomeworksInfoByCourseID(String courseID){
 		return homeworkDao.getHomeworksInfoByCourseID(courseID);
+	}
+
+
+	@Override
+	public Homework getHomework(String homework_id) {
+		// TODO Auto-generated method stub
+		return homeworkDao.getHomeworkById(homework_id);
 	}
 
 }
