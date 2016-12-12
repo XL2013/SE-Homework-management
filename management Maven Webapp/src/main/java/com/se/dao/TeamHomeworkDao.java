@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.junit.runners.Parameterized.Parameters;
 import org.springframework.stereotype.Repository;
 
 import com.se.pojo.Homework;
@@ -22,14 +23,17 @@ public interface TeamHomeworkDao {
 	@Select("select * from team_homework where homework_id=#{homework_id} and team_id=#{team_id}")
 	TeamHomework getHomeworkByID(@Param("homework_id")String homework_id,@Param("team_id")String team_id);
 	
-	@Update("update team_homework set submit_time=#{submit_time},submitter=#{submitter}"
+	@Update("update team_homework set submit_time=to_date(#{submit_time},'yyyy-mm-dd'),submitter=#{submitter}"
 			+ ",status=#{status},grade=#{grade},correctInfo=#{correctInfo},student_comment=#{student_comment} "
 			+ " where homework_id=#{homework_id} and team_id=#{team_id}")
-	void updateHomework(TeamHomework teamHomework);
+	void updateTeamHomework(TeamHomework teamHomework);
 	
 	@Insert("insert into team_homework(team_id,homework_id,submit_time,submitter,status,grade,correctInfo,student_comment) "
 			+ " values(#{team_id},#{homework_id},to_date(#{submit_time},'yyyy-mm-dd'),#{submitter},#{status},#{grade},#{correctInfo},#{student_comment})")
 	void addHomework(TeamHomework teamHomework);
+	
+	@Update("update team_homework set student_comment=#{comment} where homework_id=#{homework_id} and team_id=#{team_id}")
+	void setTeamHomeworkComment(@Param("homework_id")String homework_id,@Param("team_id")String team_id,@Param("comment")String comment);
 	
 	//作业文件部分数据库代码
 	@Insert("insert into homework_file(file_name,file_path,homework_id,team_id) values(#{file_name},#{file_path},#{homework_id},#{team_id})")

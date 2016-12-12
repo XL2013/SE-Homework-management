@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.se.pojo.Homework;
 import com.se.pojo.HomeworkFile;
 import com.se.pojo.Student;
 import com.se.pojo.Team;
@@ -23,6 +24,8 @@ import com.se.service.HomeworkService;
 import com.se.service.impl.CourseServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
 import com.se.service.impl.TeamServiceImpl;
+
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping(value="/student")
@@ -191,7 +194,9 @@ public class StudentController {
 				status="已提交";
 			else
 				status="已批改";
-			String homework_name="";//这里得到homeworkname
+			String homework_name="";
+			if( homeworkService.getHomework(homework_id)!=null)
+				homework_name=homeworkService.getHomework(homework_id).getHomework_name();						
 			map.put("homework_id", homework_id);
 			map.put("status", status);
 			map.put("homework_name", homework_name);
@@ -210,11 +215,18 @@ public class StudentController {
 	public Map<String,Object> getTeamHomework(String team_id,String homework_id){
 		Map<String,Object> data=new HashMap<String, Object>();
 		TeamHomework team_homework=homeworkService.getTeamHomework(homework_id, team_id);
-		
 		List<HomeworkFile> files=homeworkService.getTeamHomewokFiles(homework_id, team_id);
+		Homework homework=homeworkService.getHomework(homework_id);
+		data.put("homework", homework);
 		data.put("team_homework", team_homework);
 		data.put("files", files);
 		return data;
+	}
+	
+	@PostMapping(value="setTeamHomeworkComment")
+	@ResponseBody
+	public void setTeamHomeworkComment(String team_id,String homework_id,String comment){
+		homeworkService.setComment(comment, homework_id, team_id);		
 	}
 	
 }
