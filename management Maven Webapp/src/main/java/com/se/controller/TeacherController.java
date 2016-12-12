@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.se.dao.TeamConfigDao;
+import com.se.dao.TeamHomeworkDao;
 import com.se.pojo.Assistant;
 import com.se.pojo.Course;
 import com.se.pojo.Homework;
@@ -94,6 +95,23 @@ public class TeacherController {
 			return new ModelAndView("/teacher/homeWorkArrange");
 		}
 		
+		@GetMapping(value="/allSearch")
+		@ResponseBody
+		public Map<String,Object> allSearch(){
+			Map<String,Object> map=new HashMap<String, Object>();
+			map=homeworkService.getTeamHomeworkViewData();
+			return map;
+		}
+		
+		@PostMapping(value="/conditionSearch")
+		@ResponseBody
+		public Map<String,Object> conditionSearch(String homework_name, String submit_time, String team_id){
+			System.out.println(homework_name);
+			System.out.println(submit_time);
+			System.out.println(team_id);
+			return homeworkService.getTeamHomeworkViewData(homework_name, submit_time, team_id);
+		}
+		
 		@GetMapping(value="/homeWorkReview")
 		public ModelAndView homeWorkReview(String course_id){
 			return new ModelAndView("/teacher/homeWorkReview");
@@ -102,14 +120,6 @@ public class TeacherController {
 		@PostMapping(value="/homeWorksUpdateTab")
 		@ResponseBody
 		public Map<String,Object> homeWorksUpdateTab(@RequestBody List<Homework> homeworks){
-			for(Homework homework:homeworks){
-				System.out.println(homework.getUpload_time());
-				System.out.println(homework.getDescription());
-				System.out.println(homework.getHomework_id());
-				System.out.println(homework.getHomework_name());
-				System.out.println(homework.getRelease_time());
-				System.out.println(homework.getRatio());
-			}
 			homeworkService.addHomeworkInfos(homeworks);
 			Map<String,Object> map=new HashMap<String, Object>();
 			map.put("message","success"); 

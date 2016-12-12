@@ -26,6 +26,9 @@ public interface HomeworkDao {
 	@Update("update homework_table set ratio=#{ratio} where homework_id=#{homework_id}")
 	void updateHomeworkRatio(@Param("homework_id")String homework_id, @Param("ratio")double ratio);
 	
+	@Select("select ratio from homework_table where homework_id=#{homework_id}")
+	double getRatioByHomeworkID(String homework_id);
+	
 	@Select("select * from homework_table where homework_id=#{homework_id}")
 	Homework getHomeworkById(String homework_id);
 

@@ -1,9 +1,15 @@
 package com.se.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.mockito.internal.matchers.And;
 import org.springframework.stereotype.Service;
 
 import com.se.dao.TeamHomeworkDao;
@@ -34,6 +40,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 		
 		return  teamHomeworkDao.getTeamHomeWorks(team_id);
 	}
+	
 	@Override
 	public TeamHomework getTeamHomework(String homework_id,String team_id) {
 		return teamHomeworkDao.getHomeworkByID(homework_id,team_id);
@@ -78,6 +85,58 @@ public class HomeworkServiceImpl implements HomeworkService{
 	public Homework getHomework(String homework_id) {
 		// TODO Auto-generated method stub
 		return homeworkDao.getHomeworkById(homework_id);
+	}
+
+
+	@Override
+	public Map<String, Object> getTeamHomeworkViewData() {
+		// TODO Auto-generated method stub
+		List<TeamHomework> teamHomeworks = teamHomeworkDao.getTeamHomeworkViewData();
+		List<String> homework_names = new ArrayList<>();
+		List<Double> homework_ratios = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
+		map.put("teamHomeworks", teamHomeworks);
+		for(TeamHomework teamHomework:teamHomeworks){
+			String homework_id = teamHomework.getHomework_id();
+			String homework_name = teamHomeworkDao.getHomeworkName(homework_id);
+			double homework_ratio = homeworkDao.getRatioByHomeworkID(homework_id);
+			homework_names.add(homework_name);
+			homework_ratios.add(homework_ratio);
+		}
+		map.put("homework_ratios", homework_ratios);
+		map.put("homework_names", homework_names);
+		return map;
+	}
+
+
+	@Override
+	public Map<String, Object> getTeamHomeworkViewData(String homework_name, String submit_time, String team_id) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		
+		if(submit_time!="" && team_id!=""){
+			map.put("teamHomeworks",teamHomeworkDao.getTeamHomeworkViewDataByNameTeamIDTime(homework_name, team_id, submit_time));
+		}
+		else if(team_id!="" && team_id=="")
+			map.put("teamHomeworks",teamHomeworkDao.getTeamHomeworkViewDataByNameTeamID(homework_name, team_id));
+		else if(team_id=="" && team_id!=""){
+			map.put("teamHomeworks",teamHomeworkDao.getTeamHomeworkViewDataByNameTime(homework_name, submit_time));
+		}
+		else{
+			map.put("teamHomeworks", teamHomeworkDao.getTeamHomeworkViewDataByName(homework_name));
+		}
+		List<String> homework_names = new ArrayList<>();
+		List<Double> homework_ratios = new ArrayList<>();
+		for(TeamHomework teamHomework: (List<TeamHomework>)map.get("teamHomeworks")){
+			String homework_id = teamHomework.getHomework_id();
+			String homeworkname = teamHomeworkDao.getHomeworkName(homework_id);
+			double homework_ratio = homeworkDao.getRatioByHomeworkID(homework_id);
+			homework_names.add(homeworkname);
+			homework_ratios.add(homework_ratio);
+		}
+		map.put("homework_names", homework_names);
+		map.put("homework_ratios", homework_ratios);
+		return map;
 	}
 
 }
