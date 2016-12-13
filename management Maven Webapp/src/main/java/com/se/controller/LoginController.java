@@ -39,7 +39,7 @@ public class LoginController {
 				mv=new ModelAndView("/teacher/teacher_index","teacher_id",user_id);
 			}
 			else if(user.getUser_role()==2){
-				mv=new ModelAndView("/assistant/assistant_index");
+				mv=new ModelAndView("/assistant/assistant_index","user",user);
 			}
 			else if(user.getUser_role()==3){
 				mv=new ModelAndView("/student/student_index","user",user);
@@ -47,7 +47,7 @@ public class LoginController {
 		}
 		else{
 			message="用户验证失败";
-			mv = new ModelAndView("/login","message",message);
+			mv = new ModelAndView("/login");
 		}
 		return mv;
 	}

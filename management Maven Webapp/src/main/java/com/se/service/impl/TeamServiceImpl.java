@@ -133,5 +133,9 @@ public class TeamServiceImpl implements TeamService {
 		return teamDao.getCourseTeams(course_id);
 	}
 	
+	public void setTeamLeader(String team_id,String leader_id){
+		teamDao.setTeamLeader(team_id, leader_id);
+	}
+	
 
 }

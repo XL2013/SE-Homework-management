@@ -52,12 +52,12 @@ public class StudentServiceImpl implements StudentService {
 	private TeamHomeworkDao teamHomeworkDao;
 	@Resource
 	private RollCallDao rollCallDao;
+	@Resource
 	private StudentGradeDao studentGradeDao;
 	/**
-	 * excel表定义:
+	 * 
 	 * student_id  | class_id | student_name
-	 * @focus:必须如此，否则会出现写入错误的数据的情况
-	 * @todo:增加表格验证,可能后续还要增加事物操作，因为是一次性写入数据。
+	 * 
 	 */
 	public void addStudentList(Workbook wb,String course_id) {		
 			//Read the sheets
@@ -189,9 +189,14 @@ public class StudentServiceImpl implements StudentService {
 			list.add(list2);
 		}
 		return list;
+	}
 	@Override
 	public int getStudentCourseGrade(String course_id, String student_id) {
-			return studentGradeDao.getStudentCourseGrade(course_id, student_id);
+			if(studentGradeDao.getStudentCourseGrade(course_id, student_id)==null)
+				return 0;
+			else {
+				return studentGradeDao.getStudentCourseGrade(course_id, student_id).getGrade();
+			}
 	}
 	@Override
 	public void addStudentCourseGrade(String course_id, String student_id, int grade) {

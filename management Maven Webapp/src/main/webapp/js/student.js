@@ -332,6 +332,10 @@ function showHomeworkGrade(course_id,student_id){
 		 },
 		 dataType:"json",
 		 success : function(data){
+			 if(!data.isTeamExist){
+				 alert("你未拥有该课程的小组");
+				 return;
+			 }
 			 //初始化成绩显示模块
 			 var gradeBody="	<h4>成绩列表</h4>"+
 				  	"<div class=\"divider\"></div>"+
@@ -340,13 +344,13 @@ function showHomeworkGrade(course_id,student_id){
 					"<div class=\"divider\"></div>"+
 					"<div class=\"row\">"+
 					 "<div class=\"col s4\">"+
-					  " <h6>总点到次数： <a id=\"rollCallTimes\">4</a></h6>"+		  
+					  " <h6>总点到次数： <a id=\"rollCallTimes\"></a></h6>"+		  
 					 "</div>"+
 					" <div class=\"col s4\">"+
-					 "  <h6>缺勤次数： <a id=\"absenceTimes\">3</a></h6>	"+	  
+					 "  <h6>缺勤次数： <a id=\"absenceTimes\"></a></h6>	"+	  
 					" </div>"+
 					" <div class=\"col s4\">"+
-					   "<h6>课程总成绩：<a id=\"totalGrade\">90</a></h6></div></div>	";
+					   "<h6>课程总成绩：<a id=\"totalGrade\"></a></h6></div></div>	";
 			 $("#grade-body").empty();
 			 $("#grade-body").append(gradeBody);
 			 
@@ -357,7 +361,7 @@ function showHomeworkGrade(course_id,student_id){
 				 	"</th><th>"+gradeInfos[i].grade+"</th></tr>";
 				 $("#t-homework_grade_body").append(tr);
 			 }
-			 $("#rollCallTimes").text(data.rollCalltimes);
+			 $("#rollCallTimes").text(data.rollCallTimes);
 			 $("#absenceTimes").text(data.absenceTimes);
 			 $("#totalGrade").text(data.totalGrade);
 			}

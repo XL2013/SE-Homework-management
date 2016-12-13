@@ -27,4 +27,7 @@ public interface AssistantDao {
 	
 	@Update("update assistant_team set assistant_id=#{assistant_id} where team_id=#{team_id}")
 	void setTeamAssistant(@Param("team_id")String team_id,@Param("assistant_id")String assistant_id);
+	
+	@Select("select team_id from assistant_team where assistant_id=#{assistant_id}")
+	List<String> getAssistantTeams(String assistant_id);
 }

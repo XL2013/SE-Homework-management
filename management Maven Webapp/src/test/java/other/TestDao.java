@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.se.dao.AssistantDao;
 import com.se.dao.CourseDao;
 import com.se.dao.StudentDao;
+import com.se.dao.StudentGradeDao;
 import com.se.dao.TeamDao;
 import com.se.dao.TeamHomeworkDao;
 import com.se.dao.UserDao;
@@ -46,12 +47,14 @@ public class TestDao  extends BaseJunitTest{
 	
 	@Resource
 	TeamHomeworkDao teamHomeworkDao;
+	@Resource
+	StudentGradeDao studentGradeDao;
 	
 	@Resource
 	RollCallDao rollCallDao;
 	@Test
 	public void test(){
-			
+			System.out.print(studentGradeDao.getStudentCourseGrade("201310", "2013211001"));
 		
 	}
 }

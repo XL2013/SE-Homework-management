@@ -20,5 +20,6 @@ public interface TeamService {
 	void addTeamMember(String team_id,String student_id);
 	
 	List<Team> getCourseTeam(String course_id);
+	public void setTeamLeader(String team_id,String leader_id);
 
 }

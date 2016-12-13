@@ -8,12 +8,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
    	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-  	<link type="text/css" rel="stylesheet" href="css/layout.css" >
+  	<link type="text/css" rel="stylesheet" href="css/student.css" >
  	 <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>
     <script type="text/javascript" src="js/materialize.js"></script>
-    <script type="text/javascript" src="js/custom.js"></script>
+    <script type="text/javascript" src="js/assistant.js"></script>
   </head>
   
   <body>
@@ -25,18 +25,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       <img src="img/bupt_1.jpg">
 			     </div>
 		      <a href="#!user"><img class="circle" src="img/bupt-logo.png"></a>
-		      <a href="#!name"><span class="white-text name">助教姓名</span></a>
-		      <a href="#!email"><span class="white-text email">负责课程：</span></a>
+		      <a href="#!name"><span class="white-text name">助教:${user.user_name}</span></a>
+		      <a href="#!email"><span class="white-text " id="assistant_id">${user.user_id}</span></a>
 		   	   </div>
 		    </li>
-		    <li><a href="#!">批改作业 <span class="new badge red" data-badge-caption="未批改">4</span></a></li>
-		    <li><a href="#!">负责小组</a></li>
-		    <li><a href="#!">学生名单</a></li>
+		    <li><a href="#!" onclick="assistantTab('assistant/correctHomework')">批改作业 <span class="new badge red" data-badge-caption="未批改">4</span></a></li>
+		    <li><a href="#!" onclick="assistantTab('assistant/team')">负责小组</a></li>
+		    <li><a href="#!" onclick="assistantTab('assistant/studentList')">学生名单</a></li>
   		</ul>
   		<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
   	</div>
+  	<div class="main">
+  	</div>
   	<script>
   	 $(".button-collapse").sideNav();
+  	 assistantTab("assistant/team");
   	</script>
   </body>
 </html>
