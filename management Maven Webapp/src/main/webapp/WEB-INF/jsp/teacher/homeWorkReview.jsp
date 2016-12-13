@@ -27,52 +27,47 @@
 		    <div class="collapsible-body">
 		      <div class="row">
     			  <div class="input-field">
-          			<input id="homework_name" type="text" class="validate">
-          			<label for="hoemwork_name">作业名称</label>
+          			<input id="homework_name1" type="text" class="validate">
+          			<label for="homework_name1">作业名称</label>
         		  </div>
         		  <div class="input-field">
           			<h5 class="green-text">提交日期条件</h5>
-          			<input id="search_time" type="date" class="datepicker">
+          			<input id="search_time1" type="date" class="datepicker">
         		  </div>
         		  <div class="input-field">
-          			<input id="team_number" type="text" class="validate">
-          			<label for="team_number">小组编号</label>
+          			<input id="team_number1" type="text" class="validate">
+          			<label for="team_number1">小组编号</label>
         		  </div>
-        		  <a class="waves-effect waves-light btn" onclick="conditionSearch()">查询</a>
+        		  <a class="waves-effect waves-light btn" onclick="conditionSearch(this)">查询</a>
     		  </div>
     		 </div>
 		  </li>
+		  <li>
+		    <div class="collapsible-header" onclick="allSearch()">计算个人成绩<i class="material-icons">send</i></div>
+		  </li>
+		  
 		</ul>
 	  </div>
 	
 	  <div class="col s9">
 	    <!-- Teal page content  -->
 	     <div class="row">
-		 	  	<h4 class="center-align" id="title" name="${data.role}"></h4>
+		 	  	<h4 class="center-align" id="title"></h4>
 		 	  	<div class="divider"></div>
 		 	    <table class="centered ">
-		 	  	  <thead>
+		 	  	  <thead id="table-head">
 		 	  	  	<tr>
+		 	  	  	  <th>提交时间</th>
 		 	  	  	  <th data-field="name">小组编号</th>
 		 	  	  	  <th data-field="pwd">作业名称</th>
 		 	  	  	  <th data-filed="role">提交人姓名</th>
 		 	  	  	  <th>成绩</th>
 		 	  	  	  <th>批改说明</th>
 		 	  	  	  <th>学生意见</th>
-		 	  	  	  <th>
+		 	  	  	  <th>期末占分</th>
 		 	  	  	</tr>
 		 	  	  </thead>
 		 	  	  <tbody id="table-body">
-		 	  	  	<c:forEach var="user" items="${data.userList}">
-		 	  	  	  <tr class="hoverable striped" id="${user.user_id}">
-		 	  	  	  	<td>${user.user_id}</td>
-		 	  	  	  	<td>${user.user_name}</td>
-		 	  	  	  	<td>${user.user_pwd}</td>
-		 	  	  	  	<td>${user.user_role}</td>
-		 	  	  	  	<td><a class="waves-effect waves-light btn" name="modify">修改</a></td>
-		 	  	  	  	<td><a class="waves-effect waves-light btn" name="delete">删除</a></td>
-		 	  	  	  </tr>
-		 	  	  	</c:forEach>
 		 	  	  </tbody>
 		 	  	</table>
 		 	  </div>

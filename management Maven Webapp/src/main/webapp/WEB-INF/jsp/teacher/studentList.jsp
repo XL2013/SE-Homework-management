@@ -1,33 +1,51 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"  pageEncoding="UTF-8"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<head>
+<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+<link type="text/css" rel="stylesheet" href="css/layout.css" >
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+<!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="js/jquery.form.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="js/custom.js"></script>
+
+</head>
   
- <div class="container">
+ <div >
  	<div class="row">
- 	  <div class="col offset-l2 l10">
- 	  	<h4 class="center-align">学生名单</h4>
- 	  	<div class="divider"></div>
- 	    <table class="centered ">
- 	  	  <thead>
- 	  	  	<tr>
- 	  	  	  <th data-field="id">学生ID</th>
- 	  	  	  <th data-field="name">学生姓名</th>
- 	  	  	  <th data-field="class">学生班级</th>
- 	  	  	</tr>
- 	  	  </thead>
- 	  	  <tbody >
- 	  	  	<c:forEach var="student" items="${studentList}">
- 	  	  	  <tr class="hoverable striped">
- 	  	  	  	<td >${student.student_id}</td>
- 	  	  	  	<td>${student.student_name }</td>
- 	  	  	  	<td>${student.class_id }</td>
- 	  	  	  </tr>
- 	  	  	</c:forEach>
- 	  	  </tbody>
- 	  	</table>
- 	  	
+ 	  <div class="col s3">
+	    <!-- Grey navigation panel -->
+	    <ul class="collapsible" data-collapsible="accordion">
+    	<li>	
+	        <div class="collapsible-header" id="rollCallTimeIdentifier" name=1>请选择点名次数</div>
+	        <div class="collapsible-body">
+	        	<ul class="collection">
+		        <c:forEach  var="i" begin="1" end="5">
+		        	<a href="#!" class="collection-item waves-effect waves-teal" onclick="rollCallTab('teacher/studentRollCall',${i})">
+		        	<i class="material-icons">send</i>
+		        		第${i}次
+		        	</a>
+		        </c:forEach>
+		        </ul>
+	        </div>
+        </li>
+        <li>
+        	<div class="collapsible-header" id="ResultsIdentifier" onclick="rollCallTab('teacher/studentResult',${i})">查看学生成绩</div>
+        </li>
+        </ul>
+	  </div>
+	  
+ 	  <div class="col s9" name="rollCallTab">
+	  	
  	  </div>
  	</div>
  </div>
-
+ 
+ <script type="text/javascript">
+	  $(document).ready(function(){
+	    $('.collapsible').collapsible();
+ 	  });
+ </script>

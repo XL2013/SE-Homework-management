@@ -70,6 +70,27 @@ function courseTab(url){
 		}			
 	});
 }
+function rollCallTab(url,rollcall_number){
+	var course_id=$(".course_id").val();
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	$("[name='rollCallTab']").empty();
+	$.ajax({
+		type :"get",
+		url :url,
+		data :{
+			"course_id" : course_id,
+//			"rollcall_number":rollcall_number
+		},
+		dataType :"html",
+		success : function(data){
+			$("[name='rollCallTab']").empty();
+			$("[name='rollCallTab']").html(data);
+		}			
+	});
+}
 
 function homeWorkArrangeTab(){
 	 var num = $("#home_work_show").children("li").length+$("#tab_contents").children("#test").length
@@ -110,7 +131,6 @@ function homeWorksUpdateTab(){
 		var home_work_name = $(this).find("#homework_name").val()
 		var ratio = parseInt($(this).find("#ratio").val())/100.0
 		var homework_num  = parseInt($(this).attr("name"))
-		alert(homework_num)
 		var descript = $(this).find("#email").val()
 		var upload_time = $(this).find(".datepicker").val()
 		var json_item={
@@ -138,7 +158,6 @@ function homeWorksUpdateTab(){
 
 function homeWorksListUpdate(info_list){
 	for(var item in info_list){
-		alert(info_list[item].homework_id)
 		var form  = 
 			"<li id=\""+info_list[item].homework_id+"\">"+
 			    "<div class=\"collapsible-header\"><span class=\"new badge\" data-badge-caption=\"-百分比\" onclick=\"openModifyRatio(this)\">"+info_list[item].ratio+"</span>"+info_list[item].homework_name+"</div>"+
@@ -174,15 +193,58 @@ function openModifyRatio(obj){
 	$('#modal1').attr("name",$(obj).parent().parent().attr("id"));
 }
 
-function modifyHomeworkRatio(obj){
-	var ratio = parseInt($("#modal1").find("[name='leftratio']").val())/100.0
-	var homework_id = $('#modal1').attr("name")
-	
-	alert(ratio)
+function changeRollCallTime(i){
+	$("#rollCallTimeIdentifier").attr("name",i)
+	$("#studentListTitle").text("第"+i+"次点名学生名单")
+}
+
+function modifyStudentRollCallStat(){
+	//To-do
+	updateStudentRollCallStat()
+	var rollCallTime=$("#rollCallTimeIdentifier").attr("name")
+	var course_id=$(".course_id").val();
 	if(course_id==""){
 		alert("请选择一门课程");
 		return;
 	}
+	var student_ids = []
+	$("[name=\"checkbox\"]").each(function(i,obj){
+		if(typeof($(this).attr("checked"))=="undefined")
+			student_ids.push($(this).attr("id"));
+	})
+	
+	$.ajax({
+		type :"get",
+		url :"teacher/modifyStudentRollCallStat",
+		data :{
+			"course_id" : course_id,
+			"roll_call_id": rollCallTime,
+			"student_ids": student_ids
+		},
+		dataType :"json",
+		success : function(data){
+			alert("点名成功")
+		}			
+	});
+}
+
+function updateStudentRollCallStat(student_ids){
+	$("[name=\"checkbox\"]").each(function(i,obj){
+		console.log(student_ids)
+		console.log($(this).attr("id"))
+		if($.inArray($(this).attr("id"),student_ids)!=-1)
+			$(this).attr("checked","checked")
+	})
+}
+
+function modifyHomeworkRatio(obj){
+	var ratio = parseInt($("#modal1").find("[name='leftratio']").val())/100.0
+	var homework_id = $('#modal1').attr("name")
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+
 	$.ajax({
 		type :"get",
 		url :"teacher/modifyHomeworkRatio",
@@ -215,48 +277,102 @@ function changeAssistant(team_id,obj){
 }
 
 function showHomeworkList(items){
+	teamHomeworks=items.teamHomeworks
+	homework_names=items.homework_names
+	homework_ratios=items.homework_ratios
+	for(var i in teamHomeworks){
+		teamHomeworks[i].homework_name=homework_names[i];
+		teamHomeworks[i].ratio=homework_ratios[i];
+		teamHomeworks[i].submit_time=teamHomeworks[i].submit_time.substr(0,10)
+	}
+	
+	items=teamHomeworks
     $("#table-body").empty();
     for(var item in items){
     	var tr="<tr><td>"+items[item].team_id+"</td>"+
+    	"<td>"+items[item].submit_time+"</td>"+
     	"<td><a class='waves-effect waves-light btn' name='modify'>"+items[item].homework_name+"</a></td>"+
     	"<td>"+items[item].submitter+"</td>"+
     	"<td>"+items[item].grade+"</td>"+
     	"<td>"+items[item].correctinfo+"</td>"+
-    	"<td>"+items[item].student_comment+"</td></tr>"
+    	"<td>"+items[item].student_comment+"</td>" +
+    	"<td>"+items[item].ratio*items[item].grade+"</td></tr>"
 		$("#table-body").append(tr);
     }
 }
 
-function conditionSearch(items){
-	var time=$("#search_time").val()
-	var homework_name=$("#hoemwork_name").val()
-	var team_number=$("#team_number").val()
+function conditionSearch(obj){
+	var time=$("#search_time1").val()
+	var homework_name=$("#homework_name1").val()
+	var team_number=$("#team_number1").val()
+	
+  	var tr="<tr>"
+  	  "<th>提交时间</th>"
+  	  "<th data-field=\"name\">小组编号</th>"+
+  	  "<th data-field=\"pwd\">作业名称</th>"+
+  	  "<th data-filed=\"role\">提交人姓名</th>"+
+  	  "<th>成绩</th>"+
+  	  "<th>批改说明</th>"+
+  	  "<th>学生意见</th>"+
+  	  "<th>期末占分</th>"+
+  	"</tr>"
+  	$("#table-head").empty();
+  	$("#table-head").append(tr);
+	alert(homework_name)
 	$.ajax({
-		type:"get",
+		type:"post",
 		url:"teacher/conditionSearch",
 		dataType:"json",
 		data:{
-			"search_time":search_time,
+			"submit_time":time,
 			"homework_name":homework_name,
-			"team_number":team_number
+			"team_id":team_number
 		},
 		success: function(data){
-		    var items=data.items;
+			alert(data.homework_names.length)
+		    var items=data;
 		    showHomeworkList(items);
 		}
 	});
 }
 
 function allSearch(){
+  	var tr="<tr>"+
+    	  "<th>提交时间</th>"+
+    	  "<th data-field=\"name\">小组编号</th>"+
+    	  "<th data-field=\"pwd\">作业名称</th>"+
+    	  "<th data-filed=\"role\">提交人姓名</th>"+
+    	  "<th>成绩</th>"+
+    	  "<th>批改说明</th>"+
+    	  "<th>学生意见</th>"+
+    	  "<th>期末占分</th>"+
+    	"</tr>"
+	$("#table-head").empty();
+	$("#table-head").append(tr);
 	$.ajax({
 		type:"get",
 		url:"teacher/allSearch",
 		dataType:"json",
 		success: function(data){
-		    var items=data.items;
+		    var items=data;
 		    showHomeworkList(items);
 		}
 	});
+}
+
+function computeStudentFinalGrade(){
+  	var tr="<tr>"+
+  	  "<th>提交时间</th>"+
+  	  "<th>小组编号</th>"+
+  	  "<th>作业名称</th>"+
+  	  "<th>提交人姓名</th>"+
+  	  "<th>成绩</th>"+
+  	  "<th>批改说明</th>"+
+  	  "<th>学生意见</th>"+
+  	  "<th>期末占分</th>"+
+  	"</tr>"
+	$("#table-head").empty();
+	$("#table-head").append(tr);
 }
 
 

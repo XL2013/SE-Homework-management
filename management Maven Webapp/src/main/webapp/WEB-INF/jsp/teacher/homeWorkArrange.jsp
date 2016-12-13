@@ -20,7 +20,7 @@
 	    <!-- Grey navigation panel -->
 	    <ul class="collapsible" data-collapsible="accordion" id="home_work_show">
 	      <li>
-	         <h4 class="header center hide-on-med-and-down" >已布置的作业</h2>
+	         <h4 class="header center hide-on-med-and-down" >已布置的作业</h4>
 	      </li>
 		</ul>
 	  </div>
@@ -63,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-<<script type="text/javascript">
+<script type="text/javascript">
 	getHomeworksInfoByCourseID()
 	$('#modal1').modal({
 		dismissible: false, // Modal can be dismissed by clicking outside of the modal

@@ -2,6 +2,7 @@ package com.se.dao;
 
 import java.util.List;
 
+import org.apache.commons.collections4.Get;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -20,8 +21,31 @@ public interface TeamHomeworkDao {
 	@Select("select * from team_homework where team_id=#{team_id}")
 	List<TeamHomework> getTeamHomeWorks(String team_id);
 	
+	@Select("select * from team_homework order by submit_time desc")
+	List<TeamHomework> getTeamHomeworkViewData();
+	
 	@Select("select * from team_homework where homework_id=#{homework_id} and team_id=#{team_id}")
 	TeamHomework getHomeworkByID(@Param("homework_id")String homework_id,@Param("team_id")String team_id);
+	
+	//teamHomeworkView
+	@Select("select * from team_homework,homework_table where "
+			+ "homework_name like concat(concat('%',#{homework_name}),'%')  submit_time=to_date(#{submit_time},'yyyy-mm-dd') and team_homework.homework_id=homework_table.homework_id")
+	List<TeamHomework> getTeamHomeworkViewDataByNameTime(@Param("homework_name")String homework_name,@Param("submit_time")String submit_time); 
+	
+	
+	@Select("select * from team_homework,homework_table where homework_name like concat(concat('%',#{homework_name}),'%') and team_homework.homework_id=homework_table.homework_id")
+	List<TeamHomework> getTeamHomeworkViewDataByName(@Param("homework_name")String homework_name); 
+
+	@Select("select * from team_homework,homework_table where homework_name like concat(concat('%',#{homework_name}),'%') and team_id=#{team_id}")
+	List<TeamHomework> getTeamHomeworkViewDataByNameTeamID(@Param("homework_name") String homework_name, @Param("team_id") String team_id);
+	
+	@Select("select * from team_homework,homework_table where "
+			+ "homework_name like concat(concat('%',#{homework_name}),'%') and team_id=#{team_id} and submit_time=to_date(#{submit_time},'yyyy-mm-dd')")
+	List<TeamHomework> getTeamHomeworkViewDataByNameTeamIDTime(@Param("homework_name") String homework_name, @Param("team_id") String team, @Param("submit_time") String submit_time);
+	
+	//
+	@Select("select homework_name from homework_table where homework_id=#{homework_id}")
+	String getHomeworkName(String homework_id);
 	
 	@Update("update team_homework set submit_time=to_date(#{submit_time},'yyyy-mm-dd'),submitter=#{submitter}"
 			+ ",status=#{status},grade=#{grade},correctInfo=#{correctInfo},student_comment=#{student_comment} "
