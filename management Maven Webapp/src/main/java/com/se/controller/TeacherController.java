@@ -97,9 +97,15 @@ public class TeacherController {
 		}
 		
 		@GetMapping(value="/studentResult")
-		public ModelAndView studentResult(String course_id){		
+		public ModelAndView studentResult(String course_id,int roll_order){	
 			List<Student> studentList=studentService.getCourseStudent(course_id);
-			return new ModelAndView("/teacher/studentResult","studentList",studentList);
+			List<List<Map<String, Object>>> homework_result = studentService.getStudentResultListByCourseAndRollOrder(course_id, roll_order, studentList);
+			List<List<Map<String, Integer>>> roll_calls = studentService.getStudentRollCallListByCourseAndRollOrder(course_id, roll_order, studentList);
+			Map<String, Object> map = new HashMap<>();
+			map.put("studentList", studentList);
+			map.put("rollCalls", roll_calls);
+			map.put("homeworkGrades", homework_result);
+			return new ModelAndView("/teacher/studentResult","data",map);
 		}
 		
 		@GetMapping(value="/homeWorkArrange")

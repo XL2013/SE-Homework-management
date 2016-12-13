@@ -16,7 +16,7 @@
  	  	  	</tr>
  	  	  </thead>
  	  	  <tbody >
- 	  	  	<c:forEach var="student" items="${studentList}">
+ 	  	  	<c:forEach var="student" items="${data.studentList}">
  	  	  	  <tr class="hoverable striped">
  	  	  	  	<td >${student.student_id}</td>
  	  	  	  	<td>${student.student_name }</td>
@@ -25,8 +25,9 @@
  	  	  	  	  <a class='dropdown-button btn-floating red' href='#' data-activates='dropdown1'><i class="material-icons">view_list</i></a> 	  
 				  <!-- Dropdown Structure -->
 				  <ul id='dropdown1' class='dropdown-content'>
-				  	<c:forEach var="homeworkGrade" items="${homeworkGrades}">
-				  		<li><a href="#!">${homeworkGrade.homework_name} ： ${homeworkGrade.grade} 分</a></li>
+				  	<c:forEach var="homeworkGrade" items="${data.homeworkGrades}">
+				  		<li><a href="#!">${homeworkGrade.homework_name} ：
+				  		${homeworkGrade.status=="1"?homeworkGrade.grade:"未批改"}</a></li>
 				    	<li class="divider"></li>
 				  	</c:forEach>
 				  </ul>
@@ -34,7 +35,7 @@
 				<td>
 				  <a class='dropdown-button btn-floating blue-gray' href='#' data-activates='dropdown2'><i class="material-icons">visibility</i></a>
 				  <ul id='dropdown2' class='dropdown-content'>
-				  <c:forEach var="rollCall" items="${rollCalls}">
+				  <c:forEach var="rollCall" items="${data.rollCalls}">
 				    <li><a href="#!">第${rollCall.rollcall_ID}次点名：${rollCall.rollcall_state}</a></li>
 				    <li class="divider"></li>
 				  </c:forEach>
