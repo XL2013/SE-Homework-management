@@ -90,6 +90,18 @@ public class TeacherController {
 			return new ModelAndView("/teacher/studentList","studentList",studentList);
 		}
 		
+		@GetMapping(value="/studentRollCall")
+		public ModelAndView studentRollCall(String course_id){		
+			List<Student> studentList=studentService.getCourseStudent(course_id);
+			return new ModelAndView("/teacher/studentRollCall","studentList",studentList);
+		}
+		
+		@GetMapping(value="/studentResult")
+		public ModelAndView studentResult(String course_id){		
+			List<Student> studentList=studentService.getCourseStudent(course_id);
+			return new ModelAndView("/teacher/studentResult","studentList",studentList);
+		}
+		
 		@GetMapping(value="/homeWorkArrange")
 		public ModelAndView homeWorkArrange(String course_id){
 			return new ModelAndView("/teacher/homeWorkArrange");

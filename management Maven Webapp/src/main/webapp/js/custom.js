@@ -70,6 +70,27 @@ function courseTab(url){
 		}			
 	});
 }
+function rollCallTab(url,rollcall_number){
+	var course_id=$(".course_id").val();
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	$("[name='rollCallTab']").empty();
+	$.ajax({
+		type :"get",
+		url :url,
+		data :{
+			"course_id" : course_id,
+//			"rollcall_number":rollcall_number
+		},
+		dataType :"html",
+		success : function(data){
+			$("[name='rollCallTab']").empty();
+			$("[name='rollCallTab']").html(data);
+		}			
+	});
+}
 
 function homeWorkArrangeTab(){
 	 var num = $("#home_work_show").children("li").length+$("#tab_contents").children("#test").length
@@ -178,6 +199,7 @@ function changeRollCallTime(i){
 }
 
 function modifyStudentRollCallStat(){
+	//To-do
 	updateStudentRollCallStat()
 	var rollCallTime=$("#rollCallTimeIdentifier").attr("name")
 	var course_id=$(".course_id").val();
@@ -284,6 +306,18 @@ function conditionSearch(obj){
 	var homework_name=$("#homework_name1").val()
 	var team_number=$("#team_number1").val()
 	
+  	var tr="<tr>"
+  	  "<th>提交时间</th>"
+  	  "<th data-field=\"name\">小组编号</th>"+
+  	  "<th data-field=\"pwd\">作业名称</th>"+
+  	  "<th data-filed=\"role\">提交人姓名</th>"+
+  	  "<th>成绩</th>"+
+  	  "<th>批改说明</th>"+
+  	  "<th>学生意见</th>"+
+  	  "<th>期末占分</th>"+
+  	"</tr>"
+  	$("#table-head").empty();
+  	$("#table-head").append(tr);
 	alert(homework_name)
 	$.ajax({
 		type:"post",
@@ -303,6 +337,18 @@ function conditionSearch(obj){
 }
 
 function allSearch(){
+  	var tr="<tr>"+
+    	  "<th>提交时间</th>"+
+    	  "<th data-field=\"name\">小组编号</th>"+
+    	  "<th data-field=\"pwd\">作业名称</th>"+
+    	  "<th data-filed=\"role\">提交人姓名</th>"+
+    	  "<th>成绩</th>"+
+    	  "<th>批改说明</th>"+
+    	  "<th>学生意见</th>"+
+    	  "<th>期末占分</th>"+
+    	"</tr>"
+	$("#table-head").empty();
+	$("#table-head").append(tr);
 	$.ajax({
 		type:"get",
 		url:"teacher/allSearch",
@@ -312,6 +358,21 @@ function allSearch(){
 		    showHomeworkList(items);
 		}
 	});
+}
+
+function computeStudentFinalGrade(){
+  	var tr="<tr>"+
+  	  "<th>提交时间</th>"+
+  	  "<th>小组编号</th>"+
+  	  "<th>作业名称</th>"+
+  	  "<th>提交人姓名</th>"+
+  	  "<th>成绩</th>"+
+  	  "<th>批改说明</th>"+
+  	  "<th>学生意见</th>"+
+  	  "<th>期末占分</th>"+
+  	"</tr>"
+	$("#table-head").empty();
+	$("#table-head").append(tr);
 }
 
 

@@ -18,43 +18,28 @@
  	<div class="row">
  	  <div class="col s3">
 	    <!-- Grey navigation panel -->
-	      <ul class="collection with-header" id="rollCallTimeIdentifier" name=1>
-	        <li class="collection-header"><h4>请选择点名次数</h4></li>
-	        <c:forEach  var="i" begin="1" end="5">
-	        	<a href="#!" class="collection-item waves-effect waves-teal" onclick="changeRollCallTime(${i})">
-	        		第${i}次
-	        	</a>
-	        </c:forEach>
-	      </ul>
+	    <ul class="collapsible" data-collapsible="accordion">
+    	<li>	
+	        <div class="collapsible-header" id="rollCallTimeIdentifier" name=1>请选择点名次数</div>
+	        <div class="collapsible-body">
+	        	<ul class="collection">
+		        <c:forEach  var="i" begin="1" end="5">
+		        	<a href="#!" class="collection-item waves-effect waves-teal" onclick="rollCallTab('teacher/studentRollCall',${i})">
+		        	<i class="material-icons">send</i>
+		        		第${i}次
+		        	</a>
+		        </c:forEach>
+		        </ul>
+	        </div>
+        </li>
+        <li>
+        	<div class="collapsible-header" id="ResultsIdentifier" onclick="rollCallTab('teacher/studentResult',${i})">查看学生成绩</div>
+        </li>
+        </ul>
 	  </div>
 	  
- 	  <div class="col s9">
- 	  	<h4 class="center-align" id="studentListTitle">第1次点名学生名单</h4>
- 	  	<div class="divider"></div>
- 	    <table class="centered ">
- 	  	  <thead>
- 	  	  	<tr>
- 	  	  	  <th data-field="id">学生ID</th>
- 	  	  	  <th data-field="name">学生姓名</th>
- 	  	  	  <th data-field="class">学生班级</th>
- 	  	  	  <th><a class="waves-effect waves-light btn" onclick="modifyStudentRollCallStat()">确认点名</a></th>
- 	  	  	</tr>
- 	  	  </thead>
- 	  	  <tbody >
- 	  	  	<c:forEach var="student" items="${studentList}">
- 	  	  	  <tr class="hoverable striped">
- 	  	  	  	<td >${student.student_id}</td>
- 	  	  	  	<td>${student.student_name }</td>
- 	  	  	  	<td>${student.class_id }</td>
- 	  	  	  	<td>
-      				<input type="checkbox" id="${student.student_id}" name="checkbox"/>
-      				<label for="${student.student_id}"></label>
- 	  	  	  	</td>
- 	  	  	  </tr>
- 	  	  	</c:forEach>
- 	  	  </tbody>
- 	  	</table>
- 	  	
+ 	  <div class="col s9" name="rollCallTab">
+	  	
  	  </div>
  	</div>
  </div>

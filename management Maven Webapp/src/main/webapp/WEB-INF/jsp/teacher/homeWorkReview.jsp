@@ -55,7 +55,7 @@
 		 	  	<h4 class="center-align" id="title"></h4>
 		 	  	<div class="divider"></div>
 		 	    <table class="centered ">
-		 	  	  <thead>
+		 	  	  <thead id="table-head">
 		 	  	  	<tr>
 		 	  	  	  <th>提交时间</th>
 		 	  	  	  <th data-field="name">小组编号</th>
