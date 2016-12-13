@@ -30,14 +30,14 @@ public interface RollCallDao {
 		
 		
 		//studentRollCall 部分dao代码
-		@Insert("insert into student_rollcall(course_id,roll_order,status) values(#{course_id},#{roll_order},#{status})")
+		@Insert("insert into student_rollcall(course_id,roll_order,status,student_id) values(#{course_id},#{roll_order},#{status},#{student_id})")
 		void addStudentRollCall(StudentRollCall studentrollcall);
 		
-		@Update("update student_rollcall set status=#{status} where course_id=#{course_id} and roll_order=#{roll_order}")
-		void setStudentRollCallStatus(@Param("course_id")String course_id,@Param("roll_order")int roll_order,@Param("status")int status);
+		@Update("update student_rollcall set status=#{status} where course_id=#{course_id} and roll_order=#{roll_order} and student_id=#{student_id}")
+		void setStudentRollCallStatus(@Param("course_id")String course_id,@Param("roll_order")int roll_order,@Param("status")int status,@Param("student_id")String student_id);
 		
-		@Select("select  status from student_rollcall where course_id=#{course_id} and roll_order=#{roll_order}")
-		int getStudentRollStatus(@Param("course_id")String course_id,@Param("roll_order")int roll_order);
+		@Select("select  status from student_rollcall where course_id=#{course_id} and roll_order=#{roll_order} and student_id=#{student_id}")
+		int getStudentRollStatus(@Param("course_id")String course_id,@Param("roll_order")int roll_order,@Param("student_id")String student_id);
 		//todo: 增加删除代码
 		
 }
