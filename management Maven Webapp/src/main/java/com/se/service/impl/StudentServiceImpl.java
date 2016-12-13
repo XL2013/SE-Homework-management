@@ -25,12 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.se.dao.HomeworkDao;
 import com.se.dao.RollCallDao;
 import com.se.dao.StudentDao;
+import com.se.dao.StudentGradeDao;
 import com.se.dao.TeamDao;
 import com.se.dao.TeamHomeworkDao;
 import com.se.dao.UserDao;
 import com.se.pojo.RollCallSetting;
 import com.se.pojo.Student;
 import com.se.pojo.TeamHomework;
+import com.se.pojo.StudentGrade;
 import com.se.pojo.User;
 import com.se.service.StudentService;
 import com.se.util.ExcelHelper;
@@ -50,11 +52,12 @@ public class StudentServiceImpl implements StudentService {
 	private TeamHomeworkDao teamHomeworkDao;
 	@Resource
 	private RollCallDao rollCallDao;
+	private StudentGradeDao studentGradeDao;
 	/**
-	 * excel±í¶¨Òå:
+	 * excelè¡¨å®šä¹‰:
 	 * student_id  | class_id | student_name
-	 * @focus:±ØĞëÈç´Ë£¬·ñÔò»á³öÏÖĞ´Èë´íÎóµÄÊı¾İµÄÇé¿ö
-	 * @todo:Ôö¼Ó±í¸ñÑéÖ¤,¿ÉÄÜºóĞø»¹ÒªÔö¼ÓÊÂÎï²Ù×÷£¬ÒòÎªÊÇÒ»´ÎĞÔĞ´ÈëÊı¾İ¡£
+	 * @focus:å¿…é¡»å¦‚æ­¤ï¼Œå¦åˆ™ä¼šå‡ºç°å†™å…¥é”™è¯¯çš„æ•°æ®çš„æƒ…å†µ
+	 * @todo:å¢åŠ è¡¨æ ¼éªŒè¯,å¯èƒ½åç»­è¿˜è¦å¢åŠ äº‹ç‰©æ“ä½œï¼Œå› ä¸ºæ˜¯ä¸€æ¬¡æ€§å†™å…¥æ•°æ®ã€‚
 	 */
 	public void addStudentList(Workbook wb,String course_id) {		
 			//Read the sheets
@@ -186,6 +189,23 @@ public class StudentServiceImpl implements StudentService {
 			list.add(list2);
 		}
 		return list;
+	@Override
+	public int getStudentCourseGrade(String course_id, String student_id) {
+			return studentGradeDao.getStudentCourseGrade(course_id, student_id);
+	}
+	@Override
+	public void addStudentCourseGrade(String course_id, String student_id, int grade) {
+		StudentGrade studentGrade =new StudentGrade();
+		studentGrade.setCourse_id(course_id);
+		studentGrade.setGrade(grade);
+		studentGrade.setStudent_id(student_id);
+		studentGradeDao.addStudentGrade(studentGrade);
+				
+	}
+	@Override
+	public void updateStudentCourseGrade(String course_id, String student_id, int grade) {
+		studentGradeDao.updateGrade(course_id, student_id, grade);
+		
 	}
 
 }

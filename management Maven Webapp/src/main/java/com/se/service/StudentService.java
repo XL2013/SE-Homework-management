@@ -15,6 +15,9 @@ public interface StudentService {
 	List<Student> searchStudent(String info ,String course_id);
 	List<List<Map<String, Integer>>> getStudentRollCallListByCourseAndRollOrder(String course_id, int roll_order,
 			List<Student> students);
-	List<List<Map<String, Object>>> getStudentResultListByCourseAndRollOrder(String course_id, int roll_order,
-			List<Student> students);
+	List<List<Map<String, Object>>> getStudentResultListByCourseAndRollOrder(String course_id, int roll_order,List<Student> students);
+	
+	int getStudentCourseGrade(String course_id,String student_id);
+	void addStudentCourseGrade(String course_id,String student_id,int grade);
+	void updateStudentCourseGrade(String course_id,String student_id,int grade);
 }
