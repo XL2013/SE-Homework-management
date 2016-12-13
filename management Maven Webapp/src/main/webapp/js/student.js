@@ -316,6 +316,7 @@ function submitTeamHomework(){
 }
 function fileDownload(obj,team_id,homework_id){
 	var file_name=$(obj).text();
-	var url="file/download/team_id="+team_id+"&homework_id="+homework_id+"&file_name="+file_name;
+
+	var url="file/download?team_id="+team_id+"&homework_id="+homework_id+"&file_name="+file_name;
 	window.location.href=url;
 }
