@@ -11,6 +11,7 @@ public class StudentRollCall {
 	private String course_id;
 	private int roll_order;
 	private int status;
+	private String student_id;
 	public String getCourse_id() {
 		return course_id;
 	}
@@ -28,6 +29,12 @@ public class StudentRollCall {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getStudent_id() {
+		return student_id;
+	}
+	public void setStudent_id(String student_id) {
+		this.student_id = student_id;
 	}
 	
 	

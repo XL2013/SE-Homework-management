@@ -320,3 +320,35 @@ function fileDownload(obj,team_id,homework_id){
 	var url="file/download?team_id="+team_id+"&homework_id="+homework_id+"&file_name="+file_name;
 	window.location.href=url;
 }
+
+
+function showHomeworkGrade(course_id,student_id){
+	$.ajax({
+		 type:"get",
+		 url:"student/getStudentHomeworkGrade",
+		 data:{
+			"course_id":course_id,
+			"student_id":student_id
+		 },
+		 dataType:"json",
+		 success : function(data){
+			 var gradeBody="	<h4>成绩列表</h4>"+
+				  	"<div class=\"divider\"></div>"+
+				  	"<table><thead><tr><th>作业序号</th><th>作业名字</th><th>成绩</th></tr></thead>"+
+					 "<tbody id=\"t-homework_grade_body\"></tbody></table>"+		
+					"<div class=\"divider\"></div>"+
+					"<div class=\"row\">"+
+					 "<div class=\"col s4\">"+
+					  " <h6>总点到次数： <a id=\"rollCallTimes\">4</a></h6>"+		  
+					 "</div>"+
+					" <div class=\"col s4\">"+
+					 "  <h6>缺勤次数： <a id=\"absenceTimes\">3</a></h6>	"+	  
+					" </div>"+
+					" <div class=\"col s4\">"+
+					   "<h6>课程总成绩：<a id=\"totalGrade\">90</a></h6></div></div>	"  			 
+					 ;
+			}
+		
+	});
+	
+}

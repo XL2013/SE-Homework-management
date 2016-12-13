@@ -48,6 +48,6 @@
   $(".collection-item").click(function(){
   		var course_id=$(this).attr("id");
   		var student_id=$("#student_id").text();
-  		get
+  		showHomeworkGrade(course_id, student_id);
   });
 </script>
