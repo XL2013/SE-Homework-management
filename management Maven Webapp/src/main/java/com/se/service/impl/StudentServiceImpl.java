@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +22,16 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.se.dao.HomeworkDao;
+import com.se.dao.RollCallDao;
 import com.se.dao.StudentDao;
 import com.se.dao.StudentGradeDao;
 import com.se.dao.TeamDao;
+import com.se.dao.TeamHomeworkDao;
 import com.se.dao.UserDao;
+import com.se.pojo.RollCallSetting;
 import com.se.pojo.Student;
+import com.se.pojo.TeamHomework;
 import com.se.pojo.StudentGrade;
 import com.se.pojo.User;
 import com.se.service.StudentService;
@@ -42,12 +49,15 @@ public class StudentServiceImpl implements StudentService {
 	private TeamDao teamDao;
 	
 	@Resource
+	private TeamHomeworkDao teamHomeworkDao;
+	@Resource
+	private RollCallDao rollCallDao;
 	private StudentGradeDao studentGradeDao;
 	/**
-	 * excel±í¶¨Òå:
+	 * excelè¡¨å®šä¹‰:
 	 * student_id  | class_id | student_name
-	 * @focus:±ØĞëÈç´Ë£¬·ñÔò»á³öÏÖĞ´Èë´íÎóµÄÊı¾İµÄÇé¿ö
-	 * @todo:Ôö¼Ó±í¸ñÑéÖ¤,¿ÉÄÜºóĞø»¹ÒªÔö¼ÓÊÂÎï²Ù×÷£¬ÒòÎªÊÇÒ»´ÎĞÔĞ´ÈëÊı¾İ¡£
+	 * @focus:å¿…é¡»å¦‚æ­¤ï¼Œå¦åˆ™ä¼šå‡ºç°å†™å…¥é”™è¯¯çš„æ•°æ®çš„æƒ…å†µ
+	 * @todo:å¢åŠ è¡¨æ ¼éªŒè¯,å¯èƒ½åç»­è¿˜è¦å¢åŠ äº‹ç‰©æ“ä½œï¼Œå› ä¸ºæ˜¯ä¸€æ¬¡æ€§å†™å…¥æ•°æ®ã€‚
 	 */
 	public void addStudentList(Workbook wb,String course_id) {		
 			//Read the sheets
@@ -134,6 +144,51 @@ public class StudentServiceImpl implements StudentService {
 		}
 		return students;
 	}
+	
+	@Override
+	public List<List<Map<String,Integer>>> getStudentRollCallListByCourseAndRollOrder(String course_id, int roll_order, List<Student> students) {
+		// TODO Auto-generated method stub
+		List<List<Map<String, Integer>>> list = new ArrayList<>();
+		for (Student student : students) {
+			RollCallSetting rollCallSetting = rollCallDao.getRollCallSetting(course_id);
+			int roll_call_time=rollCallSetting.getTotal();
+			List<Map<String, Integer>> list2 = new ArrayList<>();
+			for(int i=0;i<roll_call_time;i++){
+				int status = rollCallDao.getStudentRollStatus(course_id, i, student.getStudent_id());
+				Map<String, Integer> map = new HashMap<>();
+				map.put("rollcall_ID", i+1);
+				map.put("rollcall_state", status);
+				list2.add(map);
+			}
+			list.add(list2);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<List<Map<String, Object>>> getStudentResultListByCourseAndRollOrder(String course_id, int roll_order,
+			List<Student> students) {
+		// TODO Auto-generated method stub
+		List<List<Map<String, Object>>> list=new ArrayList<>();
+		for (Student student : students) {
+			String team_id=teamDao.searchTeamBySC(student.getStudent_id(), course_id);
+			List<TeamHomework> teamHomeworks = teamHomeworkDao.getTeamHomeWorks(team_id);
+			List<Map<String, Object>> list2 = new ArrayList<>();
+			
+			for (TeamHomework teamHomework : teamHomeworks) {
+				String homework_id = teamHomework.getHomework_id();
+				int status = teamHomework.getStatus();
+				String homework_name=teamHomeworkDao.getHomeworkName(homework_id);
+				int grade = teamHomework.getGrade();
+				Map<String, Object> map=new HashMap<>();
+				map.put("homework_name", homework_name);
+				map.put("grade", grade);
+				map.put("status", status);
+				list2.add(map);
+			}
+			list.add(list2);
+		}
+		return list;
 	@Override
 	public int getStudentCourseGrade(String course_id, String student_id) {
 			return studentGradeDao.getStudentCourseGrade(course_id, student_id);
