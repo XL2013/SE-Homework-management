@@ -280,5 +280,31 @@ public class StudentController {
 	public void updateTeamHomework_status(String team_id,String homework_id){
 		homeworkService.submitTeamHomework(team_id, homework_id);
 	}
+	
+	@GetMapping(value="getStudentHomeworkGrade")
+	@ResponseBody
+	public Map<String,Object> getStudentHomeworkGrade(String course_id,String student_id){
+		Map<String,Object> data=new HashMap<String, Object>();
+		Team team=teamService.getStudentTeam(course_id, student_id);
+		if(team==null){
+			data.put("isTeamExist",false);
+			return data;
+		}
+		//返回需要的作业信息：作业id，作业名称，作业成绩
+		List<Map<String,Object>> gradeInfos=new ArrayList<Map<String,Object>>();
+		for(TeamHomework teamHomework : homeworkService.getTeamHomeworks(team.getTeam_id())){
+			Map<String,Object> gradeInfo=new HashMap<String, Object>();
+			String homework_id=teamHomework.getHomework_id();
+			String homework_name=homeworkService.getHomework(homework_id).getHomework_name();
+			gradeInfo.put("homework_id", homework_id);
+			gradeInfo.put("homework_name", homework_name);
+			gradeInfo.put("grade", teamHomework.getGrade());
+			gradeInfos.add(gradeInfo);
+		}
+		//返回学生课程总成绩
+		int grade=student_service.getStudentCourseGrade(course_id, student_id);
+		data.put("grade", grade);
+		return data;
+	}
 
 }

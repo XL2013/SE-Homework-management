@@ -21,9 +21,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.se.dao.StudentDao;
+import com.se.dao.StudentGradeDao;
 import com.se.dao.TeamDao;
 import com.se.dao.UserDao;
 import com.se.pojo.Student;
+import com.se.pojo.StudentGrade;
 import com.se.pojo.User;
 import com.se.service.StudentService;
 import com.se.util.ExcelHelper;
@@ -38,6 +40,9 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Resource
 	private TeamDao teamDao;
+	
+	@Resource
+	private StudentGradeDao studentGradeDao;
 	/**
 	 * excel±Ì∂®“Â:
 	 * student_id  | class_id | student_name
@@ -128,6 +133,24 @@ public class StudentServiceImpl implements StudentService {
 			students.add(studentDao.getStudent(id));
 		}
 		return students;
+	}
+	@Override
+	public int getStudentCourseGrade(String course_id, String student_id) {
+			return studentGradeDao.getStudentCourseGrade(course_id, student_id);
+	}
+	@Override
+	public void addStudentCourseGrade(String course_id, String student_id, int grade) {
+		StudentGrade studentGrade =new StudentGrade();
+		studentGrade.setCourse_id(course_id);
+		studentGrade.setGrade(grade);
+		studentGrade.setStudent_id(student_id);
+		studentGradeDao.addStudentGrade(studentGrade);
+				
+	}
+	@Override
+	public void updateStudentCourseGrade(String course_id, String student_id, int grade) {
+		studentGradeDao.updateGrade(course_id, student_id, grade);
+		
 	}
 
 }

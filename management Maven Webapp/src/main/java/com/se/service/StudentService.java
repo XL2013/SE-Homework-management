@@ -13,4 +13,8 @@ public interface StudentService {
 	
 	Student getStudentById(String student_id);
 	List<Student> searchStudent(String info ,String course_id);
+	
+	int getStudentCourseGrade(String course_id,String student_id);
+	void addStudentCourseGrade(String course_id,String student_id,int grade);
+	void updateStudentCourseGrade(String course_id,String student_id,int grade);
 }
