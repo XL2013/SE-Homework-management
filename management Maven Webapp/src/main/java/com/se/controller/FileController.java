@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -25,7 +26,7 @@ public class FileController {
 	@Resource
 	HomeworkServiceImpl homeworkService;
 	
-	@RequestMapping("file/download")
+	@GetMapping("file/download")
 	@ResponseBody
 	public void fileDownload(String team_id,String homework_id,String file_name){
 		HttpServletResponse response=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
