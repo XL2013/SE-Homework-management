@@ -18,14 +18,20 @@ import com.se.pojo.TeamHomework;
 public interface TeamHomeworkDao {
 	
 	//小组作业部分
-	@Select("select * from team_homework where team_id=#{team_id}")
+	@Select("select * from team_homework where team_id=#{team_id} order by submit_time desc")
 	List<TeamHomework> getTeamHomeWorks(String team_id);
+	
+	/**
+	 * 小组作业的所有元素必须赋初值
+	 * @param teamHomework
+	 */
+
 	
 	@Select("select * from team_homework order by submit_time desc")
 	List<TeamHomework> getTeamHomeworkViewData();
 	
 	@Select("select * from team_homework where homework_id=#{homework_id} and team_id=#{team_id}")
-	TeamHomework getHomeworkByID(@Param("homework_id")String homework_id,@Param("team_id")String team_id);
+	TeamHomework getTeamHomeworkByID(@Param("homework_id")String homework_id,@Param("team_id")String team_id);
 	
 	//teamHomeworkView
 	@Select("select * from team_homework,homework_table where "
@@ -54,7 +60,7 @@ public interface TeamHomeworkDao {
 	
 	@Insert("insert into team_homework(team_id,homework_id,submit_time,submitter,status,grade,correctInfo,student_comment) "
 			+ " values(#{team_id},#{homework_id},to_date(#{submit_time},'yyyy-mm-dd'),#{submitter},#{status},#{grade},#{correctInfo},#{student_comment})")
-	void addHomework(TeamHomework teamHomework);
+	void addTeamHomework(TeamHomework teamHomework);
 	
 	//以下都是部分更新，不知道以后能否替换掉
 	@Update("update team_homework set student_comment=#{comment} where homework_id=#{homework_id} and team_id=#{team_id}")
@@ -62,8 +68,16 @@ public interface TeamHomeworkDao {
 	
 	@Update("update team_homework set status=#{status} where team_id=#{team_id} and homework_id=#{homework_id}")
 	void setTeamHomeworkStatus(@Param("homework_id")String homework_id,@Param("team_id")String team_id,@Param("status")int status);
-	@Update("update team_homework set submit_time=to_date(#{submit_time},'yyyy-mm-dd' where ")
+	@Update("update team_homework set submit_time=to_date(#{submit_time},'yyyy-mm-dd') where team_id=#{team_id} and homework_id=#{homework_id}")
 	void setTeamHomeworkTime(@Param("homework_id")String homework_id,@Param("team_id")String team_id,@Param("submit_time")String submit_time);
+	@Update("update team_homework set submitter=#{submitter} where team_id=#{team_id} and homework_id=#{homework_id}")
+	void setTeamHomeworkSubmitter(@Param("homework_id")String homework_id,@Param("team_id")String team_id,@Param("submitter")String submitter);
+	@Update("update team_homework set grade=#{grade} where team_id=#{team_id} and  homework_id=#{homework_id}")
+	void setTeamHomeworkGrade(@Param("homework_id")String homework_id,@Param("team_id")String team_id,@Param("grade")int grade);
+	@Update("update team_homework set correctInfo=#{correctInfo} where team_id=#{team_id} and homework_id=#{homework_id}")
+	void setTeamHomeworkCorrectInfo(@Param("homework_id")String homework_id,@Param("team_id")String team_id,@Param("correctInfo")String correctInfo);
+
+	
 	
 	//作业文件部分数据库代码
 	@Insert("insert into homework_file(file_name,file_path,homework_id,team_id) values(#{file_name},#{file_path},#{homework_id},#{team_id})")

@@ -285,9 +285,21 @@ public class StudentController {
 	 */
 	@PostMapping(value="updateTeamHomework_status")
 	@ResponseBody
-	public void updateTeamHomework_status(String team_id,String homework_id){
-		homeworkService.submitTeamHomework(team_id, homework_id);
+	public void updateTeamHomework_status(String team_id,String homework_id,String student_id){
+		homeworkService.submitTeamHomework(team_id, homework_id,student_id);
 	}
+	
+	@GetMapping(value="showTeamHomeworkFile")
+	@ResponseBody
+	public Map<String, Object> showTeamHomeworkFile(String team_id,String homework_id){
+		Map<String, Object> data=new HashMap<String, Object>();
+		data.put("files", homeworkService.getHomeworkFiles(team_id, homework_id));
+		
+		return data;
+	}
+	
+	
+	
 	
 	@GetMapping(value="getStudentHomeworkGrade")
 	@ResponseBody

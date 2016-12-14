@@ -190,7 +190,7 @@ function showHomeworkInfo(obj){
 			$("#m-correctInfo").text(team_homework.correctInfo);
 			$("#m-comment").text(team_homework.student_comment);
 		    var grade=team_homework.grade;
-		    var total=grade*ratio;
+		    var total=(grade*ratio).toFixed(2);
 			$("#m-homework_grade").text(grade);
 			$("#m-homework_total").text(total);
 			$("#m-homework_submitter").text(team_homework.submitter);
@@ -300,24 +300,44 @@ function checkForm(){
 	}
 }
 function showSubmitFile(team_id,homework_id){
-	console.log("这里更新了 文件列表");
+	$.ajax({
+		type:"get",
+		url:"student/showTeamHomeworkFile",
+		data:{
+			"team_id":team_id,
+			"homework_id":homework_id
+		},
+		dataType:"json",
+		success: function(data){
+			var files=data.files;
+			$("#m-submit_file").empty();
+			for(var i in files){
+				var li="<li><a href=\"#!\" onclick=\"fileDownload(this,'"+files[i].team_id+"','"+files[i].homework_id+"')\">"+files[i].file_name+"</a></li>";
+				$("#m-submit_file").append(li);
+			}
+		}
+	
+		
+	});
 }
 function submitTeamHomework(){
 	var team_id=$("#f-team_id").val();
 	var homework_id=$("#f-homework_id").val();
+	var student_id=$("#student_id").text();
 	$.ajax({
 		type:"post",
 		url:"student/updateTeamHomework_status",
 		data:{
 			"team_id":team_id,
-			"homework_id":homework_id
+			"homework_id":homework_id,
+			"student_id":student_id
 		}
 	});
 }
 function fileDownload(obj,team_id,homework_id){
 	var file_name=$(obj).text();
-
 	var url="file/download?team_id="+team_id+"&homework_id="+homework_id+"&file_name="+file_name;
+	url=encodeURI(url);
 	window.location.href=url;
 }
 

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,12 +30,14 @@ public class FileController {
 	
 	@GetMapping("file/download")
 	@ResponseBody
-	public void fileDownload(String team_id,String homework_id,String file_name){
+	public void fileDownload(String team_id,String homework_id,String file_name) throws UnsupportedEncodingException{
 		HttpServletResponse response=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
 		HttpServletRequest request =((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		String path= request.getSession().getServletContext().getRealPath("/WEB-INF/upload/studentHomework/");
 		path=path+"\\"+homeworkService.getHomework(homework_id).getCourse_id()+"\\"+homework_id+"\\"+team_id+"\\";
-			
+		String file_name1=file_name;
+		file_name=new String(file_name.getBytes("iso8859-1"),"utf-8");	//解决中文编码问题
+
         InputStream inputStream = null;  
         OutputStream outputStream = null;
         File file=new File(path,file_name);
@@ -49,7 +53,7 @@ public class FileController {
          // 设置response的Header  
         	//1.设置文件ContentType类型，这样设置，会自动判断下载文件类型  
             response.setContentType("multipart/form-data");  
-            response.addHeader("Content-Disposition","attachment;filename=" + file_name);  
+            response.addHeader("Content-Disposition","attachment;filename=" + file_name1);  
             response.addHeader("Content-Length", "" + file.length());  
             
             outputStream.write(buffer);

@@ -9,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
    	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
   	<link type="text/css" rel="stylesheet" href="css/student.css" >
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
  	 <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>
@@ -25,11 +26,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       <img src="img/bupt_1.jpg">
 			     </div>
 		      <a href="#!user"><img class="circle" src="img/bupt-logo.png"></a>
-		      <a href="#!name"><span class="white-text name">助教:${user.user_name}</span></a>
-		      <a href="#!email"><span class="white-text " id="assistant_id">${user.user_id}</span></a>
+		      <a href="#!name"><span class="white-text name">助教:${data.user.user_name}</span></a>
+		      <a href="#!email"><span class="white-text " id="assistant_id">${data.user.user_id}</span></a>
 		   	   </div>
 		    </li>
-		    <li><a href="#!" onclick="assistantTab('assistant/correctHomework')">批改作业 <span class="new badge red" data-badge-caption="未批改">4</span></a></li>
+		    <li><a href="#!" onclick="assistantTab('assistant/correctHomework')">批改作业 <span id="unCorrect" class="new badge red" data-badge-caption="小组未批改">${data.num}</span></a></li>
 		    <li><a href="#!" onclick="assistantTab('assistant/team')">负责小组</a></li>
 		    <li><a href="#!" onclick="assistantTab('assistant/studentList')">学生名单</a></li>
   		</ul>

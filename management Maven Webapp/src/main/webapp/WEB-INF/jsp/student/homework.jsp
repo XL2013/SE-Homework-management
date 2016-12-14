@@ -107,7 +107,7 @@
   		</div><!-- end of row -->
   	  </div><!-- end of content -->
 	  <div class="modal-footer ">
-	      <a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="">完成</a>
+	      <a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="submitTeamHomework()">完成</a>
 	   </div>
 	 </div><!-- end of homeworkSubmit_modal -->
 	 
@@ -141,7 +141,8 @@
 			  	var options={
 			  		beforeSubmit:checkForm,
 			  		success : function(data){
-			  			alert("上传成功");
+			  			console.log(data.team_id);
+			  			console.log(data.homework_id);
 			  			showSubmitFile(data.team_id,data.homework_id);			  			
 			  		}
 			  	};
