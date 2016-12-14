@@ -124,6 +124,7 @@ public class TeacherController {
 			List<Student> studentList=studentService.getCourseStudent(course_id);
 			List<List<Map<String, Object>>> homework_result = studentService.getStudentResultListByCourse(course_id, studentList);
 			List<List<Map<String, Integer>>> roll_calls = studentService.getStudentRollCallListByCourse(course_id,studentList);
+			
 			List<Map<String, Object>> list = new ArrayList<>();
 			for(int i=0;i<studentList.size();i++){
 				Map<String, Object> tMap = new HashMap<>();
