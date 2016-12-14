@@ -70,19 +70,40 @@ function courseTab(url){
 		}			
 	});
 }
-function rollCallTab(url,rollcall_number){
+function rollCallTab1(url){
 	var course_id=$(".course_id").val();
 	if(course_id==""){
 		alert("请选择一门课程");
 		return;
 	}
+	$.ajax({
+		type :"get",
+		url :url,
+		dataType :"html",
+		data :{
+			"course_id" : course_id
+		},
+		success : function(data){
+			$("[name='rollCallTab']").empty();
+			$("[name='rollCallTab']").html(data);
+		}			
+	});
+}
+function rollCallTab(url,roll_order){
+	var course_id=$(".course_id").val();
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	alert(roll_order)
+	alert(course_id)
 	$("[name='rollCallTab']").empty();
 	$.ajax({
 		type :"get",
 		url :url,
 		data :{
 			"course_id" : course_id,
-//			"rollcall_number":rollcall_number
+			"roll_order":parseInt(roll_order)
 		},
 		dataType :"html",
 		success : function(data){
@@ -91,7 +112,37 @@ function rollCallTab(url,rollcall_number){
 		}			
 	});
 }
+function showStudentResult(data){
+	for(index in data){
+		x=data[index]
+		student_id=data[index].student.student_id
+		alert("sutudent_id")
+		alert(student_id)
+		$("#"+student_id+"1").empty()
+		$("#"+student_id+"2").empty()
+		for(subitem in x.homeworkGrade){
+			homeworkGrade=x.homeworkGrade[subitem]
+			for(item in x["homeworkGrade"][subitem])
+			alert(homeworkGrade.homework_name)
+			alert(homeworkGrade.grade)
+			if(homeworkGrade.status==1)
+				grade=homeworkGrade.grade
+			else
+				grade="未批改"
+			var li="<li><a href=\"#!\">"+homeworkGrade.homework_name+" ："+grade+"</a></li>"+
+			"<li class=\"divider\"></li>"
+			$("#"+student_id+"1").append(li)
+		}
+		for(subitem in x.rollCall){
+			rollCall=x.rollCall[subitem]
+			var li="<li><a href=\"#!\">"+rollCall.rollcall_ID+"次点名："+rollCall.rollcall_state+"</a></li>"+
+			"<li class=\"divider\"></li>"
+			$("#"+student_id+"2").append(li)
+		}
+	}
+	
 
+}
 function homeWorkArrangeTab(){
 	 var num = $("#home_work_show").children("li").length+$("#tab_contents").children("#test").length
 	 num=num.toString();
@@ -198,29 +249,31 @@ function changeRollCallTime(i){
 	$("#studentListTitle").text("第"+i+"次点名学生名单")
 }
 
-function modifyStudentRollCallStat(){
+function modifyStudentRollCallStat(roll_order){
 	//To-do
 	updateStudentRollCallStat()
-	var rollCallTime=$("#rollCallTimeIdentifier").attr("name")
+	var rollCallTime=roll_order
 	var course_id=$(".course_id").val();
 	if(course_id==""){
 		alert("请选择一门课程");
 		return;
 	}
-	var student_ids = []
+	var mydata=[]
+	
 	$("[name=\"checkbox\"]").each(function(i,obj){
-		if(typeof($(this).attr("checked"))=="undefined")
-			student_ids.push($(this).attr("id"));
+		if($(this).prop("checked"))
+			status=1
+		else
+			status=0
+		var json_item={"course_id":course_id,"roll_order":rollCallTime,"status":status,"student_id":$(this).attr("id")}
+		mydata.push(json_item)
 	})
 	
 	$.ajax({
-		type :"get",
+		type :"post",
 		url :"teacher/modifyStudentRollCallStat",
-		data :{
-			"course_id" : course_id,
-			"roll_call_id": rollCallTime,
-			"student_ids": student_ids
-		},
+		contentType: "application/json; charset=utf-8",
+		data :JSON.stringify(mydata),
 		dataType :"json",
 		success : function(data){
 			alert("点名成功")
@@ -230,8 +283,6 @@ function modifyStudentRollCallStat(){
 
 function updateStudentRollCallStat(student_ids){
 	$("[name=\"checkbox\"]").each(function(i,obj){
-		console.log(student_ids)
-		console.log($(this).attr("id"))
 		if($.inArray($(this).attr("id"),student_ids)!=-1)
 			$(this).attr("checked","checked")
 	})
@@ -373,9 +424,4 @@ function computeStudentFinalGrade(){
   	"</tr>"
 	$("#table-head").empty();
 	$("#table-head").append(tr);
-}
-
-
-
-
-				  	
+}			  	

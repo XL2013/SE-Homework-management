@@ -1,5 +1,6 @@
 package com.se.dao;
 
+import org.apache.commons.collections4.Get;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -36,8 +37,11 @@ public interface RollCallDao {
 		@Update("update student_rollcall set status=#{status} where course_id=#{course_id} and roll_order=#{roll_order} and student_id=#{student_id}")
 		void setStudentRollCallStatus(@Param("course_id")String course_id,@Param("roll_order")int roll_order,@Param("status")int status,@Param("student_id")String student_id);
 		
+		@Select("select count(*) from student_rollcall where course_id=#{course_id} and roll_order=#{roll_order} and student_id=#{student_id}")
+		int isStudentRollExist(@Param("course_id")String course_id,@Param("roll_order")int roll_order,@Param("student_id")String student_id);
+		
 		@Select("select  status from student_rollcall where course_id=#{course_id} and roll_order=#{roll_order} and student_id=#{student_id}")
-		int getStudentRollStatus(@Param("course_id")String course_id,@Param("roll_order")int roll_order,@Param("student_id")String student_id);
+		Object getStudentRollStatus(@Param("course_id")String course_id,@Param("roll_order")int roll_order,@Param("student_id")String student_id);
 		//todo: Ôö¼ÓÉ¾³ı´úÂë
 		
 }
