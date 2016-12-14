@@ -332,6 +332,7 @@ function showHomeworkGrade(course_id,student_id){
 		 },
 		 dataType:"json",
 		 success : function(data){
+			 //初始化成绩显示模块
 			 var gradeBody="	<h4>成绩列表</h4>"+
 				  	"<div class=\"divider\"></div>"+
 				  	"<table><thead><tr><th>作业序号</th><th>作业名字</th><th>成绩</th></tr></thead>"+
@@ -345,8 +346,20 @@ function showHomeworkGrade(course_id,student_id){
 					 "  <h6>缺勤次数： <a id=\"absenceTimes\">3</a></h6>	"+	  
 					" </div>"+
 					" <div class=\"col s4\">"+
-					   "<h6>课程总成绩：<a id=\"totalGrade\">90</a></h6></div></div>	"  			 
-					 ;
+					   "<h6>课程总成绩：<a id=\"totalGrade\">90</a></h6></div></div>	";
+			 $("#grade-body").empty();
+			 $("#grade-body").append(gradeBody);
+			 
+			 //增加作业成绩列表
+			 var gradeInfos=data.gradeInfos;
+			 for(var i in gradeInfos){
+				 var tr="<tr><th>"+gradeInfos[i].homework_id+"</th><th>"+gradeInfos[i].homework_name+
+				 	"</th><th>"+gradeInfos[i].grade+"</th></tr>";
+				 $("#t-homework_grade_body").append(tr);
+			 }
+			 $("#rollCallTimes").text(data.rollCalltimes);
+			 $("#absenceTimes").text(data.absenceTimes);
+			 $("#totalGrade").text(data.totalGrade);
 			}
 		
 	});

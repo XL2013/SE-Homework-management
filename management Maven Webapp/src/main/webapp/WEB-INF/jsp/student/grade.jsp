@@ -9,7 +9,7 @@
       <a href="#!" class="collection-item"><span class="badge">查看成绩</span>java</a>
       <a href="#!" class="collection-item"><span class="badge">查看成绩</span>c++</a> 
   	</div><!-- end of collection -->
-  	<div class="grade-body">
+  	<div id="grade-body" >
 	  	<h4>成绩列表</h4>
 	  	<div class="divider"></div>
 	  	<table>
