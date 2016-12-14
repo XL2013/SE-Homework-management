@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.se.dao.CourseDao;
+import com.se.dao.TeacherDao;
 import com.se.pojo.Course;
 import com.se.service.CourseService;
 
@@ -15,6 +16,8 @@ public class CourseServiceImpl implements CourseService{
 
 	@Resource
 	private CourseDao courseDao;
+	@Resource 
+	private TeacherDao teacherDao;
 	
 	public void updateDescription(String course_id, String description) {
 			Course course=  courseDao.getCourse(course_id);
@@ -66,6 +69,11 @@ public class CourseServiceImpl implements CourseService{
 	public List<String> getStudentCourses(String student_id) {
 		// TODO Auto-generated method stub
 		return courseDao.getStudentCourses(student_id);
+	}
+
+	@Override
+	public String getCourseTeacherName(String teacher_id) {
+		return teacherDao.getTeacher(teacher_id).getTeacher_name();
 	}
 
 }

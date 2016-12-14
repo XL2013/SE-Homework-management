@@ -129,15 +129,18 @@ public class StudentController {
 	}
 	
 	
-	
-	//如果小组已存在，则返回小组的信息，如果不存在，先创建小组再返回小组信息
+	/**
+	 * 如果小组已存在，则返回小组的信息，如果不存在，先创建小组再返回小组信息
+	 * @param student_id
+	 * @param course_id
+	 * @return
+	 */	
 	@GetMapping(value="/initTeamInfo")
 	@ResponseBody
 	public Map<String,Object> initTeamInfo(String student_id,String course_id){
 		Team team=null;
 		if(teamService.getStudentTeam(course_id, student_id)==null){
-			team=teamService.addTeam(course_id, student_id);
-			
+			team=teamService.addTeam(course_id, student_id);			
 		}
 		else
 			team=teamService.getStudentTeam(course_id, student_id);

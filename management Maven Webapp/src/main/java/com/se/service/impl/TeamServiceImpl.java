@@ -90,7 +90,9 @@ public class TeamServiceImpl implements TeamService {
 		return students;
 	}
 
-
+	/**
+	 * 添加一个小组，同时将创建者设置为组长并且添加入stu_team表
+	 */
 	@Override
 	public Team addTeam(String course_id, String student_id) {
 		Team team=new Team();
@@ -105,7 +107,7 @@ public class TeamServiceImpl implements TeamService {
 		team.setTeam_id(prefix);
 		team.setEmail("");
 		teamDao.addTeam(team);
-		teamDao.addTeamMember(team.getTeam_id(), student_id);
+		teamDao.addTeamMember(team.getTeam_id(), student_id,1);//初始分配为100%
 		return team;
 	}
 
@@ -116,11 +118,13 @@ public class TeamServiceImpl implements TeamService {
 		return teamDao.getTeamInfo(team_id);
 	}
 
-
+	/**
+	 * 初始设置的时候，每个成员的贡献比例为1 
+	 */
 	@Override
 	public void addTeamMember(String team_id, String student_id) {
 		
-		teamDao.addTeamMember(team_id, student_id);
+		teamDao.addTeamMember(team_id, student_id,1);
 	}
 	
 	public void setTeamEmail(String team_id,String email){

@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;import javax.swing.plaf.basic.BasicBorders.RolloverButtonBorder;
+import javax.annotation.Resource;
 
-import org.apache.xmlbeans.impl.jam.mutable.MPackage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,22 +18,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.se.dao.TeamConfigDao;
-import com.se.dao.TeamHomeworkDao;
 import com.se.pojo.Assistant;
 import com.se.pojo.Course;
 import com.se.pojo.Homework;
 import com.se.pojo.Student;
 import com.se.pojo.StudentRollCall;
 import com.se.pojo.Team;
-import com.se.service.HomeworkService;
 import com.se.service.impl.AssistantServiceImpl;
 import com.se.service.impl.CourseServiceImpl;
 import com.se.service.impl.HomeworkServiceImpl;
+import com.se.service.impl.RollCallServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
 import com.se.service.impl.TeamServiceImpl;
-
-import oracle.sql.DATE;
 
 @Controller
 @RequestMapping(value="/teacher")
@@ -52,6 +47,8 @@ public class TeacherController {
 		private AssistantServiceImpl assistantService;
 		@Resource
 		private HomeworkServiceImpl homeworkService;
+		@Resource
+		private RollCallServiceImpl rollCallService;
 		
 		@RequestMapping(value="/uploadStudentFile",method=RequestMethod.POST)
 		@ResponseBody
@@ -236,10 +233,20 @@ public class TeacherController {
 			return new ModelAndView("/teacher/teamSetting","data",data);
 		}
 	
-		
+		/**
+		 * 展示课程的详细信息：小组配置，点名配置，课程描述，任课老师
+		 * @param course_id
+		 * @return
+		 */
 		@GetMapping(value="/courseInfo")
 		public ModelAndView courseInfo(String course_id){
-			return new ModelAndView("/teacher/courseInfo","course",courseService.getCourse(course_id));
+			Map<String, Object> data=new HashMap<String, Object>();
+			data.put("teamConfig",teamService.getTeamConfig(course_id));
+			data.put("course", courseService.getCourse(course_id));
+			String teacher_id=courseService.getCourse(course_id).getTeacher_id();
+			data.put("teacher_name", courseService.getCourseTeacherName(teacher_id));
+			data.put("total", rollCallService.getCourseRollCallTotals(course_id));
+			return new ModelAndView("/teacher/courseInfo","data",data);
 		}
 		
 		@PostMapping(value="setTeamAssistant")
@@ -247,4 +254,6 @@ public class TeacherController {
 		public void setTeamAssistant(String team_id,String assistant_id){
 			assistantService.setTeamAssistant(team_id, assistant_id);
 		}
+		
+
 }

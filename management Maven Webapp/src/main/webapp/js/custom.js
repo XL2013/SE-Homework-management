@@ -422,4 +422,7 @@ function computeStudentFinalGrade(){
   	"</tr>"
 	$("#table-head").empty();
 	$("#table-head").append(tr);
-}			  	
+}			
+
+
+
