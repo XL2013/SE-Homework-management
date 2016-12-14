@@ -20,10 +20,10 @@
 	    <!-- Grey navigation panel -->
 	    <ul class="collapsible" data-collapsible="accordion">
     	<li>	
-	        <div class="collapsible-header" id="rollCallTimeIdentifier" name=1>请选择点名次数</div>
+	        <div class="collapsible-header" id="rollCallTimeIdentifier" name="${rollcall_max}">请选择点名次数</div>
 	        <div class="collapsible-body">
 	        	<ul class="collection">
-		        <c:forEach  var="i" begin="1" end="5">
+		        <c:forEach  var="i" begin="1" end="${rollcall_max}">
 		        	<a href="#!" class="collection-item waves-effect waves-teal" onclick="rollCallTab('teacher/studentRollCall',${i})">
 		        	<i class="material-icons">send</i>
 		        		第${i}次
@@ -33,7 +33,7 @@
 	        </div>
         </li>
         <li>
-        	<div class="collapsible-header" id="ResultsIdentifier" onclick="rollCallTab('teacher/studentResult',${i})">查看学生成绩</div>
+        	<div class="collapsible-header" id="ResultsIdentifier" onclick="rollCallTab1('teacher/studentResult1',${rollcall_max})">查看学生成绩</div>
         </li>
         </ul>
 	  </div>

@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
+import javax.annotation.Resource;import javax.swing.plaf.basic.BasicBorders.RolloverButtonBorder;
+
+import org.apache.xmlbeans.impl.jam.mutable.MPackage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,7 @@ import com.se.pojo.Assistant;
 import com.se.pojo.Course;
 import com.se.pojo.Homework;
 import com.se.pojo.Student;
+import com.se.pojo.StudentRollCall;
 import com.se.pojo.Team;
 import com.se.service.HomeworkService;
 import com.se.service.impl.AssistantServiceImpl;
@@ -62,6 +65,13 @@ public class TeacherController {
 			return message;
 		}
 		
+		@PostMapping(value="modifyStudentRollCallStat")
+		@ResponseBody
+		public String modifyStudentRollCallStat(@RequestBody List<StudentRollCall> studentRollCalls){
+			studentService.setStudentRollCallListByStudentList(studentRollCalls);
+			return "success";
+		}
+		
 		@RequestMapping(value="/addCourse",method=RequestMethod.POST)
 		@ResponseBody
 		public String addCourse(String teacher_id,String course_name,String description){
@@ -85,27 +95,64 @@ public class TeacherController {
 		}
 		
 		@GetMapping(value="/studentList")
-		public ModelAndView studentList(String course_id){		
-			List<Student> studentList=studentService.getCourseStudent(course_id);
-			return new ModelAndView("/teacher/studentList","studentList",studentList);
+		public ModelAndView studentList(String course_id){
+			return new ModelAndView("/teacher/studentList","rollcall_max",studentService.CourseMaximumRollCall(course_id));
 		}
 		
 		@GetMapping(value="/studentRollCall")
-		public ModelAndView studentRollCall(String course_id){		
+		public ModelAndView studentRollCall(String course_id,int roll_order){				
 			List<Student> studentList=studentService.getCourseStudent(course_id);
-			return new ModelAndView("/teacher/studentRollCall","studentList",studentList);
+			List<Integer> rollCalls = studentService.getStudentRollCallListByStudentList(course_id, roll_order, studentList);
+			List<Map<String, Object>> list=new ArrayList<>();
+			assert(rollCalls.size()==studentList.size());
+			for(int i=0;i<rollCalls.size();i++){
+				Map<String, Object> map2=new HashMap<>();
+				map2.put("student", studentList.get(i));
+				map2.put("rollCall", rollCalls.get(i));
+				list.add(map2);
+			}
+			Map<String, Object> map = new HashMap<>();
+			map.put("data", list);
+			map.put("roll_order", roll_order);
+			return new ModelAndView("/teacher/studentRollCall","data",map);
 		}
 		
 		@GetMapping(value="/studentResult")
-		public ModelAndView studentResult(String course_id,int roll_order){	
+		@ResponseBody
+		public Map<String, Object> studentResult(String course_id){
+			System.out.println(course_id);
 			List<Student> studentList=studentService.getCourseStudent(course_id);
-			List<List<Map<String, Object>>> homework_result = studentService.getStudentResultListByCourseAndRollOrder(course_id, roll_order, studentList);
-			List<List<Map<String, Integer>>> roll_calls = studentService.getStudentRollCallListByCourseAndRollOrder(course_id, roll_order, studentList);
-			Map<String, Object> map = new HashMap<>();
-			map.put("studentList", studentList);
-			map.put("rollCalls", roll_calls);
-			map.put("homeworkGrades", homework_result);
-			return new ModelAndView("/teacher/studentResult","data",map);
+			List<List<Map<String, Object>>> homework_result = studentService.getStudentResultListByCourse(course_id, studentList);
+			List<List<Map<String, Integer>>> roll_calls = studentService.getStudentRollCallListByCourse(course_id,studentList);
+			List<Map<String, Object>> list = new ArrayList<>();
+			
+			for(int i=0;i<studentList.size();i++){
+				Map<String, Object> tMap = new HashMap<>();
+				tMap.put("student", studentList.get(i));
+				tMap.put("rollCall", roll_calls.get(i));
+				tMap.put("homeworkGrade", homework_result.get(i));
+				list.add(tMap);
+			}
+			Map<String, Object> map=new HashMap<>();
+			map.put("data", list);
+			return map;
+		}
+		
+		@GetMapping(value="/studentResult1")
+		public ModelAndView studentResult1(String course_id){
+			List<Student> studentList=studentService.getCourseStudent(course_id);
+			List<Integer>total_grades = studentService.getStudentCourseTotalGradeByStudentList(course_id,studentList);
+			List<Integer>person_grades = studentService.getStudentCoursePersonGradeBystudentList(course_id, studentList);
+			List<Map<String, Object>> list = new ArrayList<>();
+			for(int i=0;i<studentList.size();i++){
+				Map<String, Object> tMap = new HashMap<>();
+				tMap.put("student", studentList.get(i));
+				tMap.put("total_grade", total_grades.get(i));
+				tMap.put("person_grade", person_grades.get(i));//TODO
+				list.add(tMap);
+			}
+			
+			return new ModelAndView("/teacher/studentResult","data",list);
 		}
 		
 		@GetMapping(value="/homeWorkArrange")
