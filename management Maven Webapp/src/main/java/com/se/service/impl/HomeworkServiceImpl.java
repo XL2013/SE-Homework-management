@@ -27,8 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.se.dao.TeamHomeworkDao;
 import com.se.pojo.Homework;
 import com.se.pojo.HomeworkFile;
+import com.se.pojo.Team;
 import com.se.pojo.TeamHomework;
 import com.se.dao.HomeworkDao;
+import com.se.dao.TeamDao;
 import com.se.service.HomeworkService;
 import com.se.util.ExcelHelper;
 
@@ -40,11 +42,31 @@ public class HomeworkServiceImpl implements HomeworkService{
 	
 	@Resource
 	private TeamHomeworkDao teamHomeworkDao;
+	@Resource 
+	private TeamDao teamDao;
 	@Override
 	public void addHomeworkInfos(List<Homework> homeworks) {
 		// TODO Auto-generated method stub
-		for(Homework homework :homeworks)
+		for(Homework homework :homeworks){
 			homeworkDao.addHomework(homework);
+			String homework_id=homework.getHomework_id();
+			String course_id=homework.getCourse_id();
+			
+			//每布置一次作业，初始化该课程下的所有小组的作业信息,注意所有的值必须有初值，空值也行
+			for(Team team : teamDao.getCourseTeams(course_id)){
+				String team_id=team.getTeam_id();
+				TeamHomework teamHomework=new TeamHomework();
+				teamHomework.setCorrectInfo("");
+				teamHomework.setGrade(0);
+				teamHomework.setStatus(0);
+				teamHomework.setStudent_comment("");
+				teamHomework.setSubmit_time("");
+				teamHomework.setHomework_id(homework_id);
+				teamHomework.setTeam_id(team_id);
+				teamHomework.setSubmitter("");
+				teamHomeworkDao.addTeamHomework(teamHomework);
+			}
+		}
 	}
 
 

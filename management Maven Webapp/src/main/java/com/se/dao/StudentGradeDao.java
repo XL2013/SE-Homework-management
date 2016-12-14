@@ -10,7 +10,7 @@ import com.se.pojo.StudentGrade;
 
 @Repository("studentGradeDao")
 public interface StudentGradeDao {
-	@Insert("insert into student_course_grade(student_id,course_id,grade) vaules(#{student_id},#{course_id},#{grade})")
+	@Insert("insert into student_course_grade(student_id,course_id,grade) values(#{student_id},#{course_id},#{grade})")
 	void addStudentGrade(StudentGrade studentGrade);
 	@Select("select * from student_course_grade where course_id=#{course_id} and student_id=#{student_id}")
 	StudentGrade getStudentCourseGrade(@Param("course_id")String course_id,@Param("student_id")String student_id);

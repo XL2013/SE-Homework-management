@@ -55,6 +55,7 @@ public class AssistantController {
 		for(String team_id :assistantService.getAssitantTeams(assistant_id)){
 			Map<String, Object> teamInfo=new HashMap<String, Object>();
 			Team team=teamService.getTeamById(team_id);
+			
 			String course_name=courseService.getCourse(team.getCourse_id()).getCourse_name();
 			List<Student> members=teamService.getTeamStudents(team_id);
 			teamInfo.put("team", team);

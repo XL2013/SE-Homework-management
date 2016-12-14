@@ -13,4 +13,6 @@ public interface CourseService {
 		Course getCourse(String course_id);
 		
 		List<String> getStudentCourses(String student_id);
+		
+		String getCourseTeacherName(String teacher_id);
 }
