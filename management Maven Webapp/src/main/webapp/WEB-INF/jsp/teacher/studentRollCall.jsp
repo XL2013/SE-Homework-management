@@ -20,7 +20,6 @@
  	  	  	  	<td>${item.student.class_id }</td>
  	  	  	  	<td>
  	  	  	  	<c:choose>
-
  	  	  	  		<c:when test="${item.rollCall==1}">
  	  	  	  			<input type="checkbox" id="${item.student.student_id}" name="checkbox" checked="checked"/>
       					<label for="${item.student.student_id}"></label>

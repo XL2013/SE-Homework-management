@@ -2,6 +2,7 @@ package other;
 
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -22,8 +23,11 @@ import com.se.dao.UserDao;
 import com.se.dao.HomeworkDao;
 import com.se.dao.RollCallDao;
 import com.se.pojo.Homework;
+import com.se.pojo.Student;
 import com.se.pojo.TeamHomework;
 import com.se.service.impl.StudentServiceImpl;
+
+import oracle.net.aso.i;
 
 
 public class LiliangTestDao  extends BaseJunitTest{
@@ -84,6 +88,11 @@ public class LiliangTestDao  extends BaseJunitTest{
 //			
 //			System.out.println(rollCallDao.getStudentRollStatus("201310", 1, "2013211001"));
 //		}
-		System.out.println(rollCallDao.isStudentRollExist("201310", 8, "2013211003"));
+		List<Student> list = studentDao.getStudentList("201310");
+		for (Student student : list) {
+			System.out.println(student.getStudent_id());
+			studentService.addStudentCourseGrade("201310", student.getStudent_id(), 0);
+		}
+//		System.out.println(rollCallDao.isStudentRollExist("201310", 8, "2013211003"));
 	}
 }

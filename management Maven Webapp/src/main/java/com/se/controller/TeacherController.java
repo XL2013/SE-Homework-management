@@ -121,8 +121,8 @@ public class TeacherController {
 			List<Student> studentList=studentService.getCourseStudent(course_id);
 			List<List<Map<String, Object>>> homework_result = studentService.getStudentResultListByCourse(course_id, studentList);
 			List<List<Map<String, Integer>>> roll_calls = studentService.getStudentRollCallListByCourse(course_id,studentList);
-			
 			List<Map<String, Object>> list = new ArrayList<>();
+			
 			for(int i=0;i<studentList.size();i++){
 				Map<String, Object> tMap = new HashMap<>();
 				tMap.put("student", studentList.get(i));
@@ -138,7 +138,18 @@ public class TeacherController {
 		@GetMapping(value="/studentResult1")
 		public ModelAndView studentResult1(String course_id){
 			List<Student> studentList=studentService.getCourseStudent(course_id);
-			return new ModelAndView("/teacher/studentResult","students",studentList);
+			List<Integer>total_grades = studentService.getStudentCourseTotalGradeByStudentList(course_id,studentList);
+			List<Integer>person_grades = studentService.getStudentCoursePersonGradeBystudentList(course_id, studentList);
+			List<Map<String, Object>> list = new ArrayList<>();
+			for(int i=0;i<studentList.size();i++){
+				Map<String, Object> tMap = new HashMap<>();
+				tMap.put("student", studentList.get(i));
+				tMap.put("total_grade", total_grades.get(i));
+				tMap.put("person_grade", person_grades.get(i));//TODO
+				list.add(tMap);
+			}
+			
+			return new ModelAndView("/teacher/studentResult","data",list);
 		}
 		
 		@GetMapping(value="/homeWorkArrange")

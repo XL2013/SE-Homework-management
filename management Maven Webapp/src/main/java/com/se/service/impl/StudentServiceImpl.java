@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.DoubleToIntFunction;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +55,8 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Resource
 	private TeamHomeworkDao teamHomeworkDao;
+	@Resource
+	private HomeworkDao homeworkDao;
 	@Resource
 	private RollCallDao rollCallDao;
 	@Resource
@@ -218,30 +221,7 @@ public class StudentServiceImpl implements StudentService {
 		RollCallSetting rollCallSetting = rollCallDao.getRollCallSetting(course_id);
 		return rollCallSetting.getTotal();
 	}
-	public List<List<Map<String, Object>>> getStudentResultListByCourseAndRollOrder(String course_id, int roll_order,
-			List<Student> students) {
-		// TODO Auto-generated method stub
-		List<List<Map<String, Object>>> list=new ArrayList<>();
-		for (Student student : students) {
-			String team_id=teamDao.searchTeamBySC(student.getStudent_id(), course_id);
-			List<TeamHomework> teamHomeworks = teamHomeworkDao.getTeamHomeWorks(team_id);
-			List<Map<String, Object>> list2 = new ArrayList<>();
-			
-			for (TeamHomework teamHomework : teamHomeworks) {
-				String homework_id = teamHomework.getHomework_id();
-				int status = teamHomework.getStatus();
-				String homework_name=teamHomeworkDao.getHomeworkName(homework_id);
-				int grade = teamHomework.getGrade();
-				Map<String, Object> map=new HashMap<>();
-				map.put("homework_name", homework_name);
-				map.put("grade", grade);
-				map.put("status", status);
-				list2.add(map);
-			}
-			list.add(list2);
-		}
-		return list;
-	}
+
 	@Override
 	public int getStudentCourseGrade(String course_id, String student_id) {
 			if(studentGradeDao.getStudentCourseGrade(course_id, student_id)==null)
@@ -257,7 +237,7 @@ public class StudentServiceImpl implements StudentService {
 		studentGrade.setGrade(grade);
 		studentGrade.setStudent_id(student_id);
 		studentGradeDao.addStudentGrade(studentGrade);
-				
+		
 	}
 	@Override
 	public void updateStudentCourseGrade(String course_id, String student_id, int grade) {
@@ -275,5 +255,50 @@ public class StudentServiceImpl implements StudentService {
 				rollCallDao.addStudentRollCall(studentRollCall);
 			}
 		}
+	}
+	
+	/**
+	 * @value total_grade is compute by homeworkpart and personalpart personalpart is 100 by default
+	 */
+	@Override
+	public List<Integer> getStudentCourseTotalGradeByStudentList(String course_id,List<Student> students) {
+		
+		// TODO Auto-generated method stub
+		List<Integer> list=new ArrayList<>();
+		for (Student student : students) {
+			String team_id=teamDao.searchTeamBySC(student.getStudent_id(), course_id);
+			double total_grade = 0.0;
+			if(team_id!=null){
+				List<TeamHomework> teamHomeworks = teamHomeworkDao.getTeamHomeWorks(team_id);
+				for (TeamHomework teamHomework : teamHomeworks) {
+					String homework_id = teamHomework.getHomework_id();
+					double ratio = homeworkDao.getRatioByHomeworkID(homework_id);
+					int status = teamHomework.getStatus();
+					if(status==2){
+						total_grade+=teamHomework.getGrade()*ratio;
+					}
+				}
+			}
+			//TODO student_part 
+			
+			StudentGrade studentGrade = studentGradeDao.getStudentCourseGrade(course_id, student.getStudent_id());
+			if(studentGrade==null){
+				studentGrade = new StudentGrade();
+				studentGrade.setCourse_id(course_id);
+				studentGrade.setGrade((int)total_grade);
+				studentGrade.setStudent_id(student.getStudent_id());
+				studentGradeDao.addStudentGrade(studentGrade);
+			}
+			else{
+				studentGradeDao.updateGrade(course_id, student.getStudent_id(), (int)total_grade);
+			}
+			list.add((int)total_grade);
+		}
+		return list;
+	}
+	@Override
+	public List<Integer> getStudentCoursePersonGradeBystudentList(String course_id, List<Student> students) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

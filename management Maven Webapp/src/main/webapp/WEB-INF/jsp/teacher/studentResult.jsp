@@ -19,24 +19,26 @@
  	  	  	</tr>
  	  	  </thead>
  	  	  <tbody >
- 	  	  	<c:forEach var="student" items="${students}">
+ 	  	  	<c:forEach var="item" items="${data.data}">
  	  	  	  <tr class="hoverable striped">
- 	  	  	  	<td >${student.student_id}</td>
- 	  	  	  	<td>${student.student_name }</td>
- 	  	  	  	<td>${student.class_id }</td>
+ 	  	  	  	<td >${item.student.student_id}</td>
+ 	  	  	  	<td>${item.student.student_name }</td>
+ 	  	  	  	<td>${item.student.class_id }</td>
  	  	  	  	<td>
- 	  	  	  	  <a class='dropdown-button btn-floating red' href='#' data-activates="${student.student_id}1"><i class="material-icons">view_list</i></a> 	  
+ 	  	  	  	  <a class='dropdown-button btn-floating red' href='#' data-activates="${item.student.student_id}1"><i class="material-icons">view_list</i></a> 	  
 				  <!-- Dropdown Structure -->
-				  <ul id="${student.student_id}1" class='dropdown-content'>
+				  <ul id="${item.student.student_id}1" class='dropdown-content'>
 				  	<li><a href="#!">测试而已</a></li>
 					<li class="divider"></li>
 				  </ul>
 				</td>
 				<td>
-				  <a class='dropdown-button btn-floating blue-gray' href='#' data-activates='${student.student_id}2'><i class="material-icons">visibility</i></a>
-				  <ul id='${student.student_id}2' class='dropdown-content'>
+				  <a class='dropdown-button btn-floating blue-gray' href='#' data-activates='${item.student.student_id}2'><i class="material-icons">visibility</i></a>
+				  <ul id='${item.student.student_id}2' class='dropdown-content'>
 				  </ul>
  	  	  	 	</td>
+ 	  	  	 	<td>${item.person_grade}</td>
+ 	  	  	 	<td>${item.total_grade }</td>
  	  	  	  </tr>
  	  	  	</c:forEach>
  	  	  </tbody>

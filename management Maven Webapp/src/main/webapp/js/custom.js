@@ -123,8 +123,6 @@ function showStudentResult(data){
 		for(subitem in x.homeworkGrade){
 			homeworkGrade=x.homeworkGrade[subitem]
 			for(item in x["homeworkGrade"][subitem])
-			alert(homeworkGrade.homework_name)
-			alert(homeworkGrade.grade)
 			if(homeworkGrade.status==1)
 				grade=homeworkGrade.grade
 			else
