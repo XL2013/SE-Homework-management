@@ -37,4 +37,9 @@ public interface TeamDao {
    
     @Update("update team_table set email=#{email} where team_id=#{team_id} ")
     void setEmail(@Param("team_id")String team_id,@Param("email")String email);
+    
+    @Update("update team_table set leader_id=#{leader_id} where team_id=#{team_id}")
+    void setTeamLeader(@Param("team_id")String team_id,@Param("leader_id")String leader_id);
+    
+   
 }

@@ -22,6 +22,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.se.pojo.Course;
 import com.se.pojo.Homework;
 import com.se.pojo.HomeworkFile;
 import com.se.pojo.Student;
@@ -30,6 +31,8 @@ import com.se.pojo.TeamConfig;
 import com.se.pojo.TeamHomework;
 import com.se.service.HomeworkService;
 import com.se.service.impl.CourseServiceImpl;
+import com.se.service.impl.HomeworkServiceImpl;
+import com.se.service.impl.RollCallServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
 import com.se.service.impl.TeamServiceImpl;
 import com.se.util.FileHelper;
@@ -50,7 +53,9 @@ public class StudentController {
 	private StudentServiceImpl student_service;
 	
 	@Resource
-	private HomeworkService homeworkService;
+	private HomeworkServiceImpl homeworkService;
+	@Resource
+	private RollCallServiceImpl rollCallService;
 	/**
 	 * 向team.jsp传递json数据：
 	 * data:{
@@ -116,8 +121,11 @@ public class StudentController {
 	}
 	@GetMapping(value="/grade")
 	public ModelAndView showGrade(String student_id){
-		
-		return new ModelAndView("student/grade");
+		List<Course> courses=new ArrayList<Course>();
+		for(String course_id:courseService.getStudentCourses(student_id)){
+			courses.add(courseService.getCourse(course_id));
+		}
+		return new ModelAndView("student/grade","courses",courses);
 	}
 	
 	
@@ -277,9 +285,21 @@ public class StudentController {
 	 */
 	@PostMapping(value="updateTeamHomework_status")
 	@ResponseBody
-	public void updateTeamHomework_status(String team_id,String homework_id){
-		homeworkService.submitTeamHomework(team_id, homework_id);
+	public void updateTeamHomework_status(String team_id,String homework_id,String student_id){
+		homeworkService.submitTeamHomework(team_id, homework_id,student_id);
 	}
+	
+	@GetMapping(value="showTeamHomeworkFile")
+	@ResponseBody
+	public Map<String, Object> showTeamHomeworkFile(String team_id,String homework_id){
+		Map<String, Object> data=new HashMap<String, Object>();
+		data.put("files", homeworkService.getHomeworkFiles(team_id, homework_id));
+		
+		return data;
+	}
+	
+	
+	
 	
 	@GetMapping(value="getStudentHomeworkGrade")
 	@ResponseBody
@@ -301,9 +321,15 @@ public class StudentController {
 			gradeInfo.put("grade", teamHomework.getGrade());
 			gradeInfos.add(gradeInfo);
 		}
+		int absenceTimes=rollCallService.getAbsenceTimes(student_id, course_id);
+		int total=rollCallService.getStudentRollCallTotals(course_id, student_id);
 		//返回学生课程总成绩
 		int grade=student_service.getStudentCourseGrade(course_id, student_id);
 		data.put("grade", grade);
+		data.put("absenceTimes", absenceTimes);
+		data.put("rollCallTimes",total);
+		data.put("gradeInfos", gradeInfos);
+		data.put("isTeamExist", true);
 		return data;
 	}
 

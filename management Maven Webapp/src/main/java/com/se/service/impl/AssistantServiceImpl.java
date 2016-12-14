@@ -38,4 +38,10 @@ public class AssistantServiceImpl implements AssistantService{
 			assistantDao.setTeamAssistant(team_id, assistant_id);
 	}
 
+	@Override
+	public List<String> getAssitantTeams(String assistant_id) {
+		return assistantDao.getAssistantTeams(assistant_id);
+	}
+	
+
 }

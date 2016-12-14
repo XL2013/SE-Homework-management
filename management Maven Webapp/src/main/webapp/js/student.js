@@ -190,7 +190,7 @@ function showHomeworkInfo(obj){
 			$("#m-correctInfo").text(team_homework.correctInfo);
 			$("#m-comment").text(team_homework.student_comment);
 		    var grade=team_homework.grade;
-		    var total=grade*ratio;
+		    var total=(grade*ratio).toFixed(2);
 			$("#m-homework_grade").text(grade);
 			$("#m-homework_total").text(total);
 			$("#m-homework_submitter").text(team_homework.submitter);
@@ -300,24 +300,44 @@ function checkForm(){
 	}
 }
 function showSubmitFile(team_id,homework_id){
-	console.log("这里更新了 文件列表");
+	$.ajax({
+		type:"get",
+		url:"student/showTeamHomeworkFile",
+		data:{
+			"team_id":team_id,
+			"homework_id":homework_id
+		},
+		dataType:"json",
+		success: function(data){
+			var files=data.files;
+			$("#m-submit_file").empty();
+			for(var i in files){
+				var li="<li><a href=\"#!\" onclick=\"fileDownload(this,'"+files[i].team_id+"','"+files[i].homework_id+"')\">"+files[i].file_name+"</a></li>";
+				$("#m-submit_file").append(li);
+			}
+		}
+	
+		
+	});
 }
 function submitTeamHomework(){
 	var team_id=$("#f-team_id").val();
 	var homework_id=$("#f-homework_id").val();
+	var student_id=$("#student_id").text();
 	$.ajax({
 		type:"post",
 		url:"student/updateTeamHomework_status",
 		data:{
 			"team_id":team_id,
-			"homework_id":homework_id
+			"homework_id":homework_id,
+			"student_id":student_id
 		}
 	});
 }
 function fileDownload(obj,team_id,homework_id){
 	var file_name=$(obj).text();
-
 	var url="file/download?team_id="+team_id+"&homework_id="+homework_id+"&file_name="+file_name;
+	url=encodeURI(url);
 	window.location.href=url;
 }
 
@@ -332,6 +352,10 @@ function showHomeworkGrade(course_id,student_id){
 		 },
 		 dataType:"json",
 		 success : function(data){
+			 if(!data.isTeamExist){
+				 alert("你未拥有该课程的小组");
+				 return;
+			 }
 			 //初始化成绩显示模块
 			 var gradeBody="	<h4>成绩列表</h4>"+
 				  	"<div class=\"divider\"></div>"+
@@ -340,13 +364,13 @@ function showHomeworkGrade(course_id,student_id){
 					"<div class=\"divider\"></div>"+
 					"<div class=\"row\">"+
 					 "<div class=\"col s4\">"+
-					  " <h6>总点到次数： <a id=\"rollCallTimes\">4</a></h6>"+		  
+					  " <h6>总点到次数： <a id=\"rollCallTimes\"></a></h6>"+		  
 					 "</div>"+
 					" <div class=\"col s4\">"+
-					 "  <h6>缺勤次数： <a id=\"absenceTimes\">3</a></h6>	"+	  
+					 "  <h6>缺勤次数： <a id=\"absenceTimes\"></a></h6>	"+	  
 					" </div>"+
 					" <div class=\"col s4\">"+
-					   "<h6>课程总成绩：<a id=\"totalGrade\">90</a></h6></div></div>	";
+					   "<h6>课程总成绩：<a id=\"totalGrade\"></a></h6></div></div>	";
 			 $("#grade-body").empty();
 			 $("#grade-body").append(gradeBody);
 			 
@@ -357,7 +381,7 @@ function showHomeworkGrade(course_id,student_id){
 				 	"</th><th>"+gradeInfos[i].grade+"</th></tr>";
 				 $("#t-homework_grade_body").append(tr);
 			 }
-			 $("#rollCallTimes").text(data.rollCalltimes);
+			 $("#rollCallTimes").text(data.rollCallTimes);
 			 $("#absenceTimes").text(data.absenceTimes);
 			 $("#totalGrade").text(data.totalGrade);
 			}

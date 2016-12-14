@@ -56,12 +56,10 @@ public class StudentServiceImpl implements StudentService {
 	private TeamHomeworkDao teamHomeworkDao;
 	@Resource
 	private RollCallDao rollCallDao;
+	@Resource
 	private StudentGradeDao studentGradeDao;
 	/**
-	 * excel琛ㄥ畾涔�:
-	 * student_id  | class_id | student_name
-	 * @focus:蹇呴』濡傛锛屽惁鍒欎細鍑虹幇鍐欏叆閿欒鐨勬暟鎹殑鎯呭喌
-	 * @todo:澧炲姞琛ㄦ牸楠岃瘉,鍙兘鍚庣画杩樿澧炲姞浜嬬墿鎿嶄綔锛屽洜涓烘槸涓�娆℃�у啓鍏ユ暟鎹��
+
 	 */
 	public void addStudentList(Workbook wb,String course_id) {		
 			//Read the sheets
@@ -246,7 +244,11 @@ public class StudentServiceImpl implements StudentService {
 	}
 	@Override
 	public int getStudentCourseGrade(String course_id, String student_id) {
-			return studentGradeDao.getStudentCourseGrade(course_id, student_id);
+			if(studentGradeDao.getStudentCourseGrade(course_id, student_id)==null)
+				return 0;
+			else {
+				return studentGradeDao.getStudentCourseGrade(course_id, student_id).getGrade();
+			}
 	}
 	@Override
 	public void addStudentCourseGrade(String course_id, String student_id, int grade) {

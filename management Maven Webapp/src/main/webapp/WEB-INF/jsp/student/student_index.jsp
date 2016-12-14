@@ -13,6 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	 <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>
+    <!--  <script type="text/javascript" src="js/jquery.validate.min.js"></script>-->
     <script type="text/javascript" src="js/materialize.js"></script>
     <script type="text/javascript" src="js/student.js"></script>
   </head>

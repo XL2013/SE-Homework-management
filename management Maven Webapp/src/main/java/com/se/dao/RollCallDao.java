@@ -43,5 +43,9 @@ public interface RollCallDao {
 		@Select("select  status from student_rollcall where course_id=#{course_id} and roll_order=#{roll_order} and student_id=#{student_id}")
 		Object getStudentRollStatus(@Param("course_id")String course_id,@Param("roll_order")int roll_order,@Param("student_id")String student_id);
 		//todo: Ôö¼ÓÉ¾³ı´úÂë
+		@Select("select count(*) from student_rollcall where course_id=#{course_id} and student_id=#{student_id} and status=1")
+		int getStudentRollCallTimes(@Param("course_id")String course_id,@Param("student_id")String student_id);
+		@Select("select count(*) from student_rollcall where course_id=#{course_id} and student_id=#{student_id}")
+		int getStudentRollCallTotals(@Param("course_id")String course_id,@Param("student_id")String student_id);
 		
 }

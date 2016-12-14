@@ -56,7 +56,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 	
 	@Override
 	public TeamHomework getTeamHomework(String homework_id,String team_id) {
-		return teamHomeworkDao.getHomeworkByID(homework_id,team_id);
+		return teamHomeworkDao.getTeamHomeworkByID(homework_id,team_id);
 	}
 	
 	public void addTeamHomework(String team_id,String homework_id){
@@ -68,7 +68,7 @@ public class HomeworkServiceImpl implements HomeworkService{
 		homework.setSubmitter("");
 		homework.setCorrectInfo("");
 		homework.setStudent_comment("");
-		teamHomeworkDao.addHomework(homework);
+		teamHomeworkDao.addTeamHomework(homework);
 	}
 	public void setComment(String comment,String homework_id,String team_id){
 		teamHomeworkDao.setTeamHomeworkComment(homework_id, team_id, comment);
@@ -194,11 +194,28 @@ public class HomeworkServiceImpl implements HomeworkService{
 	}
 
 
-	@Override
-	public void submitTeamHomework(String team_id, String homework_id) {
-		String date=new SimpleDateFormat("yyyy-mm-dd").format(new Date());
+	//todo :这里直接使用updateTeamHomework
+	public void submitTeamHomework(String team_id, String homework_id,String student_id) {
+		String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		teamHomeworkDao.setTeamHomeworkStatus(homework_id, team_id, 1);
+		teamHomeworkDao.setTeamHomeworkGrade(homework_id, team_id, 0);
 		teamHomeworkDao.setTeamHomeworkTime(homework_id, team_id, date);
+		teamHomeworkDao.setTeamHomeworkSubmitter(homework_id, team_id, student_id);
+	}
+
+
+	@Override
+	public void evaluateTeamHomework(String team_id, String homework_id, String correctInfo, int grade) {
+		teamHomeworkDao.setTeamHomeworkCorrectInfo(homework_id, team_id, correctInfo);
+		teamHomeworkDao.setTeamHomeworkGrade(homework_id, team_id, grade);
+		teamHomeworkDao.setTeamHomeworkStatus(homework_id, team_id, 2);
+			
+	}
+
+	
+	@Override
+	public List<HomeworkFile> getHomeworkFiles(String team_id, String homework_id) {
+		return teamHomeworkDao.getTeamHomeworkFiles(homework_id, team_id);
 	}
 
 }

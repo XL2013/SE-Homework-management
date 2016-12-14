@@ -27,4 +27,7 @@ public interface StudentService {
 	int getStudentCourseGrade(String course_id,String student_id);
 	void addStudentCourseGrade(String course_id,String student_id,int grade);
 	void updateStudentCourseGrade(String course_id,String student_id,int grade);
+	
+	
+
 }

@@ -22,8 +22,7 @@
 		      <th>作业状态</th>
 		      <th>成绩</th>
 		      <th>查看</th>
-		      <th>提交</th>
-		      <th>评论</th>
+		      <th>评分</th>
 		    </tr>
 		  </thead>
 		   <tbody id="t-homeworkBody">
@@ -65,64 +64,28 @@
       <div class="modal-footer ">
 	      	<a>本次成绩：</a>
 	      	<a id="m-homework_grade"></a>
-	      	<a>总成绩：</a>
-	      	<a id="m-homework_total"></a>
 	      	<a>提交者：</a>
 	      	<a  id="m-homework_submitter"></a>
       	<a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="">完成</a>
       </div>
-    </div><!-- end of homeworkInfo_modal -->
-    
-     <div class="modal modal-fixed-footer" id="homeworkSubmit-modal">
-      <div class="modal-content">
-     	<h5 id="s-homework_name"><span class="badge" id="s-homework_id"></span></h5>
-   		<div class="divider"></div>
-   		<div class="row">
-   		  <div class="col s6">
-    		<label>发布时间:</label>
-    		<a id="s-releaseTime"></a>
-     	  </div>
-     	  <div class="col s6">
-     		<label>截止时间:</label>
-     		<a id="s-submitTime"></a>
-     	  </div>
-     	  <div class="col s12">
-	     	  	<form id="homeworkFileForm" action="student/uploadHomeWorkFile" method="post" enctype="multipart/form-data">
-				    <div class="file-field input-field">
-				      <div class="btn">
-				        <span>File</span>
-				        <input type="file" name="files" multiple>
-				      </div>
-				      <div class="file-path-wrapper">
-				        <input class="file-path validate" type="text" placeholder="Upload one or more files">
-				      </div>  
-	      			</div>
-	      			<input type="text" hidden id="f-team_id" name="team_id">
-	      			<input type="text" hidden id="f-homework_id" name="homework_id">
-	      			<button type="submit" class="btn">提交</button>
-	      		</form>
-    		   <h5>作业文件：</h5>
-    	       <ul id="m-submit_file"></ul>   
-    	 </div>  <!-- end of col --> 		 
-  		</div><!-- end of row -->
-  	  </div><!-- end of content -->
-	  <div class="modal-footer ">
-	      <a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="submitTeamHomework()">完成</a>
-	   </div>
-	 </div><!-- end of homeworkSubmit_modal -->
+    </div><!-- end of homeworkInfo_modal -->   
 	 
 	 <div class="modal" id="comment-modal">
 	 	<div class="modal-content">
  		  <div class="row">
      		 <div class="input-field col s12">
-       		 <textarea id="comment-text" class="materialize-textarea"></textarea>
-       		 <label for="comment-text">请填写你的意见</label>
-       		 <input type="text"  id="comment-homework_id"hidden>
-       	   </div>
+	       		<textarea id="comment-text" class="materialize-textarea"></textarea>
+	       		<label for="comment-text">请填写你的意见</label>
+	       		<input type="text"  id="comment-homework_id"hidden>
+       	     </div>
+       	     <div class="input-field col s12">
+	       		<input type="number" min=0 max=100 id="comment-grade">
+	       		<label for="comment-grade">分数</label>
+       	     </div>
     	  </div>	 		
-	 	</div>
+	 	</div><!-- end of comment-modal -->
 	 	<div class="modal-footer">
-	 	   <a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="submitComment()">完成</a>
+	 	   <a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="evaluateTeamHomework()">完成</a>
 	   </div>
 	 </div><!-- end of comment modal -->
     
@@ -137,20 +100,10 @@
 	      ending_top: '10%', // Ending top style attribute
 	    }
   );
-  	//实现异步表单提交
-			  	var options={
-			  		beforeSubmit:checkForm,
-			  		success : function(data){
-			  			console.log(data.team_id);
-			  			console.log(data.homework_id);
-			  			showSubmitFile(data.team_id,data.homework_id);			  			
-			  		}
-			  	};
-			  	$("#homeworkFileForm").ajaxForm(options);
 
   $(".collection-item").click(function(){
   		var team_id=$(this).attr('team_id');
   		$("#team_id").val(team_id);
-  		getHomeworks();
+  		getTeamHomeworks(team_id);
   });
 </script>
