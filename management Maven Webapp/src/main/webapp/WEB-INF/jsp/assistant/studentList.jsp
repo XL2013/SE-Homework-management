@@ -4,9 +4,12 @@
   <p>协助课程</p>
 	<div class="collection">	
 		<c:forEach var="course" items="${courses}">
-			 <a href="#!" class="collection-item" id="${course.course.course_id}" onclick="rollCallTab1('teacher/studentResult1',${course.rollcall_max})"><span class="badge">查看学生名单</span>${course.course.course_name}</a>
+			 <a href="#!" class="collection-item" id="${course.course_id}" onclick="rollCallTab1('teacher/studentResult1',${course.course_id})"><span class="badge">查看学生名单</span>${course.course_name}</a>
 	    </c:forEach>   
+	 <input type="text" class="course_id" hidden>
   	</div>
+  	<div class="divider"></div>
+  	<div name="rollCallTab"></div>
 
 </div>
 

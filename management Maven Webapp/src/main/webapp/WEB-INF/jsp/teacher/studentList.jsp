@@ -33,7 +33,7 @@
 	        </div>
         </li>
         <li>
-        	<div class="collapsible-header" id="ResultsIdentifier" onclick="rollCallTab1('teacher/studentResult1',${rollcall_max})">查看学生成绩</div>
+        	<div class="collapsible-header" id="ResultsIdentifier" onclick="rollCallTab1('teacher/studentResult1')">查看学生成绩</div>
         </li>
         </ul>
 	  </div>

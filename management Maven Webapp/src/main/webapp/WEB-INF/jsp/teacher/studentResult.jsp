@@ -70,7 +70,7 @@
 			},
 			dataType :"json",
 			success : function(data){
-				showStudentResult(data.data)
+				showStudentResult(data.data);
 			}			
 		});
   })

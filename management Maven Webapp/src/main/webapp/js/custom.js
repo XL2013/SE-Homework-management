@@ -6,13 +6,15 @@
 function addCourseInfo(teacher_id){
 	var course_name=$("#course_name").val();
 	var description=$("#description").val();
+	var total=$("#course_rollCall").val();
 	$.ajax({
 		type : "post",
 		url :　"teacher/addCourse",
 		data :{
 			"teacher_id" : teacher_id,
 			"course_name" : course_name,
-			"description" : description
+			"description" : description,
+			"total":total
 		},
 		dataType :"json",
 		success : function(data){
@@ -121,10 +123,12 @@ function showStudentResult(data){
 		for(subitem in x.homeworkGrade){
 			homeworkGrade=x.homeworkGrade[subitem]
 			for(item in x["homeworkGrade"][subitem])
-			if(homeworkGrade.status==1)
+			if(homeworkGrade.status==2)
 				grade=homeworkGrade.grade
-			else
+			else if(homeworkGrade.status==1)
 				grade="未批改"
+			else
+				grade="未提交";	
 			var li="<li><a href=\"#!\">"+homeworkGrade.homework_name+" ："+grade+"</a></li>"+
 			"<li class=\"divider\"></li>"
 			$("#"+student_id+"1").append(li)
@@ -144,7 +148,7 @@ function showStudentResult(data){
 			"<li class=\"divider\"></li>"
 			$("#"+student_id+"2").append(li)
 		}
-		alert("加载完成")
+	
 	}
 	
 
