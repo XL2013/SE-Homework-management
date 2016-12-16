@@ -68,7 +68,7 @@ public class AssistantController {
 	
 	@GetMapping(value="/studentList")
 	public ModelAndView showStudentListView(String assistant_id){
-		return new ModelAndView("/assistant/studentList");
+		return new ModelAndView("/assistant/studentList","courses",assistantService.getAssistantCourses(assistant_id));
 	}
 	
 	@PostMapping(value="changeTeamLeader")

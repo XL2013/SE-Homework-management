@@ -116,8 +116,6 @@ function showStudentResult(data){
 	for(index in data){
 		x=data[index]
 		student_id=data[index].student.student_id
-		alert("sutudent_id")
-		alert(student_id)
 		$("#"+student_id+"1").empty()
 		$("#"+student_id+"2").empty()
 		for(subitem in x.homeworkGrade){
@@ -133,10 +131,20 @@ function showStudentResult(data){
 		}
 		for(subitem in x.rollCall){
 			rollCall=x.rollCall[subitem]
-			var li="<li><a href=\"#!\">"+rollCall.rollcall_ID+"次点名："+rollCall.rollcall_state+"</a></li>"+
+			if(rollCall.rollcall_state==2){
+				rollcall="未点名"
+			}
+			else if(rollCall.rollcall_state==1){
+				rollcall="到"
+			}
+			else{
+				rollcall="缺席"
+			}
+			var li="<li><a href=\"#!\">"+"第"+rollCall.rollcall_ID+"次点名："+rollcall+"</a></li>"+
 			"<li class=\"divider\"></li>"
 			$("#"+student_id+"2").append(li)
 		}
+		alert("加载完成")
 	}
 	
 

@@ -19,7 +19,7 @@
  	  	  	</tr>
  	  	  </thead>
  	  	  <tbody >
- 	  	  	<c:forEach var="item" items="${data.data}">
+ 	  	  	<c:forEach var="item" items="${data}">
  	  	  	  <tr class="hoverable striped">
  	  	  	  	<td >${item.student.student_id}</td>
  	  	  	  	<td>${item.student.student_name }</td>
@@ -62,7 +62,6 @@
 			alert("请选择一门课程");
 			return;
 		}
-		alert("hehe")
 		$.ajax({
 			type :"get",
 			url :'teacher/studentResult',
@@ -71,7 +70,6 @@
 			},
 			dataType :"json",
 			success : function(data){
-				alert("hehe")
 				showStudentResult(data.data)
 			}			
 		});

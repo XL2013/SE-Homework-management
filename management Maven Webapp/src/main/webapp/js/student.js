@@ -389,3 +389,29 @@ function showHomeworkGrade(course_id,student_id){
 	});
 	
 }
+
+
+//引用老师界面的学生名单函数
+function rollCallTab(url,roll_order){
+	var course_id=$(".course_id").val();
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	alert(roll_order)
+	alert(course_id)
+	$("[name='rollCallTab']").empty();
+	$.ajax({
+		type :"get",
+		url :url,
+		data :{
+			"course_id" : course_id,
+			"roll_order":parseInt(roll_order)
+		},
+		dataType :"html",
+		success : function(data){
+			$("[name='rollCallTab']").empty();
+			$("[name='rollCallTab']").html(data);
+		}			
+	});
+}

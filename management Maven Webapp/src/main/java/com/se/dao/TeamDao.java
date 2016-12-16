@@ -36,7 +36,8 @@ public interface TeamDao {
     
     @Select("select ratio from stu_team where team_id=#{team_id} and student_id=#{student_id}")
     Double getMemberRatio(@Param("team_id")String team_id,@Param("student_id")String student_id);
-    
+    @Select("select count(*) from stu_team where team_id=#{team_id} and student_id=#{student_id}")
+    int isMemberInTeam(@Param("team_id")String team_id,@Param("student_id")String student_id);
     @Update("update stu_team set ratio=#{ratio} where team_id=#{team_id} and student_id=#{student_id}")
     void setMemberRatio(@Param("team_id")String team_id,@Param("student_id")String student_id,@Param("ratio")double ratio);
     
