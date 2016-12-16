@@ -150,6 +150,10 @@ public class StudentServiceImpl implements StudentService {
 		return students;
 	}
 	
+	/**
+	 * Get the roll_call list at roll_order time, and return a list parallel to students
+	 * @param roll_order is used for a specific roll_call time 
+	 */
 	@Override
 	public List<Integer> getStudentRollCallListByStudentList(String course_id, int roll_order, List<Student> students){
 		List<Integer> list = new ArrayList<>();
@@ -175,13 +179,21 @@ public class StudentServiceImpl implements StudentService {
 			RollCallSetting rollCallSetting = rollCallDao.getRollCallSetting(course_id);
 			int roll_call_time=rollCallSetting.getTotal();
 			List<Map<String, Integer>> list2 = new ArrayList<>();
-//			for(int i=0;i<roll_call_time;i++){
-//				int status = rollCallDao.getStudentRollStatus(course_id, i+1, student.getStudent_id());
-//				Map<String, Integer> map = new HashMap<>();
-//				map.put("rollcall_ID", i+1);
-//				map.put("rollcall_state", status);
-//				list2.add(map);
-//			}
+			for(int i=0;i<roll_call_time;i++){
+				Object status1 = rollCallDao.getStudentRollStatus(course_id, i+1, student.getStudent_id());
+				int status;
+				if(status1==null){
+					status = 2;
+				}
+				else{
+					status = ((BigDecimal)status1).intValue();
+				}
+				
+				Map<String, Integer> map = new HashMap<>();
+				map.put("rollcall_ID", i+1);
+				map.put("rollcall_state", status);
+				list2.add(map);
+			}
 			list.add(list2);
 		}
 		return list;
@@ -268,8 +280,13 @@ public class StudentServiceImpl implements StudentService {
 		for (Student student : students) {
 			String team_id=teamDao.searchTeamBySC(student.getStudent_id(), course_id);
 			double total_grade = 0.0;
-			if(team_id!=null){
+			double person_ratio = 1.0;
+			if(team_id!=null && team_id!=""){
+				System.out.println("team_id");
+				System.out.println(team_id);
 				List<TeamHomework> teamHomeworks = teamHomeworkDao.getTeamHomeWorks(team_id);
+				if(teamDao.isMemberInTeam(team_id, student.getStudent_id())>0)
+					person_ratio=teamDao.getMemberRatio(team_id, student.getStudent_id());
 				for (TeamHomework teamHomework : teamHomeworks) {
 					String homework_id = teamHomework.getHomework_id();
 					double ratio = homeworkDao.getRatioByHomeworkID(homework_id);
@@ -279,8 +296,19 @@ public class StudentServiceImpl implements StudentService {
 					}
 				}
 			}
-			//TODO student_part 
+			//student_part
+			//roll_call part
+			int present_times = rollCallDao.getStudentRollCallTimes(course_id, student.getStudent_id());
+			int total_rollcall = rollCallDao.getRollCallSetting(course_id).getTotal();
+			int person_grade_deduct;
+			if(total_rollcall-present_times>7)
+				person_grade_deduct=0;
+			else
+				person_grade_deduct=100-(total_rollcall-present_times)*5;
 			
+			total_grade=total_grade*person_ratio-person_grade_deduct;
+			total_grade=total_grade>0?total_grade:0;
+					
 			StudentGrade studentGrade = studentGradeDao.getStudentCourseGrade(course_id, student.getStudent_id());
 			if(studentGrade==null){
 				studentGrade = new StudentGrade();
@@ -299,6 +327,16 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<Integer> getStudentCoursePersonGradeBystudentList(String course_id, List<Student> students) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Integer>list = new ArrayList<>();
+		for (Student student : students) {
+			double person_ratio = 1.0;
+			String team_id=teamDao.searchTeamBySC(student.getStudent_id(), course_id);
+			if(team_id!=null && team_id!=""){
+				if(teamDao.isMemberInTeam(team_id, student.getStudent_id())>0)
+					person_ratio=teamDao.getMemberRatio(team_id, student.getStudent_id());
+			}
+			list.add((int)(person_ratio*100.0));
+		}
+		return list;
 	}
 }

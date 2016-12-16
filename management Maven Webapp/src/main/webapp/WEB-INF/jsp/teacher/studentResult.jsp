@@ -19,7 +19,7 @@
  	  	  	</tr>
  	  	  </thead>
  	  	  <tbody >
- 	  	  	<c:forEach var="item" items="${data.data}">
+ 	  	  	<c:forEach var="item" items="${data}">
  	  	  	  <tr class="hoverable striped">
  	  	  	  	<td >${item.student.student_id}</td>
  	  	  	  	<td>${item.student.student_name }</td>
