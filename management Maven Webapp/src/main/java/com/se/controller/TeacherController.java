@@ -64,9 +64,11 @@ public class TeacherController {
 		
 		@PostMapping(value="modifyStudentRollCallStat")
 		@ResponseBody
-		public String modifyStudentRollCallStat(@RequestBody List<StudentRollCall> studentRollCalls){
+		public Map<String,Object> modifyStudentRollCallStat(@RequestBody List<StudentRollCall> studentRollCalls){
 			studentService.setStudentRollCallListByStudentList(studentRollCalls);
-			return "success";
+			Map<String,Object> map=new HashMap<>();
+			map.put("data", "success");
+			return map;
 		}
 		
 		@RequestMapping(value="/addCourse",method=RequestMethod.POST)

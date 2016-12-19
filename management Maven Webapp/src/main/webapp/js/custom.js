@@ -377,7 +377,7 @@ function showHomeworkList(items){
     	}
     	var tr="<tr><td>"+items[item].team_id+"</td>"+
     	"<td>"+items[item].submit_time+"</td>"+
-    	"<td><a class='waves-effect waves-light btn' name='modify'>"+items[item].homework_name+"</a></td>"+
+    	"<td><a class='waves-effect waves-light btn' name='modify' onclick=\"showHomeworkFile("+items[item].homework_id+","+items[item].team_id+")\">"+items[item].homework_name+"</a></td>"+
     	"<td>"+items[item].submitter+"</td>"+
     	"<td>"+grade+"</td>"+
     	"<td>"+items[item].correctinfo+"</td>"+

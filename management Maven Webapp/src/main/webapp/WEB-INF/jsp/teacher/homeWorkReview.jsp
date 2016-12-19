@@ -54,8 +54,8 @@
 		 	    <table class="centered ">
 		 	  	  <thead id="table-head">
 		 	  	  	<tr>
-		 	  	  	  <th>提交时间</th>
-		 	  	  	  <th data-field="name">小组编号</th>
+		 	  	  	  <th>小组编号</th>
+		 	  	  	  <th data-field="name">提交时间</th>
 		 	  	  	  <th data-field="pwd">作业名称</th>
 		 	  	  	  <th data-filed="role">提交人姓名</th>
 		 	  	  	  <th>成绩</th>
