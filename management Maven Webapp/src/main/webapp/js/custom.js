@@ -375,12 +375,12 @@ function showHomeworkList(items){
 			final_grade= items[item].ratio*items[item].grade;
 			grade=items[item].grade;
     	}
-    	var tr="<tr><td>"+items[item].team_id+"</td>"+
-    	"<td>"+items[item].submit_time+"</td>"+
+    	var tr="<tr><td>"+items[item].submit_time+"</td>"+
+    	"<td>"+items[item].team_id+"</td>"+
     	"<td><a class='waves-effect waves-light btn' name='modify' onclick=\"showHomeworkFile("+items[item].homework_id+","+items[item].team_id+")\">"+items[item].homework_name+"</a></td>"+
     	"<td>"+items[item].submitter+"</td>"+
     	"<td>"+grade+"</td>"+
-    	"<td>"+items[item].correctinfo+"</td>"+
+    	"<td>"+items[item].correctInfo+"</td>"+
     	"<td>"+items[item].student_comment+"</td>" +
     	"<td>"+final_grade+"</td></tr>"
 		$("#table-body").append(tr);
@@ -392,18 +392,18 @@ function conditionSearch(obj){
 	var homework_name=$("#homework_name1").val()
 	var team_number=$("#team_number1").val()
 	
-  	var tr="<tr>"
-  	  "<th>提交时间</th>"
-  	  "<th data-field=\"name\">小组编号</th>"+
-  	  "<th data-field=\"pwd\">作业名称</th>"+
-  	  "<th data-filed=\"role\">提交人姓名</th>"+
-  	  "<th>成绩</th>"+
-  	  "<th>批改说明</th>"+
-  	  "<th>学生意见</th>"+
-  	  "<th>期末占分</th>"+
-  	"</tr>"
-  	$("#table-head").empty();
-  	$("#table-head").append(tr);
+  	var tr="<tr>"+
+    	  "<th>提交时间</th>"+
+    	  "<th data-field=\"name\">小组编号</th>"+
+    	  "<th data-field=\"pwd\">作业名称</th>"+
+    	  "<th data-filed=\"role\">提交人姓名</th>"+
+    	  "<th>成绩</th>"+
+    	  "<th>批改说明</th>"+
+    	  "<th>学生意见</th>"+
+    	  "<th>期末占分</th>"+
+    	"</tr>"
+	$("#table-head").empty();
+	$("#table-head").append(tr);
 	alert(homework_name)
 	$.ajax({
 		type:"post",
