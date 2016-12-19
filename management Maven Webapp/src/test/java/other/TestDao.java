@@ -66,8 +66,8 @@ public class TestDao  extends BaseJunitTest{
 	@Test
 	public void test(){
 
-		for(User user:userDao.getUserList(1)){
-			user.setUser_pwd(MD5Helper.encrypt(user.getUser_pwd()));
+		for(User user:userDao.getUserList(2)){
+			user.setUser_pwd(MD5Helper.encrypt("123"));
 			userDao.updateUser(user);
 		}
 		

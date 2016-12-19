@@ -448,5 +448,30 @@ function computeStudentFinalGrade(){
 	$("#table-head").append(tr);
 }			
 
-
-
+function showHomeworkFile(homework_id,team_id){
+	$.ajax({
+		type:"get",
+		url:"student/showTeamHomeworkFile",
+		data:{
+			"homework_id":homework_id,
+			"team_id":team_id
+		},
+		dataType:"json",
+		success: function(data){
+			var files=data.files;
+			$("#m-files").empty();
+			for(var i in files){
+				var li="<li><a href=\"#!\" onclick=\"fileDownload(this,'"+team_id+"','"+team_homework.homework_id+"')\">"+files[i].file_name+"</a></li>";
+				$("#m-files").append(li);
+			}
+		}
+		
+	});
+}
+//这个可以作为公共的js
+function fileDownload(obj,team_id,homework_id){
+	var file_name=$(obj).text();
+	var url="file/download?team_id="+team_id+"&homework_id="+homework_id+"&file_name="+file_name;
+	url=encodeURI(url);
+	window.location.href=url;
+}

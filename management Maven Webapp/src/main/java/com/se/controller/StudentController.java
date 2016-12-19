@@ -292,6 +292,7 @@ public class StudentController {
 		homeworkService.submitTeamHomework(team_id, homework_id,student_id);
 	}
 	
+	//这个函数可以作为fileController的函数
 	@GetMapping(value="showTeamHomeworkFile")
 	@ResponseBody
 	public Map<String, Object> showTeamHomeworkFile(String team_id,String homework_id){

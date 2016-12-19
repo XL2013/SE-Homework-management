@@ -74,6 +74,29 @@
 
 		</div>
 	</div>
-<script type="text/javascript">
 	
+	<div id="homework_modal" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<h5>小组作业文件列表</h5>
+			<div class="divider"></div>
+			<ul id="#m-files"></ul>
+		</div>
+		<div class="modal-footer">
+  		  <a href="#!" class="modal-action  waves-green btn-flat" onclick="addTeamConfig()">完成</a>
+  		</div>
+	</div>
+	
+<script type="text/javascript">
+	$(document).ready(function(){
+   // 实现弹出模态框
+  	 $('#homework_modal').modal({
+  	 		dismissible : true,
+  	 		opacity : .5,
+  	 		in_duration  : 400,
+  	 		out_duration : 300,
+  	 		starting_top :'4%',
+  	 		ending_top : '10%'	 		
+  	 });
+  	 
+ }); 
 </script>
