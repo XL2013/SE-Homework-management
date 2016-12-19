@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -26,8 +27,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       <img src="img/bupt_1.jpg">
 			     </div>
 		      <a href="#!user"><img class="circle" src="img/bupt-logo.png"></a>
-		      <a href="#!name"><span class="white-text name" >${user.user_name}</span></a>
-		      <a href="#!"><span class="white-text " id="student_id">${user.user_id}</span></a>
+		      <a href="#!name"><span class="white-text name" >${data.user.user_name}</span></a>
+		      <a href="#!"><span class="white-text " id="student_id">${data.user.user_id}</span></a>
 		   	   </div>
 		    </li>
 		    <li><a href="#!" onclick="studentTab('student/homework')">作业 </a></li>
@@ -39,10 +40,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	              <a class="collapsible-header">已选课程</a>
 	              <div class="collapsible-body">
 	                <ul id="courseList">
-	                  <li><a href="#!">First</a></li>
-	                  <li><a href="#!">Second</a></li>
-	                  <li><a href="#!">Third</a></li>
-	                  <li><a href="#!">Fourth</a></li>
+	                 <c:forEach var="course" items="${data.courses }">
+	                  <li><a href="#!"  onclick="courseTab('teacher/courseInfo',${course.course_id})">${course.course_name}</a></li>
+	                  </c:forEach>
 	                </ul>
                   </div>
                  </li>

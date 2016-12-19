@@ -25,8 +25,10 @@ import com.se.pojo.RollCallSetting;
 import com.se.pojo.StudentGrade;
 import com.se.pojo.StudentRollCall;
 import com.se.pojo.TeamHomework;
+import com.se.pojo.User;
 import com.se.service.impl.HomeworkServiceImpl;
 import com.se.service.impl.StudentServiceImpl;
+import com.se.util.MD5Helper;
 
 
 public class TestDao  extends BaseJunitTest{
@@ -63,16 +65,11 @@ public class TestDao  extends BaseJunitTest{
 	RollCallDao rollCallDao;
 	@Test
 	public void test(){
-		TeamHomework teamHomework=new TeamHomework();
-		teamHomework.setCorrectInfo("");
-		teamHomework.setGrade(0);
-		teamHomework.setStatus(0);
-		teamHomework.setStudent_comment("");
-		teamHomework.setSubmit_time("");
-		teamHomework.setHomework_id("111");
-		teamHomework.setTeam_id("111");
-		teamHomework.setSubmitter("");
-		teamHomeworkDao.addTeamHomework(teamHomework);
+
+		for(User user:userDao.getUserList(1)){
+			user.setUser_pwd(MD5Helper.encrypt(user.getUser_pwd()));
+			userDao.updateUser(user);
+		}
 		
 	}
 }

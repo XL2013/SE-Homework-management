@@ -9,18 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.DoubleToIntFunction;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.ObjectUtils.Null;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.hamcrest.core.IsInstanceOf;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -94,7 +90,8 @@ public class StudentServiceImpl implements StudentService {
 							userDao.addUser(user);
 						}
 						//add constrain
-						studentDao.addStudentCourse(getValue(row.getCell(0)), course_id);	
+						if(studentDao.checkStudentCourse(student_id, course_id)==0)
+							studentDao.addStudentCourse(getValue(row.getCell(0)), course_id);	
 						
 					}
 				}

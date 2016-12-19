@@ -109,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				</div>
   				<div class="modal-footer">
   					<a href="#!" class="modal-action modal-close waves-green btn-flat">取消</a>
-  					<a href="#modal2" class="modal-action modal-close waves-green btn-flat" onclick="addCourseInfo(${teacher_id})">下一步</a>
+  					<a href="#!" class="modal-action waves-green btn-flat" onclick="addCourseInfo(${teacher_id})">下一步</a>
   				</div>
   			</div>
   			<div id="modal2" class="modal modal-fixed-footer">
@@ -162,7 +162,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					</div>
   				</div>
   				<div class="modal-footer">
-  					<a href="#!" class="modal-action modal-close waves-green btn-flat" onclick="addTeamConfig()">完成</a>
+  					<a href="#!" class="modal-action  waves-green btn-flat" onclick="addTeamConfig()">完成</a>
   				</div>
   			</div>
   		</div>
@@ -170,59 +170,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			
   			
   			
-  			
-			<script> 	
-			
-			  $(".dropdown-button").dropdown({
-  			 	hover : true,
-  			 	belowOrigin : true
-  			 });				
-				$(document).ready(function(){
-			    // 实现弹出模态框
-			   	 $('.modal').modal({
-			   	 		dismissible : false,
-			   	 		opacity : .5,
-			   	 		in_duration  : 400,
-			   	 		out_duration : 300,
-			   	 		starting_top :'4%',
-			   	 		ending_top : '10%'	 		
-			   	 });
-			   	 
-			  }); 			  	
-			  	//实现异步表单提交
-			  	var options={
-			  		success : function(data){
-			  			alert("上传成功");
-			  		}
-			  	};
-			  	$("#fileForm1").ajaxForm(options);
-			  	 
-			  	 //实现下拉框
-			  	$("#courseList").hover(function(){
-			  			var teacher_id=${teacher_id};
-			  			$.ajax({
-							type : "get",
-							url :　"teacher/courseList",
-							data :{
-								"teacher_id" : teacher_id,
-							},
-							dataType :"json",
-							success : function(data){
-								$(".courseLi").remove();
-								var courses=data.courseList;
-								for(var i in courses){									
-									var li="<li class=\"courseLi\"> <a  href=\"#!\" id=\""+courses[i].course_id+"\"> "+courses[i].course_name+"</a></li>";
-									$("#courseDivider").before(li);
-								}
-							}
-						});	
-			  	});	
-					$("#course-dropdown").on("click",".courseLi",function(){
-							var course_id=$(this).children("a").attr("id");
-							$(".course_id").val(course_id);
-							courseTab('teacher/courseInfo')
-							});
-		  	 </script>
+		
+<script> 	
+
+ $(".dropdown-button").dropdown({
+	 	hover : true,
+	 	belowOrigin : true
+	 });				
+$(document).ready(function(){
+   // 实现弹出模态框
+  	 $('.modal').modal({
+  	 		dismissible : false,
+  	 		opacity : .5,
+  	 		in_duration  : 400,
+  	 		out_duration : 300,
+  	 		starting_top :'4%',
+  	 		ending_top : '10%'	 		
+  	 });
+  	 
+ }); 			  	
+ 	//实现异步表单提交
+ 	var options={
+ 		beforeSubmit:function(){
+ 			if($(".file-path").val()==""){
+ 			  alert("请选择一个文件");
+ 			  return false;
+ 			}
+ 		},
+ 		success : function(data){
+ 			alert("上传成功");
+ 		}
+ 	};
+ 	$("#fileForm1").ajaxForm(options);
+ 	 
+ 	 //实现下拉框
+ 	$("#courseList").hover(function(){
+ 			var teacher_id=${teacher_id};
+ 			$.ajax({
+			type : "get",
+			url :　"teacher/courseList",
+			data :{
+				"teacher_id" : teacher_id,
+			},
+			dataType :"json",
+			success : function(data){
+				$(".courseLi").remove();
+				var courses=data.courseList;
+				for(var i in courses){									
+					var li="<li class=\"courseLi\"> <a  href=\"#!\" id=\""+courses[i].course_id+"\"> "+courses[i].course_name+"</a></li>";
+					$("#courseDivider").before(li);
+				}
+			}
+		});	
+ 	});	
+	$("#course-dropdown").on("click",".courseLi",function(){
+			var course_id=$(this).children("a").attr("id");
+			$(".course_id").val(course_id);
+			courseTab('teacher/courseInfo')
+			});
+</script>
   			
 	 
   </body>

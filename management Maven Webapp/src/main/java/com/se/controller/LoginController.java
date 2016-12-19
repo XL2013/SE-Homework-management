@@ -1,6 +1,8 @@
 package com.se.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.se.pojo.Course;
 import com.se.pojo.TeamHomework;
 import com.se.pojo.User;
 import com.se.service.UserService;
 import com.se.service.impl.AssistantServiceImpl;
+import com.se.service.impl.CourseServiceImpl;
 import com.se.service.impl.HomeworkServiceImpl;
 
 @Controller
@@ -26,6 +30,8 @@ public class LoginController {
 	private HomeworkServiceImpl homeworkService;
 	@Resource
 	private AssistantServiceImpl assistantService;
+	@Resource
+	private CourseServiceImpl courseService;
 	
 	/**
 	 * 用户登录的验证可能需要加入安全检查：待定
@@ -62,7 +68,14 @@ public class LoginController {
 			mv=new ModelAndView("/assistant/assistant_index","data",data);
 		}
 		else if(user.getUser_role()==3){
-				mv=new ModelAndView("/student/student_index","user",user);
+				Map<String, Object> data=new HashMap<String, Object>();
+				List<Course> courses=new ArrayList<Course>();
+				for(String course_id:courseService.getStudentCourses(user_id)){
+					courses.add(courseService.getCourse(course_id));
+				}
+				data.put("user", user);
+				data.put("courses", courses);
+				mv=new ModelAndView("/student/student_index","data",data);
 		}
 		return mv;
 	}
