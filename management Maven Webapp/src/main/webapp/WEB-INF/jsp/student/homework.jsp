@@ -141,8 +141,6 @@
 			  	var options={
 			  		beforeSubmit:checkForm,
 			  		success : function(data){
-			  			console.log(data.team_id);
-			  			console.log(data.homework_id);
 			  			showSubmitFile(data.team_id,data.homework_id);			  			
 			  		}
 			  	};

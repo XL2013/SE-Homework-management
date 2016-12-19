@@ -29,6 +29,9 @@ public interface StudentDao {
 		@Insert("insert into stu_course(student_id,course_id) values(#{student_id},#{course_id})")
 		void addStudentCourse(@Param("student_id")String student_id,@Param("course_id") String course_id);
 		
+		@Select("select count(*) from stu_course where student_id=#{student_id} and course_id=#{course_id}")
+		int checkStudentCourse(@Param("student_id")String student_id,@Param("course_id") String course_id);
+		
 		@Delete("delete from stu_course where student_id=#{student_id} and course_id=#{course_id}")
 		void deleteStudentCourse(@Param("student_id")String student_id,@Param("course_id") String course_id);
 		

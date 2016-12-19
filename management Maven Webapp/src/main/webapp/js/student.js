@@ -391,6 +391,25 @@ function showHomeworkGrade(course_id,student_id){
 	});
 	
 }
+//从老师jscopy的
+function courseTab(url,course_id){
 
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	$.ajax({
+		type :"get",
+		url :url,
+		data :{
+			"course_id" : course_id
+		},
+		dataType :"html",
+		success : function(data){
+			$(".main").empty();
+			$(".main").html(data);
+		}			
+	});
+}
 
 

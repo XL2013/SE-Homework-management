@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.se.dao.UserDao;
 import com.se.pojo.User;
 import com.se.service.UserService;
+import com.se.util.MD5Helper;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
@@ -17,6 +18,7 @@ public class UserServiceImpl implements UserService{
 	private UserDao userDao;
 	@Override
 	public User checkUser(String user_id, String password) {
+		 password=MD5Helper.encrypt(password);
 		 User user=userDao.checkUser(user_id, password);
 		 return user;
 	}
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService{
 	public User addUser(String user_id, String user_name, String user_pwd, int user_role) {
 		// TODO Auto-generated method stub
 		User user = new User();
+		user_pwd=MD5Helper.encrypt(user_pwd);
 		user.setUser_role(user_role);
 		user.setUser_id(user_id);
 		user.setUser_name(user_name);
@@ -50,6 +53,7 @@ public class UserServiceImpl implements UserService{
 	public void updateUser(String user_id, String user_name, String user_pwd, int user_role) {
 		// TODO Auto-generated method stub
 		User user = new User();
+		user_pwd=MD5Helper.encrypt(user_pwd);
 		user.setUser_role(user_role);
 		user.setUser_id(user_id);
 		user.setUser_name(user_name);

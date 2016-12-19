@@ -7,18 +7,25 @@ function addCourseInfo(teacher_id){
 	var course_name=$("#course_name").val();
 	var description=$("#description").val();
 	var total=$("#course_rollCall").val();
+	if(course_name==""||description==""||total==""){
+		alert("输入信息存在空值");
+		$("#modal1").modal('open');
+		return;
+	}				
 	$.ajax({
 		type : "post",
 		url :　"teacher/addCourse",
 		data :{
 			"teacher_id" : teacher_id,
-			"course_name" : course_name,
+			"course_name" :course_name,
 			"description" : description,
 			"total":total
 		},
 		dataType :"json",
 		success : function(data){
 			$("#course_id").val(data);
+			$("#modal1").modal('close');
+			$("#modal2").modal('open');
 		}
 	});
 
@@ -32,6 +39,10 @@ function addTeamConfig(){
 	var team_min=$("#t_min").val();
 	var year=$("#t_year").val();
 	var class_id=$("#t_class").val();
+	if(course_id==""||team_max==""||team_min==""||year==""||class_id==""){
+		alert("输入信息存在空值");
+		return;
+	}
 	$.ajax({
 		type : "post",
 		url :　"teacher/addTeamConfig",
@@ -47,6 +58,7 @@ function addTeamConfig(){
 			alert("配置完成");
 		}
 	});	
+	$("#modal3").modal('close');
 }
 
 /*
