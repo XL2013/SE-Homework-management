@@ -42,9 +42,6 @@
     		  </div>
     		 </div>
 		  </li>
-		  <li>
-		    <div class="collapsible-header" onclick="allSearch()">计算个人成绩<i class="material-icons">send</i></div>
-		  </li>
 		  
 		</ul>
 	  </div>

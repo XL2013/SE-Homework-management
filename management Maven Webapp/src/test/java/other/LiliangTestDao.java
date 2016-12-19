@@ -88,11 +88,12 @@ public class LiliangTestDao  extends BaseJunitTest{
 //			
 //			System.out.println(rollCallDao.getStudentRollStatus("201310", 1, "2013211001"));
 //		}
-		List<Student> list = studentDao.getStudentList("201310");
-		for (Student student : list) {
-			System.out.println(student.getStudent_id());
-			studentService.addStudentCourseGrade("201310", student.getStudent_id(), 0);
-		}
+//		List<Student> list = studentDao.getStudentList("201310");
+//		for (Student student : list) {
+//			System.out.println(student.getStudent_id());
+//			studentService.addStudentCourseGrade("201310", student.getStudent_id(), 0);
+//		}
 //		System.out.println(rollCallDao.isStudentRollExist("201310", 8, "2013211003"));
+		teamHomeworkDao.getTeamHomeworkViewData();
 	}
 }

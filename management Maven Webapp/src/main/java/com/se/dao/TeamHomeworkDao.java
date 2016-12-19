@@ -27,25 +27,25 @@ public interface TeamHomeworkDao {
 	 */
 
 	
-	@Select("select * from team_homework order by submit_time desc")
+	@Select("select * from team_homework where status=2 order by submit_time desc")
 	List<TeamHomework> getTeamHomeworkViewData();
 	
 	@Select("select * from team_homework where homework_id=#{homework_id} and team_id=#{team_id}")
 	TeamHomework getTeamHomeworkByID(@Param("homework_id")String homework_id,@Param("team_id")String team_id);
 	
 	//teamHomeworkView
-	@Select("select * from team_homework,homework_table where "
+	@Select("select * from team_homework,homework_table where status=2 and "
 			+ "homework_name like concat(concat('%',#{homework_name}),'%')  submit_time=to_date(#{submit_time},'yyyy-mm-dd') and team_homework.homework_id=homework_table.homework_id")
 	List<TeamHomework> getTeamHomeworkViewDataByNameTime(@Param("homework_name")String homework_name,@Param("submit_time")String submit_time); 
 	
 	
-	@Select("select * from team_homework,homework_table where homework_name like concat(concat('%',#{homework_name}),'%') and team_homework.homework_id=homework_table.homework_id")
+	@Select("select * from team_homework,homework_table where status=2 and homework_name like concat(concat('%',#{homework_name}),'%') and team_homework.homework_id=homework_table.homework_id")
 	List<TeamHomework> getTeamHomeworkViewDataByName(@Param("homework_name")String homework_name); 
 
-	@Select("select * from team_homework,homework_table where homework_name like concat(concat('%',#{homework_name}),'%') and team_id=#{team_id}")
+	@Select("select * from team_homework,homework_table where status=2 and homework_name like concat(concat('%',#{homework_name}),'%') and team_id=#{team_id}")
 	List<TeamHomework> getTeamHomeworkViewDataByNameTeamID(@Param("homework_name") String homework_name, @Param("team_id") String team_id);
 	
-	@Select("select * from team_homework,homework_table where "
+	@Select("select * from team_homework,homework_table where status=2 "
 			+ "homework_name like concat(concat('%',#{homework_name}),'%') and team_id=#{team_id} and submit_time=to_date(#{submit_time},'yyyy-mm-dd')")
 	List<TeamHomework> getTeamHomeworkViewDataByNameTeamIDTime(@Param("homework_name") String homework_name, @Param("team_id") String team, @Param("submit_time") String submit_time);
 	

@@ -121,7 +121,9 @@ public class HomeworkServiceImpl implements HomeworkService{
 		return homeworkDao.getHomeworkById(homework_id);
 	}
 
-
+	/**
+	 * If the status is 0 or 1, the item will not be included in our dataview
+	 */
 	@Override
 	public Map<String, Object> getTeamHomeworkViewData() {
 		// TODO Auto-generated method stub
