@@ -160,10 +160,8 @@ function showStudentResult(data){
 			"<li class=\"divider\"></li>"
 			$("#"+student_id+"2").append(li)
 		}
-	
 	}
-	
-
+	alert("加载完成")
 }
 function homeWorkArrangeTab(){
 	 var num = $("#home_work_show").children("li").length+$("#tab_contents").children("#test").length
@@ -350,6 +348,9 @@ function changeAssistant(team_id,obj){
 }
 
 function showHomeworkList(items){
+	/**
+	 * 传递三个链表，然后分开合成json格式
+	 */
 	teamHomeworks=items.teamHomeworks
 	homework_names=items.homework_names
 	homework_ratios=items.homework_ratios
@@ -362,14 +363,26 @@ function showHomeworkList(items){
 	items=teamHomeworks
     $("#table-body").empty();
     for(var item in items){
+    	if(items[item].status==0){
+    		final_grade = "未提交";
+    		grade = final_grade;
+    	}
+    	else if(items[item]==1){
+    		final_grade = "未批改";
+    		grade=final_grade;
+    	}
+		else{
+			final_grade= items[item].ratio*items[item].grade;
+			grade=items[item].grade;
+    	}
     	var tr="<tr><td>"+items[item].team_id+"</td>"+
     	"<td>"+items[item].submit_time+"</td>"+
-    	"<td><a class='waves-effect waves-light btn' name='modify'>"+items[item].homework_name+"</a></td>"+
+    	"<td><a class='waves-effect waves-light btn' name='modify' onclick=\"showHomeworkFile("+items[item].homework_id+","+items[item].team_id+")\">"+items[item].homework_name+"</a></td>"+
     	"<td>"+items[item].submitter+"</td>"+
-    	"<td>"+items[item].grade+"</td>"+
+    	"<td>"+grade+"</td>"+
     	"<td>"+items[item].correctinfo+"</td>"+
     	"<td>"+items[item].student_comment+"</td>" +
-    	"<td>"+items[item].ratio*items[item].grade+"</td></tr>"
+    	"<td>"+final_grade+"</td></tr>"
 		$("#table-body").append(tr);
     }
 }

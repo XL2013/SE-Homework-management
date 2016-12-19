@@ -42,9 +42,6 @@
     		  </div>
     		 </div>
 		  </li>
-		  <li>
-		    <div class="collapsible-header" onclick="allSearch()">计算个人成绩<i class="material-icons">send</i></div>
-		  </li>
 		  
 		</ul>
 	  </div>
@@ -57,8 +54,8 @@
 		 	    <table class="centered ">
 		 	  	  <thead id="table-head">
 		 	  	  	<tr>
-		 	  	  	  <th>提交时间</th>
-		 	  	  	  <th data-field="name">小组编号</th>
+		 	  	  	  <th>小组编号</th>
+		 	  	  	  <th data-field="name">提交时间</th>
 		 	  	  	  <th data-field="pwd">作业名称</th>
 		 	  	  	  <th data-filed="role">提交人姓名</th>
 		 	  	  	  <th>成绩</th>
