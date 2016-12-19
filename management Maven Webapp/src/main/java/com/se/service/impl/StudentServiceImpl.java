@@ -37,6 +37,7 @@ import com.se.pojo.StudentGrade;
 import com.se.pojo.User;
 import com.se.service.StudentService;
 import com.se.util.ExcelHelper;
+import com.se.util.MD5Helper;
 
 @Service("studentService")
 public class StudentServiceImpl implements StudentService {
@@ -78,16 +79,15 @@ public class StudentServiceImpl implements StudentService {
 						student.setStudent_name(student_name);
 											
 						if(studentDao.getStudent(student_id)==null){
-							//add student
-							studentDao.addStudent(student);
-							
 							//add user
 							User user=new User();
 							user.setUser_id(student_id);
 							user.setUser_name(student_name);
-							user.setUser_pwd(student_id);
+							user.setUser_pwd(MD5Helper.encrypt(student_id));
 							user.setUser_role(3);
 							userDao.addUser(user);
+							//add student
+							studentDao.addStudent(student);													
 						}
 						//add constrain
 						if(studentDao.checkStudentCourse(student_id, course_id)==0)

@@ -45,6 +45,10 @@
 	      		<label>截止时间:</label>
 	      		<a id="m-submitTime"></a>
 	      	  </div>
+	      	  <div class="col 12">
+	      	  	<h5>作业描述</h5>
+	      	  	<p id="m-description"></p>
+	      	  </div>
 	      	  <div class="col s12">
 	      	  	   <h5>作业文件：</h5>
 	      	       <ul id="m-files">
@@ -53,11 +57,11 @@
 	      	  <div class="divider"></div>
 	      	  <div class="col s12">
 	      	  	   <h5>批改说明</h5>
-	      	  	   <a id="m-correctInfo"></a>
+	      	  	   <p id="m-correctInfo"></p>
 	      	  </div>
 	      	  <div class="col s12">
 	      	  	   <h5>学生意见</h5>
-	      	  	   <a id="m-comment"></a>
+	      	  	   <p id="m-comment"></p>
 	      	  </div>
       		</div>
       	</div>

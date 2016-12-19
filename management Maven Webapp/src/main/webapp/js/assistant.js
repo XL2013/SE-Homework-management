@@ -169,10 +169,12 @@ function showStudentResult(data){
 		for(subitem in x.homeworkGrade){
 			homeworkGrade=x.homeworkGrade[subitem]
 			for(item in x["homeworkGrade"][subitem])
-			if(homeworkGrade.status==1)
+			if(homeworkGrade.status==2)
 				grade=homeworkGrade.grade
-			else
+			else if(homeworkGrade.status==1)
 				grade="未批改"
+			else
+				grade="未提交";	
 			var li="<li><a href=\"#!\">"+homeworkGrade.homework_name+" ："+grade+"</a></li>"+
 			"<li class=\"divider\"></li>"
 			$("#"+student_id+"1").append(li)
@@ -193,6 +195,4 @@ function showStudentResult(data){
 			$("#"+student_id+"2").append(li)
 		}
 	}
-	
-
 }

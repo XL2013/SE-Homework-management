@@ -183,6 +183,7 @@ function showHomeworkInfo(obj){
 			$("#m-releaseTime").text(homework.release_time.substr(0,10));
 			$("#m-submitTime").text(homework.upload_time.substr(0,10));
 			$("#m-homework_name").text(homework.homework_name);
+			$("#m-description").text(homework.description);
 			
 			//这里是小组作业信息
 			var team_homework=data.team_homework;
