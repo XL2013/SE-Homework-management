@@ -71,8 +71,11 @@ public class TeacherController {
 		
 		@RequestMapping(value="/addCourse",method=RequestMethod.POST)
 		@ResponseBody
-		public String addCourse(String teacher_id,String course_name,String description){
-			return courseService.addCourse(course_name, teacher_id, description);		
+		public String addCourse(String teacher_id,String course_name,String description,int total){
+			String course_id=courseService.addCourse(course_name, teacher_id, description);	
+			
+			rollCallService.addRollCallSetting(course_id, total);
+			return course_id;
 		}
 	
 		@PostMapping(value="/addTeamConfig")

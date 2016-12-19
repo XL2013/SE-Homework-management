@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.se.dao.RollCallDao;
+import com.se.pojo.RollCallSetting;
 import com.se.service.RollCallService;
 
 @Service("rollCallService")
@@ -34,6 +35,14 @@ public class RollCallServiceImpl implements RollCallService{
 		else {
 			return rollCallDao.getStudentRollCallTotals(course_id, student_id)-rollCallDao.getStudentRollCallTimes(course_id, student_id);
 		}
+	}
+	@Override
+	public void addRollCallSetting(String course_id, int total) {
+		RollCallSetting rollCallSetting=new RollCallSetting();
+		rollCallSetting.setCourse_id(course_id);
+		rollCallSetting.setTotal(total);
+		rollCallDao.addRollCallSetting(rollCallSetting);
+		
 	}
 
 }

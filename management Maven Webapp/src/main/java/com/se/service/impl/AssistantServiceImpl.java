@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.se.dao.AssistantDao;
+import com.se.dao.CourseDao;
 import com.se.pojo.Assistant;
+import com.se.pojo.Course;
 import com.se.service.AssistantService;
 
 @Service("assistantService")
@@ -15,6 +17,8 @@ public class AssistantServiceImpl implements AssistantService{
 
 	@Resource
 	private AssistantDao assistantDao;
+	@Resource
+	private CourseDao courseDao;
 	
 	@Override
 	public List<Assistant> getTeacherAssistants(String teacher_id) {
@@ -41,6 +45,12 @@ public class AssistantServiceImpl implements AssistantService{
 	@Override
 	public List<String> getAssitantTeams(String assistant_id) {
 		return assistantDao.getAssistantTeams(assistant_id);
+	}
+
+	@Override
+	public List<Course> getAssistantCourses(String assistant_id) {
+		String teacher_id=assistantDao.getAssistant(assistant_id).getTeacher_id();
+		return courseDao.getAllCourse(teacher_id);
 	}
 	
 

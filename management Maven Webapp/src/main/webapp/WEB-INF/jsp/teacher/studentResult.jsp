@@ -62,7 +62,6 @@
 			alert("请选择一门课程");
 			return;
 		}
-		alert("hehe")
 		$.ajax({
 			type :"get",
 			url :'teacher/studentResult',
@@ -71,8 +70,7 @@
 			},
 			dataType :"json",
 			success : function(data){
-				alert("hehe")
-				showStudentResult(data.data)
+				showStudentResult(data.data);
 			}			
 		});
   })

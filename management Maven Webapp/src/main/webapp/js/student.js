@@ -151,7 +151,7 @@ function getHomeworks(){
 			var homeworks=data.homeworks;
 			$("#t-homeworkBody").empty();
 			for(var i in homeworks){
-				var tr="<tr><td>"+homeworks[i].homework_name+"</td><td>"+homeworks[i].homework_id+"</td><td>"+homeworks[i].status+"</td><td>"+homeworks[i].grade+
+				var tr="<tr id=\""+homeworks[i].homework_id+"\"><td>"+homeworks[i].homework_name+"</td><td>"+homeworks[i].homework_id+"</td><td>"+homeworks[i].status+"</td><td>"+homeworks[i].grade+
 					"</td><td><a id=\"showHomework\" class=\"btn-floating red\" onclick=\"showHomeworkInfo(this)\">  <i class=\"material-icons\" >visibility</i></a></td>"
 				  +"<td>"+
 				   "<a id=\"submitHomework\" class=\"btn-floating red\" onclick=\"submitHomeworkInfo(this)\">  <i class=\"material-icons\" >present_to_all</i></a>"+
@@ -333,6 +333,8 @@ function submitTeamHomework(){
 			"student_id":student_id
 		}
 	});
+	var tr="#"+homework_id;
+	$(tr).children("td:eq(2)").text("已提交");
 }
 function fileDownload(obj,team_id,homework_id){
 	var file_name=$(obj).text();
@@ -389,3 +391,6 @@ function showHomeworkGrade(course_id,student_id){
 	});
 	
 }
+
+
+

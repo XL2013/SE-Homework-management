@@ -136,3 +136,63 @@ function fileDownload(obj,team_id,homework_id){
 	var url="file/download?team_id="+team_id+"&homework_id="+homework_id+"&file_name="+file_name;
 	window.location.href=url;
 }
+
+
+
+//引用老师界面的学生名单函数
+function rollCallTab1(url,course_id){
+	if(course_id==""){
+		alert("请选择一门课程");
+		return;
+	}
+	$(".course_id").val(course_id);
+	$.ajax({
+		type :"get",
+		url :url,
+		dataType :"html",
+		data :{
+			"course_id" : course_id
+		},
+		success : function(data){
+			$("[name='rollCallTab']").empty();
+			$("[name='rollCallTab']").html(data);
+		}			
+	});
+}
+//引入的老师界面的函数
+function showStudentResult(data){
+	for(index in data){
+		x=data[index]
+		student_id=data[index].student.student_id
+		$("#"+student_id+"1").empty()
+		$("#"+student_id+"2").empty()
+		for(subitem in x.homeworkGrade){
+			homeworkGrade=x.homeworkGrade[subitem]
+			for(item in x["homeworkGrade"][subitem])
+			if(homeworkGrade.status==1)
+				grade=homeworkGrade.grade
+			else
+				grade="未批改"
+			var li="<li><a href=\"#!\">"+homeworkGrade.homework_name+" ："+grade+"</a></li>"+
+			"<li class=\"divider\"></li>"
+			$("#"+student_id+"1").append(li)
+		}
+		for(subitem in x.rollCall){
+			rollCall=x.rollCall[subitem]
+			if(rollCall.rollcall_state==2){
+				rollcall="未点名"
+			}
+			else if(rollCall.rollcall_state==1){
+				rollcall="到"
+			}
+			else{
+				rollcall="缺席"
+			}
+			var li="<li><a href=\"#!\">"+"第"+rollCall.rollcall_ID+"次点名："+rollcall+"</a></li>"+
+			"<li class=\"divider\"></li>"
+			$("#"+student_id+"2").append(li)
+		}
+	}
+	
+
+}

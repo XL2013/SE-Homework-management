@@ -101,6 +101,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   						<textarea id="description" class="materialize-textarea"></textarea>
   						<label class="active" for="description">课程描述</label>
   					</div>
+  					<div class="input-field">
+  						<input id="course_rollCall" type="number" min="0">
+  						<label class="active" for="course_rollCall">点到次数</label>
+  					</div>
+  					
   				</div>
   				<div class="modal-footer">
   					<a href="#!" class="modal-action modal-close waves-green btn-flat">取消</a>
