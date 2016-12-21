@@ -100,7 +100,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 	public void readStudentInfo(MultipartFile[] files,String course_id){
 		HttpServletRequest request =  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-		String path= request.getSession().getServletContext().getRealPath("/upload/studentList/");
+		String path= request.getSession().getServletContext().getRealPath("/WEB-INF/upload/studentList/");
 		File dirPath=new File(path);
 		if(!dirPath.exists())
 			dirPath.mkdirs();
@@ -284,6 +284,7 @@ public class StudentServiceImpl implements StudentService {
 				List<TeamHomework> teamHomeworks = teamHomeworkDao.getTeamHomeWorks(team_id);
 				if(teamDao.isMemberInTeam(team_id, student.getStudent_id())>0)
 					person_ratio=teamDao.getMemberRatio(team_id, student.getStudent_id());
+
 				for (TeamHomework teamHomework : teamHomeworks) {
 					String homework_id = teamHomework.getHomework_id();
 					double ratio = homeworkDao.getRatioByHomeworkID(homework_id);
@@ -296,13 +297,9 @@ public class StudentServiceImpl implements StudentService {
 			//student_part
 			//roll_call part
 			int present_times = rollCallDao.getStudentRollCallTimes(course_id, student.getStudent_id());
-			int total_rollcall = rollCallDao.getRollCallSetting(course_id).getTotal();
-			int person_grade_deduct;
-			if(total_rollcall-present_times>7)
-				person_grade_deduct=0;
-			else
-				person_grade_deduct=100-(total_rollcall-present_times)*5;
-			
+			int total_rollcall = rollCallDao.getStudentRollCallTotals(course_id, student.getStudent_id());
+			int person_grade_deduct=(total_rollcall-present_times)*5;
+						
 			total_grade=total_grade*person_ratio-person_grade_deduct;
 			total_grade=total_grade>0?total_grade:0;
 					

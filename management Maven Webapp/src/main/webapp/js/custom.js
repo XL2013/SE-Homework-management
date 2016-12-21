@@ -109,8 +109,7 @@ function rollCallTab(url,roll_order){
 		alert("请选择一门课程");
 		return;
 	}
-	alert(roll_order)
-	alert(course_id)
+	
 	$("[name='rollCallTab']").empty();
 	$.ajax({
 		type :"get",
@@ -161,7 +160,7 @@ function showStudentResult(data){
 			$("#"+student_id+"2").append(li)
 		}
 	}
-	alert("加载完成")
+	
 }
 function homeWorkArrangeTab(){
 	 var num = $("#home_work_show").children("li").length+$("#tab_contents").children("#test").length
@@ -404,7 +403,7 @@ function conditionSearch(obj){
     	"</tr>"
 	$("#table-head").empty();
 	$("#table-head").append(tr);
-	alert(homework_name)
+
 	$.ajax({
 		type:"post",
 		url:"teacher/conditionSearch",
@@ -415,7 +414,6 @@ function conditionSearch(obj){
 			"team_id":team_number
 		},
 		success: function(data){
-			alert(data.homework_names.length)
 		    var items=data;
 		    showHomeworkList(items);
 		}
@@ -472,13 +470,32 @@ function showHomeworkFile(homework_id,team_id){
 		dataType:"json",
 		success: function(data){
 			var files=data.files;
-			$("#m-files").empty();
+			$("#homework_files").empty();
 			for(var i in files){
-				var li="<li><a href=\"#!\" onclick=\"fileDownload(this,'"+team_id+"','"+team_homework.homework_id+"')\">"+files[i].file_name+"</a></li>";
-				$("#m-files").append(li);
+				var li="<li><a href=\"#!\" onclick=\"fileDownload(this,'"+team_id+"','"+homework_id+"')\">"+files[i].file_name+"</a></li>";
+				$("#homework_files").append(li);
 			}
+			$("#homework_modal").modal('open');
 		}
 		
+	});
+}
+function getTotalGrade(){
+	var course_id=$(".course_id").val();
+	$.ajax({
+		type:"post",
+		url:"file/getCourseTotalGrade",
+		data:{
+			"course_id":course_id
+		},
+		dataType:"json",
+		success: function(data){
+			var li="<li><a href=\"file/courseGradeFile?course_id="+data.course_id+"\" " +
+					"class=\"collection-item waves-effect waves-teal\">课程学生总成绩下载</a></li>";
+			$("#grade_file").empty();
+			$("#grade_file").append(li);
+		}
+	
 	});
 }
 //这个可以作为公共的js
@@ -488,3 +505,4 @@ function fileDownload(obj,team_id,homework_id){
 	url=encodeURI(url);
 	window.location.href=url;
 }
+

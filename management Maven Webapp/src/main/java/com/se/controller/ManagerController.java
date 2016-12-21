@@ -31,6 +31,10 @@ public class ManagerController {
 		Map<String,Object> data=new HashMap<String, Object>();
 		data.put("userList", userList);
 		data.put("role", user_role);
+		if(user_role==2){
+			List<User> teacherList=userService.getUserList(1);
+			data.put("teachers", teacherList);
+		}
 		return new ModelAndView("manager/userList","data",data);
 	}
 	
@@ -45,10 +49,14 @@ public class ManagerController {
 	
 	@PostMapping(value="/addUser")
 	@ResponseBody
-	public Map<String, Object> addUser(String user_id, String user_name, String user_pwd, int user_role){
-		userService.addUser(user_id, user_name, user_pwd, user_role);
+	public Map<String, Object> addUser(String user_id, String user_name, String user_pwd, int user_role,String teacher_id){
+		User user=userService.addUser(user_id, user_name, user_pwd, user_role);
+		if(user!=null&&user_role==2){
+			userService.addAssistant(teacher_id, user_id, user_name);
+		}
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("message","success"); 
+		System.out.print(teacher_id);
 		return map;
 	}
 	

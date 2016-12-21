@@ -19,6 +19,7 @@ import com.se.dao.UserDao;
 
 import com.se.dao.HomeworkDao;
 import com.se.dao.RollCallDao;
+import com.se.pojo.Assistant;
 import com.se.pojo.Homework;
 import com.se.pojo.HomeworkFile;
 import com.se.pojo.RollCallSetting;
@@ -66,10 +67,7 @@ public class TestDao  extends BaseJunitTest{
 	@Test
 	public void test(){
 
-		for(User user:userDao.getUserList(2)){
-			user.setUser_pwd(MD5Helper.encrypt("123"));
-			userDao.updateUser(user);
-		}
+
 		
 	}
 }

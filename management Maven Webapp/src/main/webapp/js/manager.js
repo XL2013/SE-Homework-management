@@ -39,15 +39,19 @@ function deleteUser(user_id) {
 	})
 }
 function actionComplete(){
+	var user_id=$("#m_user_id").val();
+	var user_name=$("#m_user_name").val();
+	var user_pwd=$("#m_user_pwd").val();
+	var user_role=$("#m_user_role").val();
 	if($("#complete").attr("name")=="modify")
 		$.ajax({
 			type:"post",
 			url:"manager/modifyUser",
 			data:{
-				"user_id":$("#m_user_id").val(),
-				"user_name":$("#m_user_name").val(),
-				"user_pwd":$("#m_user_pwd").val(),
-				"user_role":$("#m_user_role").val()
+				"user_id":user_id,
+				"user_name":user_name,
+				"user_pwd":user_pwd,
+				"user_role":user_role
 			},
 			dataType:"json",
 			success: function(data){
@@ -64,14 +68,15 @@ function actionComplete(){
 			type:"post",
 			url:"manager/addUser",
 			data:{
-				"user_id":$("#m_user_id").val(),
-				"user_name":$("#m_user_name").val(),
-				"user_pwd":$("#m_user_pwd").val(),
-				"user_role":$("#m_user_role").val()
+				"user_id":user_id,
+				"user_name":user_name,
+				"user_pwd":user_pwd,
+				"user_role":user_role,
+				"teacher_id":$("#teacher_selector").find("option:selected").val()
 			},
 			dataType:"json",
 			success: function(data){
-				var tr="<tr>"+"<td>"+$("#m_user_id").val()+"</td>"+"<td>"+$("#m_user_name").val()+"</td>"+"<td>"+$("#m_user_pwd").val()+"</td>"+"<td>"+$("#m_user_role").val()+"</td>"+"<td><a class='waves-effect waves-light btn' name='modify'>修改</a></td><td><a class='waves-effect waves-light btn' name='delete'>删除</a></td>"+"</tr>"
+				var tr="<tr>"+"<td>"+user_id+"</td>"+"<td>"+user_name+"</td>"+"<td>"+user_pwd+"</td>"+"<td>"+user_role+"</td>"+"<td><a class='waves-effect waves-light btn' name='modify'>修改</a></td><td><a class='waves-effect waves-light btn' name='delete'>删除</a></td>"+"</tr>"
 				
 				$("#table-body").append(tr);
 				

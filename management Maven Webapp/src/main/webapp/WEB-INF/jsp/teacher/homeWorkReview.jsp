@@ -66,10 +66,10 @@
 		<div class="modal-content">
 			<h5>小组作业文件列表</h5>
 			<div class="divider"></div>
-			<ul id="#m-files"></ul>
+			<ul id="homework_files"></ul>
 		</div>
 		<div class="modal-footer">
-  		  <a href="#!" class="modal-action  waves-green btn-flat" onclick="addTeamConfig()">完成</a>
+  		  <a href="#!" class="modal-action modal-close waves-green btn-flat">完成</a>
   		</div>
 	</div>
 	

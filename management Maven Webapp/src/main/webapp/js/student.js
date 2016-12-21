@@ -49,7 +49,7 @@ function searchMember(){
 				var tr="<tr>"+"<th>"+members[i].student_id+"</th>"+"<th>"+members[i].student_name+"</th>"
 						+"<th><a class=\"btn-floating red\"><i class=\"material-icons\" onclick="
 						+"\"addMember('"+members[i].student_id +"',this)\""+">add</i></a></th>";
-				console.log(tr);
+				
 				$("#result-body").append(tr);
 			}
 		}
@@ -229,7 +229,7 @@ function submitHomeworkInfo(obj){
 			$("#s-releaseTime").text(homework.release_time.substr(0,10));
 			$("#s-submitTime").text(homework.upload_time.substr(0,10));
 			$("#s-homework_name").text(homework.homework_name);
-			console.log(homework);
+		
 			//这里是小组作业信息
 			var team_homework=data.team_homework;
 			$("#s-homework_id").text(team_homework.homework_id);

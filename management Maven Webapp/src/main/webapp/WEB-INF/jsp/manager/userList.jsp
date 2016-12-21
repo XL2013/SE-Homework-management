@@ -57,12 +57,18 @@
 			  <div class="input-field col s6">
 			    <input id="m_user_role" type="text" class="validate">
 			    <label for="m_user_role" id="m_user_role_label">User Role</label>
-			  </div>
+			  </div> 
+			<select id="teacher_selector" hidden>
+			      <c:forEach var="teacher" items="${data.teachers}">
+			      	<option value="${teacher.user_id}" >${teacher.user_name }</option>
+			      </c:forEach>
+			 </select>
+					 
 			</div>
 
 		</div>
 		<div class="modal-footer">
-			<a href="#!" class="waves-green btn-flat" onclick="actionComplete()" nmae="modify" id="complete">完成</a>
+			<a href="#!" class="waves-green btn-flat" onclick="actionComplete()" name="modify" id="complete">完成</a>
 		</div>
 	</div>
 	
@@ -72,7 +78,7 @@
  <script type="text/javascript">
  	modifyTitle()
 	$('#modal1').modal({
-		dismissible: false, // Modal can be dismissed by clicking outside of the modal
+		dismissible: true, // Modal can be dismissed by clicking outside of the modal
 		opacity: .5, // Opacity of modal background
 		in_duration: 300, // Transition in duration
 		out_duration: 200, // Transition out duration
@@ -111,6 +117,8 @@
 		$("#m_user_pwd_label").text("User PWD");
 		$("#m_user_role_label").text("User Role");
 		$("#m_user_role").val($("#title").attr("name"));
+		if($("#title").attr('name')==2) 
+			$("#teacher_selector").show();
 		$("#modal1").modal("open");
 	})
 </script>

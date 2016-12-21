@@ -9,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
   	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
   	<link type="text/css" rel="stylesheet" href="css/layout.css" >
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
  	 <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>

@@ -15,6 +15,8 @@ public interface AssistantDao {
 	
 	@Select("select * from assistant_table where teacher_id=#{teacher_id}")
 	List<Assistant> getAssistantByTID(String teacher_id);
+	@Insert("insert into assistant_table(assistant_id,teacher_id,assistant_name) values(#{assistant_id},#{teacher_id},#{assistant_name})")
+	void addAssistant(Assistant assistant);
 	
 	@Select("select * from assistant_table where assistant_id=#{assistant_id}")
 	Assistant getAssistant(String assistant_id);
