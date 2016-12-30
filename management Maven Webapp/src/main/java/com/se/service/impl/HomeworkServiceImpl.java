@@ -153,10 +153,10 @@ public class HomeworkServiceImpl implements HomeworkService{
 		if(submit_time!="" && team_id!=""){
 			map.put("teamHomeworks",teamHomeworkDao.getTeamHomeworkViewDataByNameTeamIDTime(homework_name, team_id, submit_time));
 		}
-		else if(team_id!="" && team_id=="")
-			map.put("teamHomeworks",teamHomeworkDao.getTeamHomeworkViewDataByNameTeamID(homework_name, team_id));
-		else if(team_id=="" && team_id!=""){
+		else if(submit_time!="" && team_id=="")
 			map.put("teamHomeworks",teamHomeworkDao.getTeamHomeworkViewDataByNameTime(homework_name, submit_time));
+		else if(submit_time=="" && team_id!=""){
+			map.put("teamHomeworks",teamHomeworkDao.getTeamHomeworkViewDataByNameTeamID(homework_name, team_id));
 		}
 		else{
 			map.put("teamHomeworks", teamHomeworkDao.getTeamHomeworkViewDataByName(homework_name));

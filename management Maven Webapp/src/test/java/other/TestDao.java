@@ -66,8 +66,6 @@ public class TestDao  extends BaseJunitTest{
 	RollCallDao rollCallDao;
 	@Test
 	public void test(){
-
-
-		
+		System.out.println(teamHomeworkDao.getTeamHomeworkViewDataByNameTeamID("", "20130401").size());
 	}
 }

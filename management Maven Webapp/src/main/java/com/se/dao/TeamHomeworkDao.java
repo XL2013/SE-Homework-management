@@ -35,18 +35,18 @@ public interface TeamHomeworkDao {
 	
 	//teamHomeworkView
 	@Select("select * from team_homework,homework_table where status=2 and "
-			+ "homework_name like concat(concat('%',#{homework_name}),'%')  submit_time=to_date(#{submit_time},'yyyy-mm-dd') and team_homework.homework_id=homework_table.homework_id")
+			+ "homework_name like concat(concat('%',#{homework_name}),'%') and submit_time=to_date(#{submit_time},'yyyy-mm-dd') and team_homework.homework_id=homework_table.homework_id")
 	List<TeamHomework> getTeamHomeworkViewDataByNameTime(@Param("homework_name")String homework_name,@Param("submit_time")String submit_time); 
 	
 	
 	@Select("select * from team_homework,homework_table where status=2 and homework_name like concat(concat('%',#{homework_name}),'%') and team_homework.homework_id=homework_table.homework_id")
 	List<TeamHomework> getTeamHomeworkViewDataByName(@Param("homework_name")String homework_name); 
 
-	@Select("select * from team_homework,homework_table where status=2 and homework_name like concat(concat('%',#{homework_name}),'%') and team_id=#{team_id}")
+	@Select("select * from team_homework,homework_table where status=2 and homework_name like concat(concat('%',#{homework_name}),'%') and team_id=#{team_id} and team_homework.homework_id=homework_table.homework_id")
 	List<TeamHomework> getTeamHomeworkViewDataByNameTeamID(@Param("homework_name") String homework_name, @Param("team_id") String team_id);
 	
-	@Select("select * from team_homework,homework_table where status=2 "
-			+ "homework_name like concat(concat('%',#{homework_name}),'%') and team_id=#{team_id} and submit_time=to_date(#{submit_time},'yyyy-mm-dd')")
+	@Select("select * from team_homework,homework_table where status=2 and "
+			+ "homework_name like concat(concat('%',#{homework_name}),'%') and team_id=#{team_id} and submit_time=to_date(#{submit_time},'yyyy-mm-dd') and team_homework.homework_id=homework_table.homework_id")
 	List<TeamHomework> getTeamHomeworkViewDataByNameTeamIDTime(@Param("homework_name") String homework_name, @Param("team_id") String team, @Param("submit_time") String submit_time);
 	
 	//
